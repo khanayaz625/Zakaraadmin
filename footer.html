@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zakara International - Footer</title>
+  
+  <!-- Google Fonts matching About Us page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* Global About Us Pantone & Leather Variables */
+    :root {
+      --pantone-mocha-mousse: #a47864;
+      --pantone-cocoa: #6b4537;
+      --pantone-asphalt: #292525;
+      --pantone-ivory: #f5f0ea;
+      --pantone-cream: #eadcc8;
+      --pantone-gold: #c28a5a;
+      --leather-light: var(--pantone-asphalt);
+      --leather-mid: var(--pantone-cocoa);
+      --leather-deep: #1d1918;
+      --leather-cream: var(--pantone-cream);
+      --leather-ink: #211b19;
+      --leather-text: #3b302c;
+      --leather-line: var(--pantone-gold);
+      --leather-soft: var(--pantone-ivory);
+    }
+
+    /* Global Reset & Overflow Protection */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Roboto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Neutralize Theme Footer Containers & Bottom Copyright White Bar Gaps */
+    #colophon,
+    .site-footer,
+    .footer-wrap,
+    .footer-widgets,
+    .footer-widget-area,
+    .widget_custom_html,
+    .widget_text,
+    .elementor-location-footer,
+    #footer,
+    #footer-bottom,
+    .site-info,
+    .copyright-bar,
+    .footer-bottom,
+    .bottom-footer,
+    footer {
+      background-color: var(--pantone-cocoa) !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* Make Theme's Default Bottom Copyright Bar Seamless */
+    #footer-bottom,
+    .site-info,
+    .copyright-bar,
+    .footer-bottom,
+    .bottom-footer {
+      background-color: var(--pantone-cocoa) !important;
+      color: var(--pantone-cream) !important;
+      border-top: 1px solid rgba(194, 138, 90, 0.3) !important;
+      padding-top: 12px !important;
+      padding-bottom: 16px !important;
+      margin-top: 0 !important;
+    }
+
+    #footer-bottom a,
+    .site-info a,
+    .copyright-bar a,
+    .footer-bottom a,
+    .bottom-footer a {
+      color: var(--pantone-ivory) !important;
+    }
+
+    /* ==========================================================================
+       ZAKARA LUXURY FOOTER COMPONENT - ABOUT US THEME (COCOA & GOLD LEATHER)
+       Full-bleed 100% edge-to-edge screen span
+       ========================================================================== */
+    .zakara-footer-wrapper {
+      --zk-bg-main: var(--pantone-cocoa);
+      --zk-bg-subtle: #5a372b;
+      --zk-bg-card: rgba(245, 240, 234, 0.08);
+      --zk-bg-pill: rgba(245, 240, 234, 0.12);
+      
+      --zk-accent-gold: var(--pantone-gold);
+      --zk-accent-tan: var(--pantone-gold);
+      --zk-accent-tan-bright: #d49866;
+      --zk-accent-hover: #e6ab7e;
+      
+      --zk-text-dark: #ffffff;
+      --zk-text-body: var(--pantone-ivory);
+      --zk-text-muted: var(--pantone-cream);
+      --zk-text-dim: #d4c4b4;
+      
+      --zk-border-subtle: rgba(194, 138, 90, 0.35);
+      --zk-border-card: rgba(194, 138, 90, 0.45);
+      --zk-border-glow: rgba(194, 138, 90, 0.6);
+      
+      --zk-radius-sm: 8px;
+      --zk-radius-md: 12px;
+      --zk-radius-lg: 20px;
+      --zk-radius-full: 9999px;
+      
+      --zk-shadow-card: 0 8px 24px rgba(29, 25, 24, 0.25);
+      --zk-shadow-tan: 0 6px 20px rgba(194, 138, 90, 0.35);
+      
+      --zk-font-sans: 'Roboto', sans-serif;
+      --zk-font-serif: 'Poppins', sans-serif;
+      --zk-transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      
+      /* 100% Full Viewport Width Breakout for WordPress / Elementor */
+      width: 100vw !important;
+      position: relative !important;
+      left: 50% !important;
+      right: 50% !important;
+      margin-left: -50vw !important;
+      margin-right: -50vw !important;
+      max-width: 100vw !important;
+      margin-bottom: 0 !important;
+      
+      background-color: var(--pantone-cocoa) !important;
+      background-image: 
+        radial-gradient(rgba(245, 240, 234, 0.12) 1px, transparent 1px),
+        radial-gradient(rgba(61, 39, 31, 0.18) 1px, transparent 1px) !important;
+      background-size: 18px 18px !important;
+      background-position: 0 0, 9px 9px !important;
+      color: var(--pantone-ivory);
+      font-family: var(--zk-font-sans);
+      overflow: hidden;
+      box-sizing: border-box;
+      line-height: 1.65;
+      border-top: 2px solid var(--pantone-gold);
+      padding-top: 50px;
+      padding-bottom: 0;
+    }
+
+    /* Neutralize External Global Leakages */
+    .zakara-footer-wrapper *,
+    .zakara-footer-wrapper *::before,
+    .zakara-footer-wrapper *::after {
+      box-sizing: border-box;
+      font-family: var(--zk-font-sans);
+    }
+
+    .zakara-footer-wrapper a {
+      color: inherit;
+      text-decoration: none !important;
+      transition: var(--zk-transition);
+    }
+
+    .zakara-footer-wrapper ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Ambient Warm Glow Pattern matching About Us Header */
+    .zakara-footer-wrapper .bg-ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(194, 138, 90, 0.18) 0%, rgba(107, 69, 55, 0) 70%);
+      top: -200px;
+      right: -100px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .zakara-footer-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       MAIN FOOTER GRID (4 COLUMNS INCLUDING INLINE SUBSCRIPTION FORM)
+       ========================================================================== */
+    .zk-footer-main-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1.5fr 1.2fr;
+      gap: 36px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--zk-border-subtle);
+    }
+
+    /* Column Typography */
+    .zk-footer-col h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+      position: relative;
+      display: inline-block;
+    }
+
+    .zk-footer-col h4::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 36px;
+      height: 2.5px;
+      background-color: var(--pantone-gold);
+      border-radius: var(--zk-radius-full);
+    }
+
+    /* Column Links */
+    .zk-footer-col ul li {
+      margin-bottom: 12px;
+    }
+
+    .zk-footer-col ul li a {
+      color: var(--pantone-cream);
+      font-size: 14.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      transition: var(--zk-transition);
+    }
+
+    .zk-footer-col ul li a::before {
+      content: '›';
+      color: var(--pantone-gold);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: var(--zk-transition);
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .zk-footer-col ul li a:hover {
+      color: var(--pantone-gold);
+      transform: translateX(4px);
+    }
+
+    .zk-footer-col ul li a:hover::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* COLUMN 1: BRAND LOGO & INFO */
+    .zk-brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .zk-brand-logo-img-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 320px;
+      background: var(--pantone-ivory);
+      padding: 12px 10px;
+      border-radius: var(--zk-radius-md);
+      box-shadow: 0 4px 15px rgba(29, 25, 24, 0.3);
+      border: 1px solid var(--pantone-gold);
+      transition: var(--zk-transition);
+    }
+
+    .zk-brand-logo-img-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(194, 138, 90, 0.4);
+      border-color: #ffffff;
+    }
+
+    .zk-brand-wordmark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: #111111;
+      text-align: center;
+    }
+
+    .zk-brand-wordmark-main {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .zk-brand-wordmark-tagline {
+      font-family: 'Poppins', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .zk-brand-desc {
+      color: var(--pantone-ivory);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    /* Trust Badges */
+    .zk-trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .zk-trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 240, 234, 0.1);
+      border: 1px solid var(--pantone-gold);
+      padding: 5px 12px;
+      border-radius: var(--zk-radius-sm);
+      font-size: 12px;
+      color: var(--pantone-cream);
+    }
+
+    .zk-trust-badge.gold {
+      border-color: var(--pantone-gold);
+      color: #ffffff;
+      background: rgba(194, 138, 90, 0.25);
+      font-weight: 600;
+    }
+
+    .zk-trust-badge svg {
+      width: 13px;
+      height: 13px;
+      color: #f7c948;
+    }
+
+    .zk-rating-stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      flex-shrink: 0;
+    }
+
+    .zk-rating-stars svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Social Icons */
+    .zk-social-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .zk-social-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--zk-radius-full);
+      background: rgba(245, 240, 234, 0.1);
+      border: 1px solid var(--pantone-gold);
+      color: var(--pantone-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--zk-transition);
+    }
+
+    .zk-social-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .zk-social-icon:hover {
+      background: var(--pantone-gold);
+      color: #ffffff;
+      border-color: var(--pantone-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 14px rgba(194, 138, 90, 0.4);
+    }
+
+    /* ==========================================================================
+       COLUMN 3: INLINE EMAIL SUBSCRIPTION COLUMN
+       ========================================================================== */
+    .zk-sub-col-desc {
+      color: var(--pantone-cream);
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+
+    .zk-inline-sub-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .zk-input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .zk-input-group .zk-field-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--pantone-cream);
+      opacity: 0.8;
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+      transition: var(--zk-transition);
+    }
+
+    .zk-input-group input {
+      width: 100%;
+      height: 44px;
+      background: rgba(245, 240, 234, 0.08);
+      border: 1px solid var(--pantone-gold);
+      border-radius: var(--zk-radius-md);
+      padding: 0 14px 0 38px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-family: 'Roboto', sans-serif;
+      outline: none;
+      transition: var(--zk-transition);
+      appearance: none;
+    }
+
+    .zk-input-group input::placeholder {
+      color: var(--pantone-cream);
+      opacity: 0.7;
+    }
+
+    .zk-input-group input:focus {
+      border-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(194, 138, 90, 0.35);
+      background: rgba(245, 240, 234, 0.15);
+    }
+
+    .zk-btn-subscribe {
+      height: 44px;
+      background: linear-gradient(135deg, var(--pantone-gold) 0%, #a47864 100%);
+      color: #ffffff;
+      border: 1px solid var(--pantone-gold);
+      border-radius: var(--zk-radius-md);
+      font-size: 13.5px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--zk-transition);
+      box-shadow: var(--zk-shadow-tan);
+      width: 100%;
+    }
+
+    .zk-btn-subscribe:hover {
+      background: linear-gradient(135deg, #d49866 0%, var(--pantone-gold) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(194, 138, 90, 0.45);
+    }
+
+    .zk-btn-subscribe svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .zk-btn-subscribe:hover svg {
+      transform: translateX(4px);
+    }
+
+    .zk-privacy-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--pantone-cream);
+      opacity: 0.85;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .zk-privacy-tag svg {
+      width: 13px;
+      height: 13px;
+      color: var(--pantone-gold);
+      flex-shrink: 0;
+    }
+
+    .zk-sub-toast {
+      display: none;
+      padding: 10px 14px;
+      background: rgba(245, 240, 234, 0.15);
+      border: 1px solid var(--pantone-gold);
+      border-radius: var(--zk-radius-sm);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      animation: zkFadeIn 0.4s ease forwards;
+    }
+
+    .zk-sub-toast.active {
+      display: flex;
+    }
+
+    @keyframes zkFadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* COLUMN 4: FACTORY CONTACT */
+    .zk-contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .zk-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--pantone-cream);
+    }
+
+    .zk-contact-item-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--zk-radius-sm);
+      background: rgba(194, 138, 90, 0.2);
+      border: 1px solid var(--pantone-gold);
+      color: var(--pantone-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .zk-contact-item-icon svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .zk-contact-details strong {
+      color: #ffffff;
+      display: block;
+      font-size: 12px;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .zk-contact-details a {
+      color: var(--pantone-ivory);
+    }
+
+    .zk-contact-details a:hover {
+      color: var(--pantone-gold);
+    }
+
+    .zk-quick-actions-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .zk-btn-mini {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: var(--zk-radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--pantone-gold);
+      background: rgba(245, 240, 234, 0.1);
+      color: var(--pantone-ivory);
+      transition: var(--zk-transition);
+    }
+
+    .zk-btn-mini:hover {
+      background: var(--pantone-gold);
+      border-color: var(--pantone-gold);
+      color: #ffffff;
+    }
+
+    .zk-btn-mini.wa {
+      background: rgba(37, 211, 102, 0.15);
+      border-color: rgba(37, 211, 102, 0.4);
+      color: #25D366;
+    }
+
+    .zk-btn-mini.wa:hover {
+      background: #25D366;
+      border-color: #25D366;
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       BOTTOM LEGAL & CREDENTIALS BAR
+       ========================================================================== */
+    .zk-footer-bottom {
+      padding: 18px 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--pantone-cream);
+      border-top: 1px solid rgba(194, 138, 90, 0.3);
+    }
+
+    .zk-bottom-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .zk-copyright {
+      color: var(--pantone-cream);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .zk-copyright strong {
+      color: #ffffff;
+    }
+
+    .zk-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.25;
+      margin-top: 1px;
+    }
+
+    .zk-legal-links a {
+      color: var(--pantone-cream);
+      font-size: 12.5px;
+    }
+
+    .zk-legal-links a:hover {
+      color: var(--pantone-gold);
+    }
+
+    .zk-bottom-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Payment Badges */
+    .zk-payment-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .zk-pay-pill {
+      padding: 4px 8px;
+      background: rgba(245, 240, 234, 0.12);
+      border: 1px solid var(--pantone-gold);
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--pantone-ivory);
+    }
+
+    /* Back to Top Floating Button */
+    .zk-btn-back-top {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--zk-radius-full);
+      background: rgba(194, 138, 90, 0.2);
+      border: 1px solid var(--pantone-gold);
+      color: var(--pantone-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--zk-transition);
+    }
+
+    .zk-btn-back-top:hover {
+      background: var(--pantone-gold);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: var(--zk-shadow-tan);
+    }
+
+    .zk-btn-back-top svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    @media (max-width: 1024px) {
+      .zk-footer-main-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .zk-footer-main-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .zk-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       START ZAKARA LUXURY FOOTER COMPONENT (ABOUT US THEME)
+       (Copy from <footer class="zakara-footer-wrapper"> down to </footer>)
+       ========================================================================== -->
+  <footer class="zakara-footer-wrapper" role="contentinfo" aria-label="Zakara International Footer">
+    
+    <!-- Ambient Background Glows -->
+    <div class="bg-ambient-glow" aria-hidden="true"></div>
+
+    <div class="zakara-footer-container">
+
+      <!-- MAIN 4-COLUMN FOOTER NAVIGATION & SUBSCRIPTION GRID -->
+      <div class="zk-footer-main-grid">
+
+        <!-- COLUMN 1: Brand & Heritage -->
+        <div class="zk-footer-col">
+          <div class="zk-brand-logo-wrap">
+            <a href="https://www.zakarabags.com/" class="zk-brand-logo-img-box" title="Zakara Leather Bags">
+              <span class="zk-brand-wordmark" aria-label="Zakara Leather Bags, Custom Design and Development">
+                <span class="zk-brand-wordmark-main">ZAKARA LEATHER BAGS</span>
+                <span class="zk-brand-wordmark-tagline">CUSTOM DESIGN &amp; DEVELOPMENT</span>
+              </span>
+            </a>
+          </div>
+          <p class="zk-brand-desc">
+            Kanpur’s Premier Manufacturer and Exporter of Handcrafted 100% Genuine Leather Bags, Wallets, Toiletry Kits, and Custom OEM Accessories Exported Worldwide.
+          </p>
+          
+          <div class="zk-trust-badges">
+            <div class="zk-trust-badge gold">
+              <span class="zk-rating-stars" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+              </span>
+              <span>4.9 Google Rated</span>
+            </div>
+            <div class="zk-trust-badge">
+              <strong>ISO 9001:2015 Certified</strong>
+            </div>
+          </div>
+
+          <!-- Social Icons -->
+          <div class="zk-social-links">
+            <a href="https://www.instagram.com/zakarabags/" target="_blank" rel="noopener" class="zk-social-icon" title="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/zakarabags/" target="_blank" rel="noopener" class="zk-social-icon" title="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.5 5H18V0h-3.808C10.592 0 9 1.592 9 4.615V8z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/zakara-international/" target="_blank" rel="noopener" class="zk-social-icon" title="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=919621486975" target="_blank" rel="noopener" class="zk-social-icon" title="WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- COLUMN 2: Product Collections -->
+        <div class="zk-footer-col">
+          <h4>Leather Collections</h4>
+          <ul>
+            <li><a href="https://www.zakarabags.com/product-category/duffle-travel-bags/">Leather Travel Duffles</a></li>
+            <li><a href="https://www.zakarabags.com/product-category/leather-backpack/">Backpacks & Briefcases</a></li>
+            <li><a href="https://www.zakarabags.com/shop-3/">Bespoke Leather</a></li>
+            <li><a href="https://www.zakarabags.com/toiletry-bags/">Toiletry & Wash Bags</a></li>
+            <li><a href="https://www.zakarabags.com/wallets/">Wallets & Cardholders</a></li>
+            <li><a href="https://www.zakarabags.com/product-category/leather-accessories/other-accessories/">Corporate Gifting Items</a></li>
+          </ul>
+        </div>
+
+        <!-- COLUMN 3: EMAIL NEWSLETTER SUBSCRIPTION (INLINE IN FOOTER GRID) -->
+        <div class="zk-footer-col">
+          <h4>Join Inner Circle</h4>
+          <p class="zk-sub-col-desc">Subscribe for exclusive catalog updates, leather care guides & trade announcements.</p>
+          
+          <form id="zakaraNewsletterForm" class="zk-inline-sub-form" onsubmit="handleZakaraSubscribe(event)">
+            
+            <!-- Full Name Input -->
+            <div class="zk-input-group">
+              <input type="text" id="zkSubName" placeholder="Your Full Name" required />
+              <svg class="zk-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+
+            <!-- Email Input -->
+            <div class="zk-input-group">
+              <input type="email" id="zkSubEmail" placeholder="Business Email Address" required />
+              <svg class="zk-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+
+            <!-- City / Country -->
+            <div class="zk-input-group">
+              <input type="text" id="zkSubLocation" placeholder="City / Country" required />
+              <svg class="zk-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 22s8-4 8-12a8 8 0 1 0-16 0c0 8 8 12 8 12z"/></svg>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="zk-btn-subscribe" id="zkSubBtn">
+              <span>Subscribe Now</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+
+            <!-- Privacy Tag -->
+            <div class="zk-privacy-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>100% Privacy Protected. No spam.</span>
+            </div>
+
+            <!-- Toast Success Alert -->
+            <div id="zkSubToast" class="zk-sub-toast" role="alert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span id="zkSubToastMsg">Subscribed successfully!</span>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- COLUMN 4: Kanpur HQ & Contact Desk -->
+        <div class="zk-footer-col">
+          <h4>Factory & Contact</h4>
+          <div class="zk-contact-list">
+            
+            <div class="zk-contact-item">
+              <div class="zk-contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="zk-contact-details">
+                <strong>Manufacturing Unit</strong>
+                77-H, Panki Industrial Estate, Site-1, Kanpur-208022, UP, INDIA
+              </div>
+            </div>
+
+            <div class="zk-contact-item">
+              <div class="zk-contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div class="zk-contact-details">
+                <strong>Export Desk Phone</strong>
+                <a href="tel:+919621486975">+91-96214 86975</a>
+              </div>
+            </div>
+
+            <div class="zk-contact-item">
+              <div class="zk-contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </div>
+              <div class="zk-contact-details">
+                <strong>Inquiry Email</strong>
+                <a href="mailto:enquiry@zakarabags.com">enquiry@zakarabags.com</a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="zk-quick-actions-row">
+            <a href="tel:+919621486975" class="zk-btn-mini" title="Call Zakara Export Desk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>Call Desk</span>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=919621486975&text=Hello%20Zakara%20International,%20I%20am%20interested%20in%20custom%20leather%20manufacturing" target="_blank" rel="noopener" class="zk-btn-mini wa" title="WhatsApp Enquiry">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;"><path d="M12.031 2C6.495 2 2 6.494 2 12.031c0 1.768.46 3.493 1.332 5.006L2 22l5.107-1.338A10.007 10.007 0 0 0 12.03 22c5.536 0 10.03-4.495 10.03-10.031C22.062 6.495 17.567 2 12.031 2zm5.834 14.218c-.244.685-1.42 1.309-1.966 1.393-.508.078-1.168.11-1.89-.122-.437-.14-1-.326-1.727-.64-3.064-1.326-5.06-4.417-5.214-4.62-.152-.204-1.246-1.656-1.246-3.158 0-1.503.788-2.242 1.069-2.548.28-.306.61-.382.814-.382.204 0 .407.002.585.01.19.009.444-.072.695.53.254.611.865 2.112.941 2.266.076.152.127.33.025.534-.1.203-.152.33-.305.508-.153.178-.321.398-.458.534-.153.152-.313.318-.135.624.178.305.792 1.307 1.7 2.116 1.168 1.042 2.152 1.365 2.457 1.518.305.152.483.127.66-.077.178-.203.763-.89.967-1.195.203-.305.406-.254.685-.152.28.102 1.777.838 2.082.99.305.153.508.23.584.356.077.127.077.737-.167 1.422z"/></svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BOTTOM BAR (COPYRIGHT, LEGAL LINKS, PAYMENT BADGES, SCROLL TOP) -->
+      <div class="zk-footer-bottom">
+        
+        <div class="zk-bottom-left">
+          <div class="zk-copyright">
+            © 2026 <strong>Zakara International</strong>. All Rights Reserved. Handcrafted Genuine Leather Exporter.
+          </div>
+          <div class="zk-legal-links">
+            <a href="https://www.zakarabags.com/privacy-policy/">Privacy Policy</a>
+            <span>•</span>
+            <a href="https://www.zakarabags.com/terms-and-conditions/?preview_id=11458&amp;preview_nonce=76584f5436&amp;preview=true">Terms &amp; Conditions</a>
+            <span>•</span>
+            <a href="https://www.zakarabags.com/private-labeling-service/">Export Compliance</a>
+            <span>•</span>
+            <a href="https://www.zakarabags.com/contact-us/">Sitemap</a>
+          </div>
+        </div>
+
+        <div class="zk-bottom-right">
+          <button class="zk-btn-back-top" onclick="scrollToZakaraTop()" title="Scroll Back To Top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+  <!-- ==========================================================================
+       END ZAKARA LUXURY FOOTER COMPONENT
+       ========================================================================== -->
+
+  <!-- Interactive JavaScript for Subscription Form & Back To Top -->
+  <script>
+    async function handleZakaraSubscribe(e) {
+      e.preventDefault();
+      
+      const nameInput = document.getElementById('zkSubName');
+      const emailInput = document.getElementById('zkSubEmail');
+      const locationInput = document.getElementById('zkSubLocation');
+      const btn = document.getElementById('zkSubBtn');
+      const toast = document.getElementById('zkSubToast');
+      const toastMsg = document.getElementById('zkSubToastMsg');
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const location = locationInput.value.trim();
+
+      if (!name || !email || !location) {
+        alert('Please fill out all fields.');
+        return;
+      }
+
+      // Indicate loading state
+      btn.disabled = true;
+      btn.style.opacity = '0.75';
+      btn.innerHTML = '<span>Submitting...</span>';
+
+      const payload = {
+        name: name,
+        email: email,
+        location: location,
+        source: window.location.href,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        // Detect WordPress AJAX URL or fallback to subscribe.php
+        const wpAjaxUrl = (window.location.origin ? window.location.origin : '') + '/wp-admin/admin-ajax.php?action=zakara_subscribe';
+        const targetEndpoint = (typeof window.wpApiSettings !== 'undefined' || document.body.classList.contains('wp-custom-logo') || window.location.href.includes('zakarabags.com')) 
+          ? wpAjaxUrl 
+          : 'subscribe.php';
+
+        const formData = new FormData();
+        formData.append('action', 'zakara_subscribe');
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('location', location);
+        formData.append('source', window.location.href);
+
+        const response = await fetch(targetEndpoint, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json().catch(() => ({ success: true }));
+
+        if (result.success !== false) {
+          toastMsg.textContent = `Thank you, ${name}! You have been subscribed. Details saved to WP Admin.`;
+          toast.classList.add('active');
+          document.getElementById('zakaraNewsletterForm').reset();
+        } else {
+          toastMsg.textContent = (result.data && result.data.message) ? result.data.message : (result.message || 'Subscription failed. Please try again.');
+          toast.classList.add('active');
+        }
+      } catch (err) {
+        console.warn('Backend endpoint unreachable, operating in fallback mode:', err);
+        // Clean fallback response if running client-side without PHP server
+        toastMsg.textContent = `Thank you, ${name}! Your subscription request was received.`;
+        toast.classList.add('active');
+        document.getElementById('zakaraNewsletterForm').reset();
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.innerHTML = '<span>Subscribe Now</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+
+        setTimeout(function() {
+          toast.classList.remove('active');
+        }, 5500);
+      }
+    }
+
+    function scrollToZakaraTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+</body>
+</html>

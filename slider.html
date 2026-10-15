@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Discover Zakara's private-label leather goods manufacturing, custom product development, and export services for growing brands." />
+  <title>Private Label Leather Goods | Zakara Leather Bags</title>
+
+  <!-- Modern Clean Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CLEAN HERO SLIDER - EXACT REFERENCE DESIGN (WORDPRESS & ELEMENTOR SAFE)
+       ========================================================================== */
+    .zk-hero-slider,
+    .zk-hero-slider *,
+    .zk-hero-slider *::before,
+    .zk-hero-slider *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .zk-hero-slider {
+      --slider-h: 60vh;
+      --coral-arrow: #EF7C6D;
+      --white-pure: #FFFFFF;
+      --transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: var(--slider-h);
+      min-height: 560px;
+      max-height: 720px;
+      overflow: hidden;
+      background-color: #0E0B09;
+      color: var(--white-pure);
+      user-select: none;
+      }
+
+    /* Slides Track */
+    .zk-hero-slider .slider-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Individual Slide */
+    .zk-hero-slider .slide-item {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      z-index: 1;
+    }
+
+    .zk-hero-slider .slide-item.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+
+    /* Full Background Image */
+    .zk-hero-slider .slide-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.04);
+      transition: transform 7s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+
+    .zk-hero-slider .slide-item.active .slide-bg {
+      transform: scale(1);
+    }
+
+    /* Dark Overlay for Text Legibility */
+    .zk-hero-slider .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg, 
+        rgba(10, 8, 6, 0.82) 0%, 
+        rgba(10, 8, 6, 0.62) 35%, 
+        rgba(10, 8, 6, 0.2) 65%, 
+        rgba(10, 8, 6, 0.5) 100%
+      );
+      z-index: 2;
+    }
+
+    /* Subtle Curved Depth Vignette (Matching the arch in reference image) */
+    .zk-hero-slider .slide-curve {
+      position: absolute;
+      right: 18%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(14, 11, 9, 0.45) 0%, rgba(14, 11, 9, 0) 70%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Content Stage */
+    .zk-hero-slider .slider-container {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1280px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Text Block Directly Over Image (No Box / No Cards) */
+    .zk-hero-slider .slide-content {
+      max-width: 580px;
+    }
+
+    /* Headline */
+    .zk-hero-slider .slide-title {
+      font-size: clamp(26px, 3.4vw, 38px);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      line-height: 1.15;
+      color: #FFFFFF;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
+    }
+
+    .zk-hero-slider .slide-item.active .slide-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Paragraph Description */
+    .zk-hero-slider .slide-desc {
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 400;
+      margin-bottom: 22px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+      max-width: 520px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+    }
+
+    .zk-hero-slider .slide-item.active .slide-desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================================================
+       LUXURY PILL BUTTON WITH CIRCULAR ARROW BADGE
+       ========================================================================== */
+    .zk-hero-slider .btn-luxury-pill {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 7px 8px 7px 22px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      text-decoration: none !important;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease 0.45s, transform 0.6s ease 0.45s, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .zk-hero-slider .slide-item.active .btn-luxury-pill {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .zk-hero-slider .btn-pill-text {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .zk-hero-slider .btn-pill-badge {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #C27D48 0%, #965B34 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      box-shadow: 0 3px 12px rgba(150, 91, 52, 0.45);
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, background 0.35s ease;
+      flex-shrink: 0;
+    }
+
+    .zk-hero-slider .btn-pill-badge svg {
+      width: 17px;
+      height: 17px;
+      stroke: #FFFFFF;
+      stroke-width: 2.2;
+      fill: none;
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Button Hover Interaction */
+    .zk-hero-slider .btn-luxury-pill:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .zk-hero-slider .btn-luxury-pill:hover .btn-pill-badge {
+      transform: scale(1.08);
+      background: linear-gradient(135deg, #D48E59 0%, #A6673E 100%);
+      box-shadow: 0 5px 16px rgba(150, 91, 52, 0.65);
+    }
+
+    .zk-hero-slider .btn-luxury-pill:hover .btn-pill-badge svg {
+      transform: translateX(3px);
+    }
+
+    /* ==========================================================================
+       RIGHT VERTICAL PAGINATION (── 01, 02, 03)
+       ========================================================================== */
+    .zk-hero-slider .slider-numbers {
+      position: absolute;
+      right: 56px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .zk-hero-slider .number-btn {
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.5);
+      transition: var(--transition);
+      padding: 6px 0;
+    }
+
+    /* Line preceding active number */
+    .zk-hero-slider .number-btn .line-dash {
+      display: inline-block;
+      width: 0;
+      height: 1.5px;
+      background-color: #FFFFFF;
+      transition: width 0.35s ease, opacity 0.35s ease;
+      opacity: 0;
+    }
+
+    .zk-hero-slider .number-btn:hover {
+      color: #FFFFFF;
+    }
+
+    /* Active State */
+    .zk-hero-slider .number-btn.active {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .zk-hero-slider .number-btn.active .line-dash {
+      width: 32px;
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .zk-hero-slider {
+        --slider-h: 40vh;
+        min-height: 350px;
+        max-height: 440px;
+      }
+      .zk-hero-slider .slide-title {
+        font-size: 32px;
+      }
+      .zk-hero-slider .slider-container {
+        padding: 0 36px;
+      }
+      .zk-hero-slider .slider-numbers {
+        right: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .zk-hero-slider {
+        --slider-h: clamp(340px, 45vh, 400px);
+        min-height: 340px;
+        max-height: 400px;
+      }
+      .zk-hero-slider .slide-title {
+        font-size: 26px;
+        margin-bottom: 10px;
+      }
+      .zk-hero-slider .slide-desc {
+        font-size: 13.5px;
+        margin-bottom: 18px;
+        max-width: 440px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .zk-hero-slider .slider-container {
+        padding: 0 24px;
+      }
+      .zk-hero-slider .slider-numbers {
+        right: 20px;
+        gap: 16px;
+      }
+      .zk-hero-slider .number-btn {
+        font-size: 13px;
+      }
+      .zk-hero-slider .number-btn.active .line-dash {
+        width: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .zk-hero-slider {
+        --slider-h: clamp(320px, 45vh, 380px);
+        min-height: 320px;
+        max-height: 380px;
+      }
+      .zk-hero-slider .slide-title {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .zk-hero-slider .slide-desc {
+        font-size: 12.5px;
+        line-height: 1.45;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .zk-hero-slider .btn-luxury-pill {
+        padding: 5px 6px 5px 16px;
+        gap: 10px;
+      }
+      .zk-hero-slider .btn-pill-text {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+      }
+      .zk-hero-slider .btn-pill-badge {
+        width: 28px;
+        height: 28px;
+      }
+      .zk-hero-slider .btn-pill-badge svg {
+        width: 12px;
+        height: 12px;
+      }
+      .zk-hero-slider .slider-numbers {
+        right: 12px;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HERO SLIDER - EXACT MATCH TO REFERENCE SCREENSHOT
+       ========================================================================== -->
+  <section class="zk-hero-slider" id="zkHeroSlider" aria-label="Featured Slider">
+
+    <!-- Slides Track -->
+    <div class="slider-track" id="sliderTrack">
+
+      <!-- Slide 1: Exact text & image from user reference -->
+      <article class="slide-item active" data-index="0" aria-hidden="false">
+        <div class="slide-bg" style="background-image: url('https://www.zakarabags.com/wp-content/uploads/2024/09/DSC00390-1.webp');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-curve"></div>
+        <div class="slider-container">
+          <div class="slide-content">
+            <h1 class="slide-title">Our Factory, Your Brand</h1>
+            <p class="slide-desc">
+              Our private labeling service offers high-quality, customizable leather products that are perfect for your business. From wallets and bags to accessories, we can bring your vision to life.
+            </p>
+            <a href="https://www.zakarabags.com/private-label-oem/" class="btn-luxury-pill" title="Read more about our private labeling service">
+              <span class="btn-pill-text">Read More</span>
+              <span class="btn-pill-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 2: Bespoke Craftsmanship -->
+      <article class="slide-item" data-index="1" aria-hidden="true">
+        <div class="slide-bg" style="background-image: url('https://www.zakarabags.com/wp-content/uploads/2024/09/DSC00395-1.webp');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-curve"></div>
+        <div class="slider-container">
+          <div class="slide-content">
+            <h2 class="slide-title">Bespoke Craftsmanship</h2>
+            <p class="slide-desc">
+              Authentic handmade leather goods crafted in Kanpur, India by second-generation master artisans. Engineered for lifetime endurance with heavy-duty bonded nylon stitching.
+            </p>
+            <a href="https://www.zakarabags.com/about-us/" class="btn-luxury-pill" title="Read more about our craftsmanship">
+              <span class="btn-pill-text">Read More</span>
+              <span class="btn-pill-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 3: 100% Genuine Leathers -->
+      <article class="slide-item" data-index="2" aria-hidden="true">
+        <div class="slide-bg" style="background-image: url('https://www.zakarabags.com/wp-content/uploads/2024/09/DSC00405-1.webp');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-curve"></div>
+        <div class="slider-container">
+          <div class="slide-content">
+            <h2 class="slide-title">100% Genuine Leathers</h2>
+            <p class="slide-desc">
+              Supple top-grain and pull-up buffalo and cow leathers processed under strict environmental compliance, developing a rich natural patina with every journey.
+            </p>
+            <a href="https://www.zakarabags.com/leathers/" class="btn-luxury-pill" title="Read more about our leathers">
+              <span class="btn-pill-text">Read More</span>
+              <span class="btn-pill-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Right Side Vertical Numbers (── 01, 02, 03) -->
+    <nav class="slider-numbers" aria-label="Slide Selector">
+      <button type="button" class="number-btn active" data-slide="0" aria-label="Go to slide 1">
+        <span class="line-dash" aria-hidden="true"></span>
+        <span>01</span>
+      </button>
+      <button type="button" class="number-btn" data-slide="1" aria-label="Go to slide 2">
+        <span class="line-dash" aria-hidden="true"></span>
+        <span>02</span>
+      </button>
+      <button type="button" class="number-btn" data-slide="2" aria-label="Go to slide 3">
+        <span class="line-dash" aria-hidden="true"></span>
+        <span>03</span>
+      </button>
+    </nav>
+
+  </section>
+
+  <!-- ==========================================================================
+       CLEAN LIGHTWEIGHT CONTROLLER SCRIPT (Zero Dependencies)
+       ========================================================================== -->
+  <script>
+    (function() {
+      const slider = document.getElementById('zkHeroSlider');
+      if (!slider) return;
+
+      const slides = slider.querySelectorAll('.slide-item');
+      const numberBtns = slider.querySelectorAll('.number-btn');
+      const total = slides.length;
+      let currentIndex = 0;
+      let timer = null;
+      const interval = 5500;
+
+      function goToSlide(idx) {
+        if (idx === currentIndex || idx < 0 || idx >= total) return;
+
+        // Deactivate current
+        slides[currentIndex].classList.remove('active');
+        slides[currentIndex].setAttribute('aria-hidden', 'true');
+        numberBtns[currentIndex].classList.remove('active');
+
+        // Activate new
+        currentIndex = idx;
+        slides[currentIndex].classList.add('active');
+        slides[currentIndex].setAttribute('aria-hidden', 'false');
+        numberBtns[currentIndex].classList.add('active');
+      }
+
+      function nextSlide() {
+        const next = (currentIndex + 1) % total;
+        goToSlide(next);
+      }
+
+      function startTimer() {
+        stopTimer();
+        timer = setInterval(nextSlide, interval);
+      }
+
+      function stopTimer() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      // Click on numbers
+      numberBtns.forEach(function(btn, idx) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          goToSlide(idx);
+          startTimer();
+        });
+      });
+
+      // Pause on hover
+      slider.addEventListener('mouseenter', stopTimer);
+      slider.addEventListener('mouseleave', startTimer);
+
+      // Mobile touch swipe
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      slider.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        stopTimer();
+      }, { passive: true });
+
+      slider.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchEndX < touchStartX - 40) {
+          nextSlide();
+        } else if (touchEndX > touchStartX + 40) {
+          const prev = (currentIndex - 1 + total) % total;
+          goToSlide(prev);
+        }
+        startTimer();
+      }, { passive: true });
+
+      // Keyboard navigation
+      slider.setAttribute('tabindex', '0');
+      slider.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+          nextSlide();
+          startTimer();
+        } else if (e.key === 'ArrowLeft') {
+          const prev = (currentIndex - 1 + total) % total;
+          goToSlide(prev);
+          startTimer();
+        }
+      });
+
+      // Start automatic rotation
+      startTimer();
+    })();
+  </script>
+
+</body>
+</html>

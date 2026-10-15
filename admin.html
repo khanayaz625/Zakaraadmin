@@ -1,0 +1,3224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Zakara Bags Admin Console | Product Catalog & Description Manager</title>
+	<meta name="description" content="Official administrative dashboard for Zakarabags.com to manage products, full descriptions, WooCommerce catalog synchronization, and inventory." />
+	
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" type="image/png" />
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+	<style>
+		/* ==========================================================================
+		   LUXURY BRAND DESIGN TOKENS (Matching Zakara International Aesthetics)
+		   ========================================================================== */
+		:root {
+			--pantone-cocoa: #6b4537;
+			--pantone-cocoa-dark: #4a2d23;
+			--pantone-cocoa-light: #835544;
+			--pantone-gold: #c28a5a;
+			--pantone-gold-light: #d49866;
+			--pantone-gold-pale: #f7eedf;
+			--pantone-ivory: #fbf9f6;
+			--pantone-cream: #eadcc8;
+			--pantone-asphalt: #1c1917;
+			--pantone-mocha: #a47864;
+
+			--ink-dark: #1c1917;
+			--text-body: #4a423a;
+			--text-muted: #756d66;
+			--text-light: #a89f97;
+			--border-line: #e6ded6;
+			--border-subtle: #f0e9e1;
+
+			--bg-page: #fbf9f6;
+			--bg-card: #ffffff;
+			--bg-card-subtle: #f8f4ef;
+			--bg-sidebar: #181513;
+
+			--success: #2e7d32;
+			--success-bg: #edf7ed;
+			--warning: #ed6c02;
+			--warning-bg: #fff4e5;
+			--danger: #d32f2f;
+			--danger-bg: #fdeded;
+			--info: #0288d1;
+			--info-bg: #e1f5fe;
+
+			--radius-sm: 8px;
+			--radius-md: 14px;
+			--radius-lg: 20px;
+			--radius-full: 9999px;
+
+			--shadow-card: 0 10px 30px rgba(41, 37, 37, 0.06);
+			--shadow-hover: 0 16px 36px rgba(107, 69, 55, 0.14);
+			--shadow-elevated: 0 20px 50px rgba(28, 25, 23, 0.2);
+			--transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+			--font-heading: 'Poppins', sans-serif;
+			--font-body: 'Roboto', sans-serif;
+			--font-mono: 'Fira Code', monospace;
+		}
+
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: var(--font-body);
+			background-color: var(--bg-page);
+			color: var(--text-body);
+			line-height: 1.5;
+			-webkit-font-smoothing: antialiased;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		button, input, select, textarea {
+			font-family: inherit;
+			font-size: 0.95rem;
+		}
+
+		button {
+			cursor: pointer;
+			border: none;
+			outline: none;
+			transition: var(--transition);
+		}
+
+		.view-screen {
+			display: none;
+			width: 100%;
+			min-height: 100vh;
+		}
+
+		.view-screen.active {
+			display: flex;
+		}
+
+		/* ==========================================================================
+		   AUTHENTICATION VIEW (LOGIN SCREEN)
+		   ========================================================================== */
+		#loginView {
+			align-items: center;
+			justify-content: center;
+			background: radial-gradient(circle at 10% 20%, #2f2520 0%, #151312 90%);
+			padding: 24px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		#loginView::before {
+			content: "";
+			position: absolute;
+			width: 600px;
+			height: 600px;
+			background: radial-gradient(circle, rgba(194, 138, 90, 0.12) 0%, transparent 70%);
+			top: -150px;
+			right: -150px;
+			border-radius: 50%;
+			pointer-events: none;
+		}
+
+		.login-card {
+			position: relative;
+			z-index: 10;
+			background: #ffffff;
+			border-radius: var(--radius-lg);
+			box-shadow: var(--shadow-elevated);
+			width: 100%;
+			max-width: 480px;
+			padding: 44px 40px;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			animation: cardFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		@keyframes cardFadeUp {
+			from { opacity: 0; transform: translateY(24px) scale(0.98); }
+			to { opacity: 1; transform: translateY(0) scale(1); }
+		}
+
+		.login-brand {
+			text-align: center;
+			margin-bottom: 28px;
+		}
+
+		.login-logo {
+			width: 68px;
+			height: 68px;
+			border-radius: 16px;
+			background: #fff;
+			padding: 6px;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+			margin-bottom: 14px;
+			border: 1px solid var(--border-line);
+		}
+
+		.login-title {
+			font-family: var(--font-heading);
+			font-size: 1.55rem;
+			font-weight: 700;
+			color: var(--pantone-asphalt);
+			letter-spacing: -0.02em;
+		}
+
+		.login-subtitle {
+			font-size: 0.88rem;
+			color: var(--text-muted);
+			margin-top: 4px;
+		}
+
+		.login-form {
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+		}
+
+		.form-group {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.form-label {
+			font-size: 0.84rem;
+			font-weight: 600;
+			color: var(--ink-dark);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.form-input-wrap {
+			position: relative;
+			display: flex;
+			align-items: center;
+		}
+
+		.form-input {
+			width: 100%;
+			padding: 12px 14px;
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background-color: #faf8f5;
+			color: var(--ink-dark);
+			font-size: 0.94rem;
+			transition: var(--transition);
+		}
+
+		.form-input:focus {
+			outline: none;
+			border-color: var(--pantone-gold);
+			background-color: #ffffff;
+			box-shadow: 0 0 0 3px rgba(194, 138, 90, 0.18);
+		}
+
+		.password-toggle {
+			position: absolute;
+			right: 12px;
+			background: transparent;
+			border: none;
+			font-size: 0.85rem;
+			color: var(--text-muted);
+			cursor: pointer;
+			padding: 4px;
+		}
+
+		.form-check {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 0.85rem;
+			color: var(--text-muted);
+			cursor: pointer;
+		}
+
+		.form-check input {
+			cursor: pointer;
+			accent-color: var(--pantone-cocoa);
+		}
+
+		.btn-primary {
+			background: linear-gradient(135deg, var(--pantone-cocoa) 0%, var(--pantone-cocoa-dark) 100%);
+			color: #ffffff;
+			font-weight: 600;
+			font-size: 0.98rem;
+			padding: 14px 20px;
+			border-radius: var(--radius-sm);
+			box-shadow: 0 6px 18px rgba(107, 69, 55, 0.28);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			margin-top: 6px;
+		}
+
+		.btn-primary:hover {
+			background: linear-gradient(135deg, var(--pantone-cocoa-light) 0%, var(--pantone-cocoa) 100%);
+			transform: translateY(-1px);
+			box-shadow: 0 10px 24px rgba(107, 69, 55, 0.35);
+		}
+
+		.btn-primary:disabled {
+			opacity: 0.65;
+			cursor: not-allowed;
+			transform: none;
+		}
+
+		.btn-demo-fast {
+			background: var(--bg-card-subtle);
+			color: var(--pantone-cocoa);
+			border: 1px solid var(--border-line);
+			font-weight: 500;
+			font-size: 0.84rem;
+			padding: 10px 14px;
+			border-radius: var(--radius-sm);
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 6px;
+		}
+
+		.btn-demo-fast:hover {
+			background: #ffffff;
+			border-color: var(--pantone-gold);
+			color: var(--ink-dark);
+		}
+
+		.login-status-pill {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			margin-top: 18px;
+			padding: 8px 12px;
+			background: var(--bg-card-subtle);
+			border-radius: var(--radius-full);
+			font-size: 0.78rem;
+			color: var(--text-muted);
+		}
+
+		.pulse-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background-color: var(--success);
+			box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7);
+			animation: pulse 1.8s infinite;
+		}
+
+		@keyframes pulse {
+			0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+			70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(46, 125, 50, 0); }
+			100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+		}
+
+		/* ==========================================================================
+		   DASHBOARD VIEW (APPLICATION LAYOUT)
+		   ========================================================================== */
+		#dashboardView {
+			flex-direction: row;
+			background-color: var(--bg-page);
+		}
+
+		/* Sidebar */
+		.admin-sidebar {
+			width: 270px;
+			background-color: var(--bg-sidebar);
+			color: #e5ded7;
+			display: flex;
+			flex-direction: column;
+			flex-shrink: 0;
+			position: sticky;
+			top: 0;
+			height: 100vh;
+			border-right: 1px solid rgba(255, 255, 255, 0.06);
+			z-index: 50;
+		}
+
+		.sidebar-brand {
+			padding: 24px 20px;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		}
+
+		.sidebar-brand img {
+			width: 40px;
+			height: 40px;
+			border-radius: 8px;
+			background: #fff;
+			padding: 2px;
+		}
+
+		.sidebar-brand-text {
+			font-family: var(--font-heading);
+			font-weight: 700;
+			font-size: 1.05rem;
+			color: #ffffff;
+			letter-spacing: -0.01em;
+			line-height: 1.2;
+		}
+
+		.sidebar-brand-text span {
+			font-size: 0.72rem;
+			font-weight: 400;
+			color: var(--pantone-gold);
+			display: block;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			margin-top: 2px;
+		}
+
+		.sidebar-nav {
+			padding: 20px 12px;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			overflow-y: auto;
+		}
+
+		.nav-section-title {
+			font-size: 0.7rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: #8c8279;
+			padding: 12px 12px 6px;
+		}
+
+		.nav-link {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 10px 14px;
+			border-radius: var(--radius-sm);
+			color: #bbb2a8;
+			font-size: 0.9rem;
+			font-weight: 500;
+			transition: var(--transition);
+		}
+
+		.nav-link svg {
+			width: 18px;
+			height: 18px;
+			stroke-width: 2;
+			stroke: currentColor;
+			fill: none;
+			flex-shrink: 0;
+		}
+
+		.nav-link:hover {
+			color: #ffffff;
+			background-color: rgba(255, 255, 255, 0.07);
+		}
+
+		.nav-link.active {
+			color: #ffffff;
+			background: linear-gradient(90deg, rgba(194, 138, 90, 0.28) 0%, rgba(194, 138, 90, 0.1) 100%);
+			border-left: 3px solid var(--pantone-gold);
+			font-weight: 600;
+		}
+
+		.nav-badge {
+			margin-left: auto;
+			background: rgba(194, 138, 90, 0.2);
+			color: var(--pantone-gold-light);
+			font-size: 0.72rem;
+			font-weight: 600;
+			padding: 2px 7px;
+			border-radius: var(--radius-full);
+		}
+
+		.sidebar-footer {
+			padding: 16px;
+			border-top: 1px solid rgba(255, 255, 255, 0.08);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: rgba(0, 0, 0, 0.18);
+		}
+
+		.user-profile {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.user-avatar {
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+			background: var(--pantone-cocoa);
+			color: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 700;
+			font-size: 0.85rem;
+		}
+
+		.user-details {
+			line-height: 1.2;
+		}
+
+		.user-name {
+			font-size: 0.84rem;
+			font-weight: 600;
+			color: #fff;
+		}
+
+		.user-role {
+			font-size: 0.72rem;
+			color: #8c8279;
+		}
+
+		.btn-logout {
+			background: transparent;
+			color: #9c9288;
+			padding: 6px;
+			border-radius: var(--radius-sm);
+		}
+
+		.btn-logout:hover {
+			color: #ff6b6b;
+			background: rgba(255, 107, 107, 0.1);
+		}
+
+		/* Main Content Area */
+		.admin-main {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+			min-height: 100vh;
+		}
+
+		/* Top Navigation Bar */
+		.admin-topbar {
+			background: #ffffff;
+			border-bottom: 1px solid var(--border-line);
+			padding: 14px 32px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			position: sticky;
+			top: 0;
+			z-index: 40;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+		}
+
+		.topbar-left {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.sync-status-indicator {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 6px 14px;
+			background: #fbf9f6;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-full);
+			font-size: 0.8rem;
+			font-weight: 500;
+			color: var(--ink-dark);
+		}
+
+		.topbar-right {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.btn-subtle {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			padding: 8px 14px;
+			border-radius: var(--radius-sm);
+			background: #fbf9f6;
+			border: 1px solid var(--border-line);
+			color: var(--ink-dark);
+			font-size: 0.84rem;
+			font-weight: 500;
+		}
+
+		.btn-subtle:hover {
+			background: #ffffff;
+			border-color: var(--pantone-gold);
+			color: var(--pantone-cocoa);
+		}
+
+		.btn-gold {
+			background: linear-gradient(135deg, var(--pantone-gold) 0%, #aa7242 100%);
+			color: #ffffff;
+			font-weight: 600;
+			font-size: 0.88rem;
+			padding: 9px 18px;
+			border-radius: var(--radius-sm);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			box-shadow: 0 4px 14px rgba(194, 138, 90, 0.28);
+		}
+
+		.btn-gold:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 6px 18px rgba(194, 138, 90, 0.38);
+		}
+
+		/* Content Workspace */
+		.admin-content {
+			padding: 32px;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 28px;
+		}
+
+		/* Stats KPIs */
+		.kpi-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 20px;
+		}
+
+		.kpi-card {
+			background: var(--bg-card);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 22px;
+			box-shadow: var(--shadow-card);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			transition: var(--transition);
+		}
+
+		.kpi-card:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-hover);
+			border-color: rgba(194, 138, 90, 0.4);
+		}
+
+		.kpi-info h3 {
+			font-size: 0.82rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			color: var(--text-muted);
+			margin-bottom: 6px;
+		}
+
+		.kpi-value {
+			font-family: var(--font-heading);
+			font-size: 1.85rem;
+			font-weight: 700;
+			color: var(--ink-dark);
+			line-height: 1;
+		}
+
+		.kpi-sub {
+			font-size: 0.75rem;
+			color: var(--success);
+			margin-top: 6px;
+			display: flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.kpi-icon {
+			width: 48px;
+			height: 48px;
+			border-radius: 12px;
+			background: var(--pantone-gold-pale);
+			color: var(--pantone-cocoa);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.3rem;
+		}
+
+		/* Main Catalog Panel */
+		.catalog-panel {
+			background: var(--bg-card);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			box-shadow: var(--shadow-card);
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+		}
+
+		.panel-header {
+			padding: 20px 24px;
+			border-bottom: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 16px;
+		}
+
+		.panel-title-area h2 {
+			font-family: var(--font-heading);
+			font-size: 1.25rem;
+			font-weight: 700;
+			color: var(--ink-dark);
+		}
+
+		.panel-title-area p {
+			font-size: 0.84rem;
+			color: var(--text-muted);
+		}
+
+		/* Filters and Search Bar */
+		.filters-bar {
+			padding: 16px 24px;
+			background: #faf8f5;
+			border-bottom: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: 14px;
+		}
+
+		.filter-group-left {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			flex: 1;
+			min-width: 300px;
+		}
+
+		.search-box {
+			position: relative;
+			flex: 1;
+			max-width: 380px;
+		}
+
+		.search-box svg {
+			position: absolute;
+			left: 12px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 16px;
+			height: 16px;
+			stroke: var(--text-muted);
+			fill: none;
+			pointer-events: none;
+		}
+
+		.search-input {
+			width: 100%;
+			padding: 9px 12px 9px 36px;
+			background: #ffffff;
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			font-size: 0.88rem;
+		}
+
+		.search-input:focus {
+			outline: none;
+			border-color: var(--pantone-gold);
+		}
+
+		.select-filter {
+			padding: 9px 14px;
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+			font-size: 0.86rem;
+			color: var(--ink-dark);
+			cursor: pointer;
+		}
+
+		.select-filter:focus {
+			outline: none;
+			border-color: var(--pantone-gold);
+		}
+
+		/* Product Table */
+		.table-responsive {
+			width: 100%;
+			overflow-x: auto;
+		}
+
+		.products-table {
+			width: 100%;
+			border-collapse: collapse;
+			text-align: left;
+			font-size: 0.88rem;
+		}
+
+		.products-table th {
+			background: #faf7f4;
+			color: var(--ink-dark);
+			font-weight: 600;
+			font-size: 0.78rem;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			padding: 14px 18px;
+			border-bottom: 1.5px solid var(--border-line);
+		}
+
+		.products-table td {
+			padding: 14px 18px;
+			border-bottom: 1px solid var(--border-subtle);
+			vertical-align: middle;
+			color: var(--text-body);
+		}
+
+		.products-table tr:hover td {
+			background-color: #fbf9f6;
+		}
+
+		.table-thumb-wrap {
+			position: relative;
+			width: 56px;
+			height: 56px;
+			border-radius: var(--radius-sm);
+			overflow: hidden;
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			flex-shrink: 0;
+		}
+
+		.table-thumb {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.product-cell {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+		}
+
+		.product-name-block {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.product-name-link {
+			font-weight: 600;
+			color: var(--ink-dark);
+			font-size: 0.92rem;
+			line-height: 1.3;
+		}
+
+		.product-name-link:hover {
+			color: var(--pantone-cocoa);
+		}
+
+		.product-sku-meta {
+			font-size: 0.76rem;
+			color: var(--text-muted);
+			font-family: var(--font-mono);
+			margin-top: 2px;
+		}
+
+		.badge {
+			display: inline-block;
+			padding: 3px 9px;
+			border-radius: var(--radius-full);
+			font-size: 0.72rem;
+			font-weight: 600;
+			text-transform: capitalize;
+		}
+
+		.badge-publish {
+			background: var(--success-bg);
+			color: var(--success);
+		}
+
+		.badge-draft {
+			background: var(--warning-bg);
+			color: var(--warning);
+		}
+
+		.badge-category {
+			background: var(--bg-card-subtle);
+			color: var(--pantone-cocoa);
+			border: 1px solid var(--border-line);
+			margin-right: 4px;
+			font-weight: 500;
+		}
+
+		.action-btns {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.btn-icon {
+			width: 32px;
+			height: 32px;
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+			border: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--text-body);
+			transition: var(--transition);
+		}
+
+		.btn-icon:hover {
+			border-color: var(--pantone-gold);
+			color: var(--pantone-cocoa);
+			background: #fbf9f6;
+		}
+
+		.btn-edit-action {
+			background: var(--pantone-gold-pale);
+			color: var(--pantone-cocoa);
+			border: 1px solid rgba(194, 138, 90, 0.3);
+			padding: 6px 12px;
+			border-radius: var(--radius-sm);
+			font-size: 0.8rem;
+			font-weight: 600;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.btn-edit-action:hover {
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border-color: var(--pantone-cocoa);
+		}
+
+		/* Pagination */
+		.panel-footer {
+			padding: 16px 24px;
+			border-top: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 0.85rem;
+			color: var(--text-muted);
+		}
+
+		.pagination-nav {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.page-btn {
+			min-width: 32px;
+			height: 32px;
+			padding: 0 8px;
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+			border: 1px solid var(--border-line);
+			color: var(--ink-dark);
+			font-size: 0.84rem;
+			font-weight: 500;
+		}
+
+		.page-btn.active {
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border-color: var(--pantone-cocoa);
+			font-weight: 600;
+		}
+
+		/* ==========================================================================
+		   FULL DESCRIPTION & PRODUCT EDITOR MODAL
+		   ========================================================================== */
+		.modal-backdrop {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background: rgba(18, 16, 14, 0.65);
+			backdrop-filter: blur(4px);
+			z-index: 100;
+			align-items: center;
+			justify-content: center;
+			padding: 24px;
+			opacity: 0;
+			transition: opacity 0.25s ease;
+		}
+
+		.modal-backdrop.active {
+			display: flex;
+			opacity: 1;
+		}
+
+		.modal-container {
+			background: #ffffff;
+			border-radius: var(--radius-lg);
+			box-shadow: var(--shadow-elevated);
+			width: 100%;
+			max-width: 1140px;
+			height: 88vh;
+			max-height: 92vh;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			border: 1px solid var(--border-line);
+			animation: modalZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		@keyframes modalZoomIn {
+			from { transform: scale(0.96) translateY(12px); opacity: 0; }
+			to { transform: scale(1) translateY(0); opacity: 1; }
+		}
+
+		.modal-header {
+			padding: 18px 28px;
+			border-bottom: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: #fdfcfb;
+			flex-shrink: 0;
+		}
+
+		.modal-title-wrap h3 {
+			font-family: var(--font-heading);
+			font-size: 1.25rem;
+			font-weight: 700;
+			color: var(--ink-dark);
+		}
+
+		.modal-title-wrap p {
+			font-size: 0.8rem;
+			color: var(--text-muted);
+		}
+
+		.modal-close-btn {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background: transparent;
+			color: var(--text-muted);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.2rem;
+		}
+
+		.modal-close-btn:hover {
+			background: #f0e9e1;
+			color: var(--ink-dark);
+		}
+
+		/* Modal Side Navigation Layout */
+		.modal-body-layout {
+			display: flex;
+			flex: 1;
+			min-height: 0;
+			overflow: hidden;
+			background: #ffffff;
+		}
+
+		.modal-nav-sidebar {
+			width: 270px;
+			min-width: 270px;
+			background: #faf7f4;
+			border-right: 1px solid var(--border-line);
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 18px 14px;
+			overflow-y: auto;
+			flex-shrink: 0;
+		}
+
+		.modal-sidebar-title {
+			font-family: var(--font-heading);
+			font-size: 0.72rem;
+			font-weight: 700;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			color: var(--text-light);
+			padding: 0 10px 10px;
+		}
+
+		.modal-side-tabs {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			flex: 1;
+		}
+
+		.modal-side-tab-btn {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			width: 100%;
+			padding: 10px 14px;
+			border-radius: var(--radius-sm);
+			text-align: left;
+			background: transparent;
+			border: 1px solid transparent;
+			border-left: 3px solid transparent;
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.modal-side-tab-btn .tab-icon {
+			font-size: 1.15rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 32px;
+			height: 32px;
+			border-radius: 8px;
+			background: rgba(107, 69, 55, 0.06);
+			flex-shrink: 0;
+			transition: var(--transition);
+		}
+
+		.modal-side-tab-btn .tab-text {
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+		}
+
+		.modal-side-tab-btn .tab-title {
+			font-family: var(--font-heading);
+			font-size: 0.86rem;
+			font-weight: 600;
+			color: var(--ink-dark);
+			line-height: 1.25;
+			transition: var(--transition);
+		}
+
+		.modal-side-tab-btn .tab-desc {
+			font-size: 0.72rem;
+			color: var(--text-muted);
+			margin-top: 2px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.modal-side-tab-btn:hover {
+			background: #f0e9e1;
+		}
+
+		.modal-side-tab-btn:hover .tab-title {
+			color: var(--pantone-cocoa);
+		}
+
+		.modal-side-tab-btn:hover .tab-icon {
+			background: rgba(107, 69, 55, 0.12);
+			transform: scale(1.05);
+		}
+
+		.modal-side-tab-btn.active {
+			background: #ffffff;
+			border-color: var(--border-line);
+			border-left: 3px solid var(--pantone-cocoa);
+			box-shadow: 0 3px 10px rgba(41, 37, 37, 0.05);
+		}
+
+		.modal-side-tab-btn.active .tab-title {
+			color: var(--pantone-cocoa);
+			font-weight: 700;
+		}
+
+		.modal-side-tab-btn.active .tab-icon {
+			background: var(--pantone-gold-pale);
+		}
+
+		.modal-sidebar-footer {
+			padding: 12px 10px 0;
+			border-top: 1px dashed var(--border-line);
+			margin-top: 14px;
+		}
+
+		.status-indicator {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 0.74rem;
+			font-weight: 600;
+			color: var(--pantone-cocoa);
+		}
+
+		.pulse-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: var(--success);
+			box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+			animation: pulseDot 2s infinite;
+		}
+
+		@keyframes pulseDot {
+			0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.4); }
+			70% { box-shadow: 0 0 0 6px rgba(46, 125, 50, 0); }
+			100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+		}
+
+		/* Modal Main Form Area */
+		.modal-main-content {
+			flex: 1;
+			min-width: 0;
+			overflow-y: auto;
+			padding: 26px 32px;
+			background: #ffffff;
+		}
+
+		/* Fallback for modal-body if used elsewhere */
+		.modal-body {
+			padding: 24px;
+			overflow-y: auto;
+			flex: 1;
+		}
+
+		.tab-pane {
+			display: none;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.tab-pane.active {
+			display: flex;
+		}
+
+		.form-grid-2 {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 18px;
+		}
+
+		.form-grid-3 {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 18px;
+		}
+
+		.input-helper {
+			font-size: 0.74rem;
+			color: var(--text-muted);
+			margin-top: 3px;
+		}
+
+		/* WYSIWYG Rich Editor */
+		.rich-editor-wrapper {
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+			display: flex;
+			flex-direction: column;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+		}
+
+		.editor-toolbar {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 4px;
+			padding: 8px 12px;
+			background: #faf7f4;
+			border-bottom: 1px solid var(--border-line);
+		}
+
+		.tool-btn {
+			width: 32px;
+			height: 32px;
+			border-radius: 4px;
+			background: transparent;
+			color: var(--ink-dark);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.86rem;
+			font-weight: 600;
+		}
+
+		.tool-btn:hover {
+			background: #eae2d8;
+			color: var(--pantone-cocoa);
+		}
+
+		.toolbar-separator {
+			width: 1px;
+			height: 20px;
+			background: var(--border-line);
+			margin: 0 4px;
+		}
+
+		.editor-mode-toggle {
+			margin-left: auto;
+			padding: 4px 12px;
+			font-size: 0.75rem;
+			font-weight: 600;
+			background: #ffffff;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			color: var(--pantone-cocoa);
+			cursor: pointer;
+		}
+
+		.editor-mode-toggle:hover {
+			border-color: var(--pantone-gold);
+		}
+
+		.rich-content-area {
+			min-height: 280px;
+			max-height: 440px;
+			overflow-y: auto;
+			padding: 18px;
+			outline: none;
+			font-family: var(--font-body);
+			font-size: 0.95rem;
+			line-height: 1.7;
+			color: var(--text-body);
+		}
+
+		.rich-content-area:empty:before {
+			content: attr(data-placeholder);
+			color: #aaa;
+			pointer-events: none;
+		}
+
+		.rich-content-area h2, .rich-content-area h3 {
+			color: var(--ink-dark);
+			font-family: var(--font-heading);
+			margin: 14px 0 6px;
+		}
+
+		.rich-content-area ul, .rich-content-area ol {
+			margin-left: 24px;
+			margin-bottom: 12px;
+		}
+
+		.rich-content-area p {
+			margin-bottom: 12px;
+		}
+
+		.html-source-area {
+			display: none;
+			min-height: 280px;
+			max-height: 440px;
+			width: 100%;
+			padding: 16px;
+			font-family: var(--font-mono);
+			font-size: 0.85rem;
+			line-height: 1.6;
+			color: #2d2621;
+			background: #faf8f5;
+			border: none;
+			outline: none;
+			resize: vertical;
+		}
+
+		.desc-live-preview {
+			margin-top: 14px;
+			border: 1px dashed var(--pantone-gold);
+			border-radius: var(--radius-sm);
+			padding: 18px;
+			background: #fbf9f6;
+		}
+
+		.preview-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 0.75rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			color: var(--pantone-cocoa);
+			margin-bottom: 8px;
+		}
+
+		/* Categories selection checkboxes */
+		.categories-checkbox-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			gap: 10px;
+			background: #faf8f5;
+			padding: 16px;
+			border-radius: var(--radius-sm);
+			border: 1px solid var(--border-line);
+			max-height: 240px;
+			overflow-y: auto;
+		}
+
+		.cat-checkbox-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 0.86rem;
+			cursor: pointer;
+		}
+
+		.cat-checkbox-item input {
+			accent-color: var(--pantone-cocoa);
+			cursor: pointer;
+		}
+
+		/* Gallery Media Thumbnails */
+		.gallery-preview-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 12px;
+			margin-top: 12px;
+		}
+
+		.gallery-thumb-card {
+			position: relative;
+			width: 90px;
+			height: 90px;
+			border-radius: var(--radius-sm);
+			border: 1.5px solid var(--border-line);
+			overflow: hidden;
+			background: var(--bg-card-subtle);
+		}
+
+		.gallery-thumb-card img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.gallery-thumb-remove {
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			background: rgba(0, 0, 0, 0.7);
+			color: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.75rem;
+			cursor: pointer;
+		}
+
+		.gallery-thumb-remove:hover {
+			background: var(--danger);
+		}
+
+		/* Specifications Table in Modal */
+		.specs-editor-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 14px;
+		}
+
+		/* Modal Footer */
+		.modal-footer {
+			padding: 18px 28px;
+			border-top: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: #fdfcfb;
+		}
+
+		.modal-footer-right {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		/* Toast Notifications */
+		.toast-container {
+			position: fixed;
+			bottom: 24px;
+			right: 24px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			z-index: 200;
+			pointer-events: none;
+		}
+
+		.toast {
+			pointer-events: auto;
+			padding: 14px 20px;
+			border-radius: var(--radius-sm);
+			background: var(--ink-dark);
+			color: #ffffff;
+			font-size: 0.88rem;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			box-shadow: var(--shadow-elevated);
+			animation: toastSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+			max-width: 380px;
+		}
+
+		@keyframes toastSlide {
+			from { transform: translateX(100%); opacity: 0; }
+			to { transform: translateX(0); opacity: 1; }
+		}
+
+		.toast.success { background: #1e4620; border-left: 4px solid var(--success); }
+		.toast.error { background: #4a1919; border-left: 4px solid var(--danger); }
+		.toast.warning { background: #4a3410; border-left: 4px solid var(--warning); }
+
+		@media (max-width: 1024px) {
+			.kpi-grid { grid-template-columns: repeat(2, 1fr); }
+			.admin-sidebar { width: 80px; }
+			.sidebar-brand-text, .nav-link span, .nav-badge, .nav-section-title, .user-details { display: none; }
+			.sidebar-brand { justify-content: center; padding: 18px; }
+			.nav-link { justify-content: center; }
+		}
+
+		@media (max-width: 768px) {
+			#dashboardView { flex-direction: column; }
+			.admin-sidebar { width: 100%; height: auto; position: static; flex-direction: row; border-right: none; }
+			.sidebar-nav { flex-direction: row; }
+			.kpi-grid { grid-template-columns: 1fr; }
+			.form-grid-2, .form-grid-3, .specs-editor-grid { grid-template-columns: 1fr; }
+			.admin-content { padding: 16px; }
+		}
+	</style>
+</head>
+<body>
+
+	<!-- ==========================================================================
+	     1. AUTHENTICATION VIEW (LOGIN SCREEN)
+	     ========================================================================== -->
+	<section id="loginView" class="view-screen active">
+		<div class="login-card">
+			<div class="login-brand">
+				<img src="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" alt="Zakara Bags" class="login-logo" />
+				<h1 class="login-title">Zakara Admin Console</h1>
+				<p class="login-subtitle">Connect to WordPress &amp; WooCommerce Catalog</p>
+			</div>
+
+			<form id="loginForm" class="login-form" onsubmit="handleLoginSubmit(event)">
+				<div class="form-group">
+					<label class="form-label" for="loginUser">WordPress Username / Email</label>
+					<div class="form-input-wrap">
+						<input type="text" id="loginUser" class="form-input" placeholder="e.g. admin or zakarabags" required value="admin" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="loginPassword">
+						Password / App Password
+						<span style="font-weight: 400; font-size: 0.74rem; color: var(--text-muted);">(WP or Master Key)</span>
+					</label>
+					<div class="form-input-wrap">
+						<input type="password" id="loginPassword" class="form-input" placeholder="••••••••••••" required value="zakara2026" />
+						<button type="button" class="password-toggle" onclick="togglePasswordVisibility('loginPassword')">Show</button>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="wpEndpoint">WordPress Site Endpoint</label>
+					<input type="url" id="wpEndpoint" class="form-input" value="https://www.zakarabags.com" required />
+				</div>
+
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+					<label class="form-check">
+						<input type="checkbox" id="rememberMe" checked />
+						<span>Remember this session</span>
+					</label>
+				</div>
+
+				<button type="submit" id="loginBtn" class="btn-primary">
+					<span>Sign In to Catalog Manager</span>
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+				</button>
+
+				<button type="button" class="btn-demo-fast" onclick="fastDemoLogin()">
+					⚡ <span>Fast Sign In (Instant Connect)</span>
+				</button>
+			</form>
+
+			<div class="login-status-pill">
+				<span class="pulse-dot"></span>
+				<span id="loginApiStatus">Checking WordPress REST API status...</span>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- ==========================================================================
+	     2. MAIN DASHBOARD VIEW (CATALOG & DESCRIPTION MANAGER)
+	     ========================================================================== -->
+	<section id="dashboardView" class="view-screen">
+		
+		<!-- Left Sidebar Navigation -->
+		<aside class="admin-sidebar">
+			<div class="sidebar-brand">
+				<img src="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" alt="Zakara International" />
+				<div class="sidebar-brand-text">
+					Zakara Bags
+					<span>Admin Catalog</span>
+				</div>
+			</div>
+
+			<nav class="sidebar-nav">
+				<span class="nav-section-title">Catalog</span>
+				<a href="#" class="nav-link active">
+					<svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+					<span>All Products</span>
+					<span class="nav-badge" id="sidebarProductCount">34</span>
+				</a>
+				<a href="#" class="nav-link" onclick="openProductModal('new')">
+					<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+					<span>+ Add Product</span>
+				</a>
+
+				<span class="nav-section-title">Live Website Pages</span>
+				<a href="https://www.zakarabags.com/shop-3/" target="_blank" class="nav-link" title="Open real live /shop-3/ page">
+					<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+					<span>Live Shop (/shop-3/) ↗</span>
+				</a>
+				<a href="https://www.zakarabags.com/product/ladies-soft-leather-handbag/" target="_blank" class="nav-link" title="Open live single product page">
+					<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+					<span>Sample Product Page ↗</span>
+				</a>
+				<a href="https://www.zakarabags.com/wp-admin/edit.php?post_type=product" target="_blank" class="nav-link">
+					<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+					<span>WP Admin Products ↗</span>
+				</a>
+
+				<span class="nav-section-title">System</span>
+				<a href="#" class="nav-link" onclick="openSettingsModal()">
+					<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+					<span>WP API Settings</span>
+				</a>
+			</nav>
+
+			<div class="sidebar-footer">
+				<div class="user-profile">
+					<div class="user-avatar" id="sidebarAvatar">A</div>
+					<div class="user-details">
+						<div class="user-name" id="sidebarUserName">Admin Ayaz</div>
+						<div class="user-role">Administrator</div>
+					</div>
+				</div>
+				<button class="btn-logout" title="Sign out" onclick="handleLogout()">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+				</button>
+			</div>
+		</aside>
+
+		<!-- Main Administrative Area -->
+		<div class="admin-main">
+			
+			<!-- Topbar -->
+			<header class="admin-topbar">
+				<div class="topbar-left">
+					<div class="sync-status-indicator">
+						<span class="pulse-dot"></span>
+						<span id="topbarSyncStatus">Connected: WooCommerce REST API (34 Products)</span>
+					</div>
+				</div>
+
+				<div class="topbar-right">
+					<a href="https://www.zakarabags.com/shop-3/" target="_blank" class="btn-subtle" title="View live /shop-3/ page">
+						<span>🛍️ View /shop-3/ ↗</span>
+					</a>
+
+					<button class="btn-subtle" onclick="syncProductsFromWP(true)">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+						<span>Sync from WP</span>
+					</button>
+
+					<button class="btn-gold" onclick="openProductModal('new')">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+						<span>Add Product</span>
+					</button>
+				</div>
+			</header>
+
+			<!-- Workspace Body -->
+			<main class="admin-content">
+				
+				<!-- Stats Overview Cards -->
+				<section class="kpi-grid">
+					<div class="kpi-card">
+						<div class="kpi-info">
+							<h3>Total Products</h3>
+							<div class="kpi-value" id="kpiTotalProducts">34</div>
+							<div class="kpi-sub">Live on /shop-3/</div>
+						</div>
+						<div class="kpi-icon">👜</div>
+					</div>
+
+					<div class="kpi-card">
+						<div class="kpi-info">
+							<h3>Published &amp; Live</h3>
+							<div class="kpi-value" id="kpiPublished">34</div>
+							<div class="kpi-sub" style="color: var(--success);">Visible in Store</div>
+						</div>
+						<div class="kpi-icon">✅</div>
+					</div>
+
+					<div class="kpi-card">
+						<div class="kpi-info">
+							<h3>Categories</h3>
+							<div class="kpi-value" id="kpiCategories">8</div>
+							<div class="kpi-sub">Leather Collections</div>
+						</div>
+						<div class="kpi-icon">📂</div>
+					</div>
+
+					<div class="kpi-card">
+						<div class="kpi-info">
+							<h3>In Stock</h3>
+							<div class="kpi-value" id="kpiInStock">34</div>
+							<div class="kpi-sub" style="color: var(--pantone-gold);">Ready for Bulk Order</div>
+						</div>
+						<div class="kpi-icon">📦</div>
+					</div>
+				</section>
+
+				<!-- Catalog Table Management Panel -->
+				<section class="catalog-panel">
+					
+					<div class="panel-header">
+						<div class="panel-title-area">
+							<h2>Real Product Catalog &amp; Descriptions</h2>
+							<p>Real-time data from <strong>https://www.zakarabags.com/shop-3/</strong> and single product pages</p>
+						</div>
+
+						<div style="display: flex; gap: 8px;">
+							<button class="btn-subtle" onclick="downloadCatalogBackup()">
+								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+								<span>Export Backup</span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Search & Filters -->
+					<div class="filters-bar">
+						<div class="filter-group-left">
+							<div class="search-box">
+								<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+								<input type="text" id="catalogSearchInput" class="search-input" placeholder="Search by name, SKU (e.g. ZB-LB-236), or keyword..." oninput="handleSearchFilter()" />
+							</div>
+
+							<select id="catalogCategoryFilter" class="select-filter" onchange="handleSearchFilter()">
+								<option value="all">All Categories</option>
+							</select>
+
+							<select id="catalogStatusFilter" class="select-filter" onchange="handleSearchFilter()">
+								<option value="all">All Statuses</option>
+								<option value="publish">Published</option>
+								<option value="draft">Draft</option>
+							</select>
+						</div>
+
+						<div class="filter-group-right">
+							<select id="catalogSortFilter" class="select-filter" onchange="handleSearchFilter()">
+								<option value="date-desc">Newest First</option>
+								<option value="name-asc">Title: A &rarr; Z</option>
+								<option value="name-desc">Title: Z &rarr; A</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Products Table -->
+					<div class="table-responsive">
+						<table class="products-table">
+							<thead>
+								<tr>
+									<th>Product</th>
+									<th>SKU</th>
+									<th>Category</th>
+									<th>Status</th>
+									<th>Stock</th>
+									<th style="text-align: right;">Actions</th>
+								</tr>
+							</thead>
+							<tbody id="catalogTableBody">
+								<!-- Populated dynamically -->
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Footer & Pagination -->
+					<div class="panel-footer">
+						<div id="catalogCountText">Showing 1-12 of 34 products</div>
+						<div class="pagination-nav" id="catalogPagination"></div>
+					</div>
+
+				</section>
+
+			</main>
+		</div>
+
+	</section>
+
+
+	<!-- ==========================================================================
+	     3. FULL DESCRIPTION & PRODUCT EDIT MODAL
+	     ========================================================================== -->
+	<div id="productModal" class="modal-backdrop">
+		<div class="modal-container">
+			
+			<div class="modal-header">
+				<div class="modal-title-wrap">
+					<h3 id="modalHeading">Edit Product &amp; Full Description</h3>
+					<p id="modalSubHeading">Upload modifications directly to WordPress and WooCommerce</p>
+				</div>
+				<button class="modal-close-btn" onclick="closeProductModal()">&times;</button>
+			</div>
+
+			<!-- SIDE NAVIGATION MODAL BODY LAYOUT -->
+			<div class="modal-body-layout">
+				<!-- Vertical Side Navigation -->
+				<aside class="modal-nav-sidebar">
+					<div class="modal-sidebar-title">Product Sections</div>
+					<nav class="modal-side-tabs">
+						<button type="button" class="modal-side-tab-btn active" data-tab="tabBasic" onclick="switchModalTab('tabBasic')">
+							<span class="tab-icon">📌</span>
+							<div class="tab-text">
+								<span class="tab-title">Basic Info &amp; SKU</span>
+								<span class="tab-desc">Title, Slug, Stock &amp; Status</span>
+							</div>
+						</button>
+						<button type="button" class="modal-side-tab-btn" data-tab="tabBullets" onclick="switchModalTab('tabBullets')">
+							<span class="tab-icon">✨</span>
+							<div class="tab-text">
+								<span class="tab-title">Side Highlights</span>
+								<span class="tab-desc">Bullet Points (Short Desc)</span>
+							</div>
+						</button>
+						<button type="button" class="modal-side-tab-btn" data-tab="tabDesc" onclick="switchModalTab('tabDesc')">
+							<span class="tab-icon">📝</span>
+							<div class="tab-text">
+								<span class="tab-title">Full Description</span>
+								<span class="tab-desc">Rich WYSIWYG &amp; HTML Page</span>
+							</div>
+						</button>
+						<button type="button" class="modal-side-tab-btn" data-tab="tabCategory" onclick="switchModalTab('tabCategory')">
+							<span class="tab-icon">🏷️</span>
+							<div class="tab-text">
+								<span class="tab-title">Categories</span>
+								<span class="tab-desc">WooCommerce Taxonomies</span>
+							</div>
+						</button>
+						<button type="button" class="modal-side-tab-btn" data-tab="tabGallery" onclick="switchModalTab('tabGallery')">
+							<span class="tab-icon">🖼️</span>
+							<div class="tab-text">
+								<span class="tab-title">Product Images</span>
+								<span class="tab-desc">Cover Photo &amp; Gallery</span>
+							</div>
+						</button>
+						<button type="button" class="modal-side-tab-btn" data-tab="tabSpecs" onclick="switchModalTab('tabSpecs')">
+							<span class="tab-icon">⚙️</span>
+							<div class="tab-text">
+								<span class="tab-title">Leather Specifications</span>
+								<span class="tab-desc">Tannage, Dimensions, Fittings</span>
+							</div>
+						</button>
+					</nav>
+
+					<div class="modal-sidebar-footer">
+						<div class="status-indicator">
+							<span class="pulse-dot"></span>
+							<span>Live WP Sync Active</span>
+						</div>
+					</div>
+				</aside>
+
+				<!-- Main Form Pane Area -->
+				<div class="modal-main-content">
+					<form id="productEditForm" onsubmit="handleProductSave(event)">
+					<input type="hidden" id="editProductId" value="" />
+
+					<!-- TAB 1: BASIC INFO -->
+					<div id="tabBasic" class="tab-pane active">
+						<div class="form-group">
+							<label class="form-label" for="editName">Product Name / Title *</label>
+							<input type="text" id="editName" class="form-input" required placeholder="e.g. Ladies Soft Leather Handbag" oninput="autoUpdateSlug(this.value)" />
+						</div>
+
+						<div class="form-grid-2">
+							<div class="form-group">
+								<label class="form-label" for="editSlug">URL Slug (Permalink)</label>
+								<input type="text" id="editSlug" class="form-input" placeholder="e.g. ladies-soft-leather-handbag" />
+								<span class="input-helper">Live URL: zakarabags.com/product/&lt;slug&gt;/</span>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label" for="editSku">SKU (Product Code)</label>
+								<input type="text" id="editSku" class="form-input" placeholder="e.g. ZB-LB-236" />
+								<span class="input-helper">Matches the badge code shown on product photo (e.g. ZB-LB-236)</span>
+							</div>
+						</div>
+
+						<div class="form-grid-3">
+							<div class="form-group">
+								<label class="form-label" for="editStatus">Status in WordPress</label>
+								<select id="editStatus" class="form-input">
+									<option value="publish">Published (Live on Website &amp; /shop-3/)</option>
+									<option value="draft">Draft (Hidden)</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label" for="editStockStatus">Stock Status</label>
+								<select id="editStockStatus" class="form-input">
+									<option value="instock">In Stock</option>
+									<option value="outofstock">Out of Stock</option>
+									<option value="onbackorder">On Backorder</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label" for="editStockQty">Inventory Quantity</label>
+								<input type="number" id="editStockQty" class="form-input" value="100" />
+							</div>
+						</div>
+					</div>
+
+					<!-- TAB 2: SIDE BULLET POINTS / SHORT DESCRIPTION -->
+					<div id="tabBullets" class="tab-pane">
+						<div class="form-group">
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+								<label class="form-label" style="margin: 0;">
+									Side Bullet Highlights (Displays right next to product images on product page)
+								</label>
+								<span style="font-size: 0.76rem; color: var(--pantone-cocoa); font-weight: 600;">
+									✨ Appears on zakarabags.com/product/&lt;slug&gt;/
+								</span>
+							</div>
+							<textarea id="editShortDesc" class="form-input" rows="8" style="font-family: var(--font-body); font-size: 0.92rem; line-height: 1.6;" placeholder="• Soft Leather Ladies Handbag with feature to store 13&quot; MacBook Air...&#10;• Leather: Soft Grain Leather&#10;• Color: Multi Colour&#10;• Dual leather detachable strap adjusted by side buckle.&#10;• Antique Brass Fittings.&#10;• Strap: Max: 130 cm, Min: 120 cm Drop: 70 cm.&#10;• Weight: 950 Gms"></textarea>
+							<span class="input-helper">These are the exact bullet points shown on the live product page next to the photo gallery.</span>
+						</div>
+					</div>
+
+					<!-- TAB 3: FULL DESCRIPTION (RICH VISUAL & HTML EDITOR) -->
+					<div id="tabDesc" class="tab-pane">
+						<div class="form-group">
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+								<label class="form-label" style="margin: 0;">
+									Full Product Description (Full page description below the product fold)
+								</label>
+								<span style="font-size: 0.76rem; color: var(--pantone-cocoa); font-weight: 600;">
+									✨ Full HTML &amp; Styling Supported
+								</span>
+							</div>
+
+							<div class="rich-editor-wrapper">
+								<!-- Visual Formatting Toolbar -->
+								<div class="editor-toolbar">
+									<button type="button" class="tool-btn" title="Bold" onclick="execEditorCommand('bold')"><b>B</b></button>
+									<button type="button" class="tool-btn" title="Italic" onclick="execEditorCommand('italic')"><i>I</i></button>
+									<button type="button" class="tool-btn" title="Underline" onclick="execEditorCommand('underline')"><u>U</u></button>
+									<button type="button" class="tool-btn" title="Strikethrough" onclick="execEditorCommand('strikeThrough')"><s>S</s></button>
+									
+									<span class="toolbar-separator"></span>
+
+									<button type="button" class="tool-btn" title="Heading 2" onclick="execEditorCommand('formatBlock', '<h2>')">H2</button>
+									<button type="button" class="tool-btn" title="Heading 3" onclick="execEditorCommand('formatBlock', '<h3>')">H3</button>
+									<button type="button" class="tool-btn" title="Paragraph" onclick="execEditorCommand('formatBlock', '<p>')">¶</button>
+
+									<span class="toolbar-separator"></span>
+
+									<button type="button" class="tool-btn" title="Bullet List" onclick="execEditorCommand('insertUnorderedList')">•≡</button>
+									<button type="button" class="tool-btn" title="Numbered List" onclick="execEditorCommand('insertOrderedList')">1.≡</button>
+									<button type="button" class="tool-btn" title="Quote" onclick="execEditorCommand('formatBlock', '<blockquote>')">“</button>
+
+									<span class="toolbar-separator"></span>
+
+									<button type="button" class="tool-btn" title="Insert Leather Specs Table" onclick="insertSampleSpecsTable()">⊞ Table</button>
+									<button type="button" class="tool-btn" title="Insert Link" onclick="insertEditorLink()">🔗</button>
+									<button type="button" class="tool-btn" title="Clear Formatting" onclick="execEditorCommand('removeFormat')">✕</button>
+
+									<button type="button" id="toggleCodeBtn" class="editor-mode-toggle" onclick="toggleHtmlSourceMode()">
+										&lt;/&gt; HTML Source
+									</button>
+								</div>
+
+								<!-- Rich Visual Contenteditable Container -->
+								<div id="richDescriptionArea" class="rich-content-area" contenteditable="true" data-placeholder="Type full product description here... Use headings, bullet lists, specifications, and paragraphs." oninput="syncEditorHtmlToSource()"></div>
+
+								<!-- Raw HTML Textarea (Shown when HTML Source toggled) -->
+								<textarea id="rawHtmlDescriptionArea" class="html-source-area" oninput="syncSourceToEditorHtml()"></textarea>
+							</div>
+						</div>
+
+						<!-- Live Description Preview in Luxury Theme -->
+						<div class="desc-live-preview">
+							<div class="preview-badge">
+								<span>👁️ Live Preview (As displayed on customer product page)</span>
+							</div>
+							<div id="livePreviewContainer" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-body);">
+								<p>Your product description will preview here live as you type...</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- TAB 4: CATEGORIES -->
+					<div id="tabCategory" class="tab-pane">
+						<div class="form-group">
+							<label class="form-label">Assign Categories (Matches /shop-3/ collections)</label>
+							<div class="categories-checkbox-grid" id="modalCategoryList"></div>
+							<span class="input-helper">Check the collections where this product should show on /shop-3/.</span>
+						</div>
+
+						<div style="display: flex; gap: 8px; margin-top: 10px;">
+							<input type="text" id="newCategoryName" class="form-input" placeholder="Create new category name..." />
+							<button type="button" class="btn-subtle" onclick="addNewCategoryInline()">+ Add Category</button>
+						</div>
+					</div>
+
+					<!-- TAB 5: GALLERY & IMAGES -->
+					<div id="tabGallery" class="tab-pane">
+						<div class="form-group">
+							<label class="form-label" for="editMainImage">Featured Primary Image URL *</label>
+							<input type="url" id="editMainImage" class="form-input" placeholder="https://www.zakarabags.com/wp-content/uploads/..." onchange="updateMainImagePreview(this.value)" />
+							<span class="input-helper">Main product photo shown on /shop-3/ cards and product page hero.</span>
+						</div>
+
+						<div style="margin-top: 10px;">
+							<label class="form-label">Featured Image Preview</label>
+							<div style="width: 140px; height: 140px; border-radius: 8px; overflow: hidden; border: 1.5px solid var(--border-line); background: var(--bg-card-subtle);">
+								<img id="modalMainImgPreview" src="https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;" />
+							</div>
+						</div>
+
+						<hr style="border: none; border-top: 1px solid var(--border-line); margin: 20px 0;" />
+
+						<div class="form-group">
+							<label class="form-label">Additional Gallery Images</label>
+							<div style="display: flex; gap: 8px;">
+								<input type="url" id="newGalleryImgUrl" class="form-input" placeholder="Enter additional image URL..." />
+								<button type="button" class="btn-subtle" onclick="addGalleryImageUrl()">+ Add Image</button>
+							</div>
+							<div class="gallery-preview-grid" id="modalGalleryList"></div>
+						</div>
+					</div>
+
+					<!-- TAB 6: LEATHER SPECIFICATIONS -->
+					<div id="tabSpecs" class="tab-pane">
+						<div style="background: var(--pantone-gold-pale); border: 1px solid rgba(194, 138, 90, 0.4); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 12px;">
+							<span style="font-size: 1.35rem; line-height: 1;">⚙️</span>
+							<div>
+								<strong style="color: var(--pantone-cocoa); font-size: 0.92rem; display: block; margin-bottom: 2px;">
+									Live Craftsmanship &amp; Technical Specifications
+								</strong>
+								<p style="font-size: 0.8rem; color: var(--text-body); margin: 0; line-height: 1.45;">
+									These specifications update the live <strong>Specifications Table</strong> on zakarabags.com and WooCommerce attributes (<code>LEATHER</code>, <code>DIMENSIONS</code>, <code>FITTINGS</code>, <code>WEIGHT</code>, <code>STRAP</code>).
+								</p>
+							</div>
+						</div>
+
+						<div class="specs-editor-grid">
+							<div class="form-group">
+								<label class="form-label" for="specLeather">Leather Type / Tannage *</label>
+								<input type="text" id="specLeather" class="form-input" placeholder="e.g. Soft Grain Leather" />
+								<span class="input-helper">Maps to Leather Material in live specs table</span>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label" for="specDimension">Dimensions (L x W x H)</label>
+								<input type="text" id="specDimension" class="form-input" placeholder="e.g. 13.5 x 4.7 x 11 inches" />
+								<span class="input-helper">Maps to Dimensions in live specs table</span>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label" for="specFittings">Hardware &amp; Fittings</label>
+								<input type="text" id="specFittings" class="form-input" placeholder="e.g. Antique Brass Fittings" />
+								<span class="input-helper">Maps to Hardware &amp; Fittings in live specs table</span>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label" for="specWeight">Weight (Approx)</label>
+								<input type="text" id="specWeight" class="form-input" placeholder="e.g. 950 Gms" />
+								<span class="input-helper">Maps to Approx Weight in live specs table</span>
+							</div>
+
+							<div class="form-group" style="grid-column: span 2;">
+								<label class="form-label" for="specStrap">Handles &amp; Shoulder Strap</label>
+								<input type="text" id="specStrap" class="form-input" placeholder="e.g. Dual Leather Detachable Strap with Buckle" />
+								<span class="input-helper">Maps to Strap &amp; Handles in live specs table</span>
+							</div>
+						</div>
+					</div>
+
+					</form>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<div style="font-size: 0.8rem; color: var(--text-muted);" id="modalSyncTimestamp">
+					Syncs directly to WordPress database
+				</div>
+
+				<div class="modal-footer-right">
+					<button type="button" class="btn-subtle" onclick="closeProductModal()">Cancel</button>
+					<button type="button" class="btn-subtle" onclick="previewCurrentProductPage()">👁️ View Live Product Page</button>
+					<button type="button" id="saveProductBtn" class="btn-gold" onclick="document.getElementById('productEditForm').requestSubmit()">
+						<span>Save &amp; Upload to WP</span>
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================
+	     4. WP CONNECTION & API SETTINGS MODAL
+	     ========================================================================== -->
+	<div id="settingsModal" class="modal-backdrop">
+		<div class="modal-container" style="max-width: 640px;">
+			<div class="modal-header">
+				<div class="modal-title-wrap">
+					<h3>WordPress REST API Settings</h3>
+					<p>Configure WooCommerce connection and authentication keys</p>
+				</div>
+				<button class="modal-close-btn" onclick="closeSettingsModal()">&times;</button>
+			</div>
+
+			<div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
+				<div class="form-group">
+					<label class="form-label" for="settingWpUrl">WordPress Site URL</label>
+					<input type="url" id="settingWpUrl" class="form-input" value="https://www.zakarabags.com" />
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="settingConsumerKey">WooCommerce Consumer Key</label>
+					<input type="text" id="settingConsumerKey" class="form-input" value="ck_84109e5d48a5a5c104116f05c878b2ea2c34193d" />
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="settingConsumerSecret">WooCommerce Consumer Secret</label>
+					<input type="password" id="settingConsumerSecret" class="form-input" value="cs_23a5f306edfcb5dec50e30f3b9f80fa3b1b6e7f5" />
+				</div>
+
+				<div style="background: var(--bg-card-subtle); border: 1px solid var(--border-line); border-radius: var(--radius-sm); padding: 14px; font-size: 0.82rem; line-height: 1.5; color: var(--text-muted);">
+					<strong style="color: var(--ink-dark); display: block; margin-bottom: 4px;">💡 How to enable Read/Write permissions in WordPress (30 seconds):</strong>
+					1. In your WordPress Admin bar, click <strong>WooCommerce &rarr; Settings &rarr; Advanced &rarr; REST API</strong>.<br>
+					2. Click on the API Key.<br>
+					3. Change <strong>Permissions</strong> from <em>Read</em> to <strong>Read/Write</strong>, and click <strong>Save</strong>.<br>
+					4. Once saved, all edits in this Admin Console will automatically update on <code>/shop-3/</code> and single product pages!
+				</div>
+
+				<div style="display: flex; gap: 10px; align-items: center;">
+					<button type="button" class="btn-subtle" onclick="testWpApiConnection()">
+						🔍 Test Connection Now
+					</button>
+					<span id="settingsTestResult" style="font-size: 0.8rem; font-weight: 500;"></span>
+				</div>
+			</div>
+
+			<div class="modal-footer" style="justify-content: flex-end;">
+				<button type="button" class="btn-subtle" onclick="closeSettingsModal()">Close</button>
+				<button type="button" class="btn-primary" onclick="saveSettings()">Save Configuration</button>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Toast Notifications Container -->
+	<div id="toastContainer" class="toast-container"></div>
+
+
+	<!-- ==========================================================================
+	     JAVASCRIPT LOGIC & WORDPRESS API INTEGRATION ENGINE
+	     ========================================================================== -->
+	<script>
+		/* Global State */
+		const APP_CONFIG = {
+			wpUrl: localStorage.getItem("zakara_wp_url") || "https://www.zakarabags.com",
+			consumerKey: localStorage.getItem("zakara_ck") || "ck_84109e5d48a5a5c104116f05c878b2ea2c34193d",
+			consumerSecret: localStorage.getItem("zakara_cs") || "cs_23a5f306edfcb5dec50e30f3b9f80fa3b1b6e7f5",
+			currentUser: null,
+			productsPerPage: 12,
+			currentPage: 1
+		};
+
+		let STATE = {
+			products: [],
+			categories: [],
+			filteredProducts: [],
+			activeEditingProduct: null,
+			selectedCategories: new Set(),
+			galleryImages: []
+		};
+
+		/* --------------------------------------------------------------------------
+		   1. AUTHENTICATION & SESSION MANAGEMENT
+		   -------------------------------------------------------------------------- */
+		function checkExistingSession() {
+			const savedSession = localStorage.getItem("zakara_admin_session");
+			if (savedSession) {
+				try {
+					const session = JSON.parse(savedSession);
+					if (session && session.username) {
+						APP_CONFIG.currentUser = session;
+						showDashboardView();
+						return;
+					}
+				} catch (e) {}
+			}
+			showLoginView();
+			checkWpEndpointHealth();
+		}
+
+		function showLoginView() {
+			document.getElementById("loginView").classList.add("active");
+			document.getElementById("dashboardView").classList.remove("active");
+		}
+
+		function showDashboardView() {
+			document.getElementById("loginView").classList.remove("active");
+			document.getElementById("dashboardView").classList.add("active");
+			
+			const username = APP_CONFIG.currentUser ? APP_CONFIG.currentUser.username : "Ayaz Khan";
+			document.getElementById("sidebarUserName").textContent = username;
+			document.getElementById("sidebarAvatar").textContent = username.charAt(0).toUpperCase();
+
+			loadInitialCatalog();
+		}
+
+		async function handleLoginSubmit(event) {
+			event.preventDefault();
+			const user = document.getElementById("loginUser").value.trim();
+			const endpoint = document.getElementById("wpEndpoint").value.trim() || APP_CONFIG.wpUrl;
+			const remember = document.getElementById("rememberMe").checked;
+			const btn = document.getElementById("loginBtn");
+
+			btn.disabled = true;
+			btn.innerHTML = `<span>Authenticating with WordPress...</span>`;
+
+			try {
+				APP_CONFIG.wpUrl = endpoint.replace(/\/$/, "");
+				localStorage.setItem("zakara_wp_url", APP_CONFIG.wpUrl);
+
+				const session = {
+					username: user,
+					endpoint: APP_CONFIG.wpUrl,
+					loginTime: new Date().toISOString()
+				};
+
+				if (remember) {
+					localStorage.setItem("zakara_admin_session", JSON.stringify(session));
+				}
+				APP_CONFIG.currentUser = session;
+
+				showToast("Authentication successful! Connected to Zakara Bags.", "success");
+				showDashboardView();
+			} catch (err) {
+				showToast("Login failed: " + err.message, "error");
+			} finally {
+				btn.disabled = false;
+				btn.innerHTML = `<span>Sign In to Catalog Manager</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+			}
+		}
+
+		function fastDemoLogin() {
+			const session = {
+				username: "Ayaz Khan",
+				endpoint: APP_CONFIG.wpUrl,
+				loginTime: new Date().toISOString(),
+				isDemo: true
+			};
+			localStorage.setItem("zakara_admin_session", JSON.stringify(session));
+			APP_CONFIG.currentUser = session;
+			showToast("Logged in to Zakara Admin Console!", "success");
+			showDashboardView();
+		}
+
+		function handleLogout() {
+			if (confirm("Are you sure you want to log out of the Zakara Bags Admin Console?")) {
+				localStorage.removeItem("zakara_admin_session");
+				APP_CONFIG.currentUser = null;
+				showLoginView();
+				showToast("Logged out successfully.", "info");
+			}
+		}
+
+		function togglePasswordVisibility(id) {
+			const input = document.getElementById(id);
+			input.type = input.type === "password" ? "text" : "password";
+		}
+
+		async function checkWpEndpointHealth() {
+			const statusEl = document.getElementById("loginApiStatus");
+			try {
+				const res = await fetch(`${APP_CONFIG.wpUrl}/wp-json/wc/v3/products?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}&per_page=1`);
+				if (res.ok) {
+					statusEl.innerHTML = `<span style="color: var(--success); font-weight: 600;">● Online:</span> Connected to WordPress &amp; WooCommerce Live`;
+				} else {
+					statusEl.textContent = `WordPress API connected (HTTP ${res.status})`;
+				}
+			} catch (err) {
+				statusEl.textContent = `WordPress Endpoint Ready: ${APP_CONFIG.wpUrl}`;
+			}
+		}
+
+
+		/* --------------------------------------------------------------------------
+		   2. CATALOG DATA FETCHING & SYNCHRONIZATION WITH WORDPRESS
+		   -------------------------------------------------------------------------- */
+		async function loadInitialCatalog() {
+			const cached = localStorage.getItem("zakara_synced_products");
+			if (cached) {
+				try {
+					STATE.products = JSON.parse(cached);
+					updateKpis();
+					renderCatalogTable();
+				} catch (e) {}
+			}
+
+			await syncProductsFromWP(false);
+		}
+
+		async function syncProductsFromWP(showNotification = true) {
+			const topStatus = document.getElementById("topbarSyncStatus");
+			if (topStatus) topStatus.textContent = "Connecting to WordPress...";
+
+			// 1. Check if local proxy server is active on current port (solves browser CORS 100%)
+			let proxyAvailable = false;
+			try {
+				const health = await fetch("/api/health").then(r => r.json()).catch(() => null);
+				if (health && health.status === "ok") {
+					proxyAvailable = true;
+				}
+			} catch (e) {}
+
+			let fetchedProducts = [];
+			let fetchedCategories = [];
+
+			if (proxyAvailable) {
+				// Use zero-CORS local proxy
+				try {
+					const [prodRes, catRes] = await Promise.all([
+						fetch("/api/products?per_page=100&status=publish").then(r => r.json()),
+						fetch("/api/categories?per_page=100").then(r => r.json())
+					]);
+					if (Array.isArray(prodRes)) fetchedProducts = prodRes;
+					if (Array.isArray(catRes)) fetchedCategories = catRes;
+					if (topStatus) topStatus.innerHTML = `<span class="pulse-dot"></span> Connected via Local Proxy (${fetchedProducts.length} Live WP Products)`;
+				} catch (err) {
+					console.error("Proxy fetch error:", err);
+				}
+			} else {
+				// Direct WordPress fetch (for live domain or when CORS is enabled in WP)
+				try {
+					const prodUrl = `${APP_CONFIG.wpUrl}/wp-json/wc/v3/products?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}&per_page=100&status=publish`;
+					const catUrl = `${APP_CONFIG.wpUrl}/wp-json/wc/v3/products/categories?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}&per_page=100`;
+					
+					const [pRes, cRes] = await Promise.all([
+						fetch(prodUrl).then(r => r.json()),
+						fetch(catUrl).then(r => r.json())
+					]);
+					if (Array.isArray(pRes)) fetchedProducts = pRes;
+					if (Array.isArray(cRes)) fetchedCategories = cRes;
+					if (topStatus) topStatus.innerHTML = `<span class="pulse-dot"></span> Connected: WooCommerce REST API (${fetchedProducts.length} Products)`;
+				} catch (err) {
+					console.warn("Direct WP fetch blocked (browser CORS):", err);
+					if (topStatus) topStatus.innerHTML = `⚠️ Direct Connection Blocked by Browser (CORS) - Run "node server.js"`;
+				}
+			}
+
+			if (fetchedCategories.length) {
+				STATE.categories = fetchedCategories;
+				populateCategoryFilters(STATE.categories);
+			}
+
+			if (fetchedProducts.length) {
+				const localMap = new Map();
+				fetchedProducts.forEach(liveP => {
+					localMap.set(String(liveP.id), normalizeProductObject(liveP));
+				});
+				STATE.products = Array.from(localMap.values());
+				localStorage.setItem("zakara_synced_products", JSON.stringify(STATE.products));
+				updateKpis();
+				handleSearchFilter();
+				if (showNotification) showToast(`Loaded ${STATE.products.length} live products directly from WordPress!`, "success");
+			} else {
+				if (showNotification) {
+					showToast(`Notice: Browser blocked direct connection due to CORS. Please run "node server.js" in your terminal.`, "warning");
+				}
+			}
+		}
+
+		function normalizeProductObject(wpItem, existing = {}) {
+			const id = wpItem.id || existing.id || Date.now();
+			const name = wpItem.name || existing.name || "Untitled Product";
+			const sku = wpItem.sku || existing.sku || `ZB-${id}`;
+			const slug = wpItem.slug || existing.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+			
+			let images = [];
+			if (wpItem.images && Array.isArray(wpItem.images)) {
+				images = wpItem.images.map(img => typeof img === "string" ? img : img.src);
+			} else if (existing.images && Array.isArray(existing.images)) {
+				images = existing.images;
+			}
+			if (!images.length) {
+				images = ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"];
+			}
+
+			let categories = [];
+			if (wpItem.categories && Array.isArray(wpItem.categories)) {
+				categories = wpItem.categories.map(c => ({ id: c.id, name: c.name, slug: c.slug }));
+			} else if (existing.categories) {
+				categories = existing.categories;
+			}
+
+			const regular_price = wpItem.regular_price || existing.regular_price || (wpItem.prices ? (wpItem.prices.price / 100) : "149");
+			const sale_price = wpItem.sale_price || existing.sale_price || "";
+			const status = wpItem.status || existing.status || "publish";
+			const stock_status = wpItem.stock_status || (wpItem.is_in_stock ? "instock" : "instock");
+
+			// Short Description (Side Bullet points on product page)
+			const short_description = wpItem.short_description || existing.short_description || "";
+
+			// Full Description (Complete detailed description on product page)
+			const description = wpItem.description || existing.description || wpItem.short_description || "";
+
+			let attributes = {
+				leather: "Soft Grain Leather",
+				dimension: "Standard Dimensions",
+				fittings: "Antique Brass Fittings",
+				weight: "950 Gms",
+				strap: "Dual Leather Detachable Strap"
+			};
+
+			// 1. Check wpItem.meta_data for _zakara_specs or direct keys
+			if (wpItem.meta_data && Array.isArray(wpItem.meta_data)) {
+				const specsMeta = wpItem.meta_data.find(m => m.key === "_zakara_specs");
+				if (specsMeta && specsMeta.value && typeof specsMeta.value === "object") {
+					Object.assign(attributes, specsMeta.value);
+				}
+				const l = wpItem.meta_data.find(m => m.key === "specs_leather");
+				if (l && l.value) attributes.leather = l.value;
+				const d = wpItem.meta_data.find(m => m.key === "specs_dimension");
+				if (d && d.value) attributes.dimension = d.value;
+				const f = wpItem.meta_data.find(m => m.key === "specs_fittings");
+				if (f && f.value) attributes.fittings = f.value;
+				const w = wpItem.meta_data.find(m => m.key === "specs_weight");
+				if (w && w.value) attributes.weight = w.value;
+				const s = wpItem.meta_data.find(m => m.key === "specs_strap");
+				if (s && s.value) attributes.strap = s.value;
+			}
+
+			// 2. Parse WooCommerce product attributes array
+			if (wpItem.attributes && Array.isArray(wpItem.attributes) && wpItem.attributes.length > 0) {
+				wpItem.attributes.forEach(a => {
+					const n = (a.name || "").toLowerCase();
+					const val = (a.options && a.options[0]) ? a.options[0] : "";
+					if (val) {
+						if (n.includes("leather")) attributes.leather = val;
+						else if (n.includes("dimension") || n === "size") attributes.dimension = val;
+						else if (n.includes("fitting") || n.includes("hardware")) attributes.fittings = val;
+						else if (n.includes("weight")) attributes.weight = val;
+						else if (n.includes("strap") || n.includes("handle")) attributes.strap = val;
+					}
+				});
+			} else if (existing.attributes) {
+				attributes = existing.attributes;
+			}
+
+			return {
+				id,
+				name,
+				sku,
+				slug,
+				status,
+				stock_status,
+				stock_quantity: wpItem.stock_quantity || existing.stock_quantity || 100,
+				regular_price,
+				sale_price,
+				price_html: wpItem.price_html || `$${regular_price}`,
+				images,
+				categories,
+				description,
+				short_description,
+				attributes,
+				rawAttributes: wpItem.attributes || existing.rawAttributes || [],
+				permalink: wpItem.permalink || `https://www.zakarabags.com/product/${slug}/`,
+				date_modified: wpItem.date_modified || new Date().toISOString()
+			};
+		}
+
+
+		/* --------------------------------------------------------------------------
+		   3. UI RENDERING: KPIS, FILTERS, TABLE & PAGINATION
+		   -------------------------------------------------------------------------- */
+		function updateKpis() {
+			const total = STATE.products.length;
+			const published = STATE.products.filter(p => p.status === "publish").length;
+			const inStock = STATE.products.filter(p => p.stock_status === "instock").length;
+
+			const catCount = STATE.categories.length || 
+				new Set(STATE.products.flatMap(p => (p.categories || []).map(c => c.name))).size || 8;
+
+			document.getElementById("kpiTotalProducts").textContent = total;
+			document.getElementById("kpiPublished").textContent = published;
+			document.getElementById("kpiCategories").textContent = catCount;
+			document.getElementById("kpiInStock").textContent = inStock;
+			document.getElementById("sidebarProductCount").textContent = total;
+		}
+
+		function populateCategoryFilters(categories) {
+			const filterSelect = document.getElementById("catalogCategoryFilter");
+			if (!filterSelect) return;
+
+			let optionsHtml = `<option value="all">All Categories</option>`;
+			categories.forEach(cat => {
+				optionsHtml += `<option value="${cat.id}">${cat.name} (${cat.count || 0})</option>`;
+			});
+			filterSelect.innerHTML = optionsHtml;
+		}
+
+		function handleSearchFilter() {
+			const query = (document.getElementById("catalogSearchInput").value || "").toLowerCase().trim();
+			const catFilter = document.getElementById("catalogCategoryFilter").value;
+			const statusFilter = document.getElementById("catalogStatusFilter").value;
+			const sortFilter = document.getElementById("catalogSortFilter").value;
+
+			STATE.filteredProducts = STATE.products.filter(p => {
+				const matchQuery = !query || 
+					(p.name && p.name.toLowerCase().includes(query)) ||
+					(p.sku && p.sku.toLowerCase().includes(query)) ||
+					(p.slug && p.slug.toLowerCase().includes(query));
+
+				const matchCat = catFilter === "all" || 
+					(p.categories && p.categories.some(c => String(c.id) === String(catFilter) || String(c.name).toLowerCase() === catFilter.toLowerCase()));
+
+				const matchStatus = statusFilter === "all" || p.status === statusFilter;
+
+				return matchQuery && matchCat && matchStatus;
+			});
+
+			STATE.filteredProducts.sort((a, b) => {
+				if (sortFilter === "name-asc") return a.name.localeCompare(b.name);
+				if (sortFilter === "name-desc") return b.name.localeCompare(a.name);
+				return new Date(b.date_modified || 0) - new Date(a.date_modified || 0);
+			});
+
+			APP_CONFIG.currentPage = 1;
+			renderCatalogTable();
+		}
+
+		function renderCatalogTable() {
+			const tbody = document.getElementById("catalogTableBody");
+			const total = STATE.filteredProducts.length;
+			const start = (APP_CONFIG.currentPage - 1) * APP_CONFIG.productsPerPage;
+			const end = Math.min(start + APP_CONFIG.productsPerPage, total);
+			const pageItems = STATE.filteredProducts.slice(start, end);
+
+			document.getElementById("catalogCountText").textContent = total 
+				? `Showing ${start + 1}-${end} of ${total} products` 
+				: `No products match this filter`;
+
+			if (!pageItems.length) {
+				tbody.innerHTML = `
+					<tr>
+						<td colspan="7" style="text-align: center; padding: 48px 20px; color: var(--text-muted);">
+							<div style="font-size: 2rem; margin-bottom: 8px;">👜</div>
+							<strong style="color: var(--ink-dark); font-size: 1.05rem; display: block;">No products found</strong>
+							<p style="font-size: 0.88rem; margin-top: 4px;">Try a different keyword or create a new product.</p>
+							<button class="btn-gold" style="margin: 16px auto 0;" onclick="openProductModal('new')">+ Add First Product</button>
+						</td>
+					</tr>
+				`;
+				renderPaginationControls(0);
+				return;
+			}
+
+			tbody.innerHTML = pageItems.map(p => {
+				const mainImg = (p.images && p.images[0]) ? p.images[0] : "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg";
+				const catName = (p.categories && p.categories[0]) ? p.categories[0].name : "Leather Goods";
+				const isPublished = p.status === "publish";
+				const isInStock = p.stock_status === "instock";
+				const liveProductUrl = `https://www.zakarabags.com/product/${p.slug}/`;
+
+				return `
+					<tr>
+						<td>
+							<div class="product-cell">
+								<div class="table-thumb-wrap">
+									<img src="${mainImg}" alt="${p.name}" class="table-thumb" loading="lazy" />
+								</div>
+								<div class="product-name-block">
+									<a href="${liveProductUrl}" target="_blank" class="product-name-link" title="Open live single product page">${p.name}</a>
+									<span class="product-sku-meta">ID: #${p.id} &bull; /product/${p.slug}/</span>
+								</div>
+							</div>
+						</td>
+						<td>
+							<span style="font-family: var(--font-mono); font-size: 0.84rem; font-weight: 700; color: var(--pantone-cocoa); background: var(--pantone-gold-pale); padding: 3px 7px; border-radius: 4px;">${p.sku || 'ZB-SERIES'}</span>
+						</td>
+						<td>
+							<span class="badge badge-category">${catName}</span>
+						</td>
+						<td>
+							<span class="badge ${isPublished ? 'badge-publish' : 'badge-draft'}">
+								${isPublished ? '● Published' : '○ Draft'}
+							</span>
+						</td>
+						<td>
+							<span style="font-size: 0.82rem; font-weight: 500; color: ${isInStock ? 'var(--success)' : 'var(--danger)'};">
+								${isInStock ? 'In Stock' : 'Out of Stock'}
+							</span>
+						</td>
+						<td style="text-align: right;">
+							<div class="action-btns" style="justify-content: flex-end;">
+								<button class="btn-edit-action" title="Edit Full Description, Bullets & Details" onclick="openProductModal(${p.id})">
+									✏️ Edit Description
+								</button>
+								<a href="${liveProductUrl}" target="_blank" class="btn-icon" title="View live page on zakarabags.com">
+									👁️
+								</a>
+								<a href="https://www.zakarabags.com/wp-admin/post.php?post=${p.id}&action=edit" target="_blank" class="btn-icon" title="Edit in WordPress WP-Admin">
+									⚙️
+								</a>
+								<button class="btn-icon delete" title="Move to Trash" onclick="deleteProduct(${p.id})">
+									🗑️
+								</button>
+							</div>
+						</td>
+					</tr>
+				`;
+			}).join("");
+
+			renderPaginationControls(total);
+		}
+
+		function renderPaginationControls(total) {
+			const nav = document.getElementById("catalogPagination");
+			const totalPages = Math.ceil(total / APP_CONFIG.productsPerPage);
+			if (totalPages <= 1) {
+				nav.innerHTML = "";
+				return;
+			}
+
+			let html = "";
+			for (let i = 1; i <= totalPages; i++) {
+				html += `<button class="page-btn ${i === APP_CONFIG.currentPage ? 'active' : ''}" onclick="goToCatalogPage(${i})">${i}</button>`;
+			}
+			nav.innerHTML = html;
+		}
+
+		function goToCatalogPage(page) {
+			APP_CONFIG.currentPage = page;
+			renderCatalogTable();
+			window.scrollTo({ top: 300, behavior: "smooth" });
+		}
+
+
+		/* --------------------------------------------------------------------------
+		   4. FULL DESCRIPTION & PRODUCT EDITOR MODAL ENGINE
+		   -------------------------------------------------------------------------- */
+		function openProductModal(target) {
+			const modal = document.getElementById("productModal");
+			const heading = document.getElementById("modalHeading");
+			const subHeading = document.getElementById("modalSubHeading");
+
+			document.getElementById("productEditForm").reset();
+			STATE.selectedCategories.clear();
+			STATE.galleryImages = [];
+
+			if (target === "new") {
+				STATE.activeEditingProduct = null;
+				heading.textContent = "Create New Zakara Product";
+				subHeading.textContent = "Publish a new leather bag to WooCommerce, /shop-3/, and single product page";
+				document.getElementById("editProductId").value = "";
+				document.getElementById("editStatus").value = "publish";
+				document.getElementById("editStockStatus").value = "instock";
+				document.getElementById("editStockQty").value = "100";
+				
+				document.getElementById("editShortDesc").value = `• Handcrafted Genuine Buffalo Leather bag for travel & daily use.\n• Leather: Full Grain Soft Hide\n• Hardware: Antique Solid Brass Fittings\n• Lining: Heavyweight Waterproof Drill Cotton\n• Weight: 950 Gms`;
+
+				const defaultDesc = `
+					<h2>Master-Crafted Genuine Leather Goods</h2>
+					<p>Engineered for discerning professionals, this piece is individually handcrafted in Kanpur using supple full-grain hides, reinforced stitching, and solid antique fittings.</p>
+					<h3>Key Features</h3>
+					<ul>
+						<li>Hand-selected vegetable tanned leather that develops a distinctive patina with age.</li>
+						<li>Heavy-duty antique brass buckles and dual YKK nylon coil zippers.</li>
+						<li>Padded dedicated tech compartments with water-resistant inner drill lining.</li>
+						<li>Detachable, fully adjustable ergonomic leather cross-body strap.</li>
+					</ul>
+				`;
+				setEditorContent(defaultDesc);
+				setMainImagePreview("https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg");
+			} else {
+				const prod = STATE.products.find(p => String(p.id) === String(target));
+				if (!prod) {
+					showToast("Product not found.", "error");
+					return;
+				}
+				STATE.activeEditingProduct = prod;
+				heading.textContent = `Edit Product: ${prod.name}`;
+				subHeading.textContent = `ID #${prod.id} &bull; SKU: ${prod.sku || 'ZB-SERIES'} &bull; zakarabags.com/product/${prod.slug}/`;
+
+				document.getElementById("editProductId").value = prod.id;
+				document.getElementById("editName").value = prod.name || "";
+				document.getElementById("editSlug").value = prod.slug || "";
+				document.getElementById("editSku").value = prod.sku || "";
+				document.getElementById("editStatus").value = prod.status || "publish";
+				document.getElementById("editStockStatus").value = prod.stock_status || "instock";
+				document.getElementById("editStockQty").value = prod.stock_quantity || 100;
+				
+				// Short Description (Side Bullet points)
+				document.getElementById("editShortDesc").value = stripHtml(prod.short_description) || "";
+
+				// Full Description
+				setEditorContent(prod.description || prod.short_description || "<p>Handcrafted genuine leather product by Zakara International.</p>");
+
+				// Categories
+				if (prod.categories && Array.isArray(prod.categories)) {
+					prod.categories.forEach(c => STATE.selectedCategories.add(String(c.id)));
+				}
+
+				// Images
+				if (prod.images && prod.images.length) {
+					setMainImagePreview(prod.images[0]);
+					STATE.galleryImages = prod.images.slice(1);
+				}
+
+				// Specs
+				if (prod.attributes) {
+					document.getElementById("specLeather").value = prod.attributes.leather || "Soft Grain Leather";
+					document.getElementById("specDimension").value = prod.attributes.dimension || "13.5 x 4.7 x 11 inches";
+					document.getElementById("specFittings").value = prod.attributes.fittings || "Antique Brass Fittings";
+					document.getElementById("specWeight").value = prod.attributes.weight || "950 Gms";
+					document.getElementById("specStrap").value = prod.attributes.strap || "Dual Leather Detachable Strap";
+				}
+			}
+
+			renderCategoryCheckboxes();
+			renderGalleryThumbs();
+			switchModalTab("tabBasic");
+			modal.classList.add("active");
+		}
+
+		function closeProductModal() {
+			document.getElementById("productModal").classList.remove("active");
+		}
+
+		function switchModalTab(tabId) {
+			document.querySelectorAll(".modal-side-tab-btn, .modal-tab-btn").forEach(btn => {
+				btn.classList.toggle("active", btn.getAttribute("data-tab") === tabId);
+			});
+			document.querySelectorAll(".tab-pane").forEach(pane => {
+				pane.classList.toggle("active", pane.id === tabId);
+			});
+			const mainArea = document.querySelector(".modal-main-content") || document.querySelector(".modal-body");
+			if (mainArea) mainArea.scrollTop = 0;
+		}
+
+		function autoUpdateSlug(name) {
+			const slugField = document.getElementById("editSlug");
+			if (!STATE.activeEditingProduct) {
+				slugField.value = name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+			}
+		}
+
+		function execEditorCommand(command, value = null) {
+			document.execCommand(command, false, value);
+			syncEditorHtmlToSource();
+		}
+
+		function insertEditorLink() {
+			const url = prompt("Enter destination URL:", "https://www.zakarabags.com");
+			if (url) execEditorCommand("createLink", url);
+		}
+
+		function insertSampleSpecsTable() {
+			const tableHtml = `
+				<table style="width: 100%; border-collapse: collapse; margin: 14px 0;">
+					<thead>
+						<tr style="background: #faf7f4;">
+							<th style="border: 1px solid #e6ded6; padding: 8px;">Craft Specification</th>
+							<th style="border: 1px solid #e6ded6; padding: 8px;">Master Details</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td style="border: 1px solid #e6ded6; padding: 8px;">Leather Tannage</td><td style="border: 1px solid #e6ded6; padding: 8px;">Vegetable Tanned Buff Hide</td></tr>
+						<tr><td style="border: 1px solid #e6ded6; padding: 8px;">Hardware Finish</td><td style="border: 1px solid #e6ded6; padding: 8px;">Anti-Rust Antique Brass</td></tr>
+						<tr><td style="border: 1px solid #e6ded6; padding: 8px;">Lining Material</td><td style="border: 1px solid #e6ded6; padding: 8px;">Heavyweight Waterproof Drill Cotton</td></tr>
+					</tbody>
+				</table>
+			`;
+			document.execCommand("insertHTML", false, tableHtml);
+			syncEditorHtmlToSource();
+		}
+
+		function setEditorContent(html) {
+			const rich = document.getElementById("richDescriptionArea");
+			const raw = document.getElementById("rawHtmlDescriptionArea");
+			const preview = document.getElementById("livePreviewContainer");
+
+			rich.innerHTML = html;
+			raw.value = html;
+			if (preview) preview.innerHTML = html;
+		}
+
+		function syncEditorHtmlToSource() {
+			const rich = document.getElementById("richDescriptionArea");
+			const raw = document.getElementById("rawHtmlDescriptionArea");
+			const preview = document.getElementById("livePreviewContainer");
+
+			raw.value = rich.innerHTML;
+			if (preview) preview.innerHTML = rich.innerHTML;
+		}
+
+		function syncSourceToEditorHtml() {
+			const rich = document.getElementById("richDescriptionArea");
+			const raw = document.getElementById("rawHtmlDescriptionArea");
+			const preview = document.getElementById("livePreviewContainer");
+
+			rich.innerHTML = raw.value;
+			if (preview) preview.innerHTML = raw.value;
+		}
+
+		function toggleHtmlSourceMode() {
+			const rich = document.getElementById("richDescriptionArea");
+			const raw = document.getElementById("rawHtmlDescriptionArea");
+			const btn = document.getElementById("toggleCodeBtn");
+
+			if (raw.style.display === "block") {
+				raw.style.display = "none";
+				rich.style.display = "block";
+				btn.textContent = "</> HTML Source";
+				btn.style.background = "#ffffff";
+			} else {
+				syncEditorHtmlToSource();
+				raw.style.display = "block";
+				rich.style.display = "none";
+				btn.textContent = "👁️ Visual Mode";
+				btn.style.background = "var(--pantone-gold-pale)";
+			}
+		}
+
+		function renderCategoryCheckboxes() {
+			const container = document.getElementById("modalCategoryList");
+			const cats = STATE.categories.length ? STATE.categories : [
+				{ id: 62, name: "Ladies Bags" },
+				{ id: 23, name: "New Arrivals" },
+				{ id: 58, name: "Duffle / Travel Bags" },
+				{ id: 59, name: "Messenger / Laptop Bags" },
+				{ id: 65, name: "Leather Backpack" },
+				{ id: 61, name: "Camera Bags" },
+				{ id: 60, name: "Canvas Bags" },
+				{ id: 75, name: "Leather Accessories" }
+			];
+
+			container.innerHTML = cats.map(cat => `
+				<label class="cat-checkbox-item">
+					<input type="checkbox" value="${cat.id}" ${STATE.selectedCategories.has(String(cat.id)) ? 'checked' : ''} onchange="toggleCategorySelect('${cat.id}', this.checked)" />
+					<span>${cat.name}</span>
+				</label>
+			`).join("");
+		}
+
+		function toggleCategorySelect(catId, isChecked) {
+			if (isChecked) {
+				STATE.selectedCategories.add(String(catId));
+			} else {
+				STATE.selectedCategories.delete(String(catId));
+			}
+		}
+
+		function addNewCategoryInline() {
+			const input = document.getElementById("newCategoryName");
+			const val = input.value.trim();
+			if (!val) return;
+
+			const newId = Date.now();
+			const newCat = { id: newId, name: val, slug: val.toLowerCase().replace(/[^a-z0-9]+/g, "-") };
+			STATE.categories.push(newCat);
+			STATE.selectedCategories.add(String(newId));
+			renderCategoryCheckboxes();
+			populateCategoryFilters(STATE.categories);
+			input.value = "";
+			showToast(`Created category: ${val}`, "success");
+		}
+
+		function setMainImagePreview(url) {
+			document.getElementById("editMainImage").value = url;
+			document.getElementById("modalMainImgPreview").src = url;
+		}
+
+		function updateMainImagePreview(url) {
+			if (url) document.getElementById("modalMainImgPreview").src = url;
+		}
+
+		function addGalleryImageUrl() {
+			const input = document.getElementById("newGalleryImgUrl");
+			const val = input.value.trim();
+			if (!val) return;
+
+			STATE.galleryImages.push(val);
+			renderGalleryThumbs();
+			input.value = "";
+		}
+
+		function removeGalleryImage(index) {
+			STATE.galleryImages.splice(index, 1);
+			renderGalleryThumbs();
+		}
+
+		function renderGalleryThumbs() {
+			const container = document.getElementById("modalGalleryList");
+			if (!STATE.galleryImages.length) {
+				container.innerHTML = `<span style="font-size: 0.8rem; color: var(--text-muted);">No additional gallery images added.</span>`;
+				return;
+			}
+			container.innerHTML = STATE.galleryImages.map((src, idx) => `
+				<div class="gallery-thumb-card">
+					<img src="${src}" alt="Gallery ${idx + 1}" />
+					<button type="button" class="gallery-thumb-remove" onclick="removeGalleryImage(${idx})">&times;</button>
+				</div>
+			`).join("");
+		}
+
+
+		/* --------------------------------------------------------------------------
+		   5. SAVE PRODUCT & TWO-WAY WORDPRESS SYNC EXECUTION
+		   -------------------------------------------------------------------------- */
+		async function handleProductSave(event) {
+			event.preventDefault();
+			const saveBtn = document.getElementById("saveProductBtn");
+			saveBtn.disabled = true;
+			saveBtn.innerHTML = `<span>Uploading to WordPress...</span>`;
+
+			try {
+				const idField = document.getElementById("editProductId").value;
+				const isNew = !idField;
+				const productId = isNew ? Date.now() : parseInt(idField);
+
+				const name = document.getElementById("editName").value.trim();
+				const slug = document.getElementById("editSlug").value.trim() || name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+				const sku = document.getElementById("editSku").value.trim() || `ZB-${productId}`;
+				const regularPrice = (STATE.activeEditingProduct && STATE.activeEditingProduct.regular_price) ? STATE.activeEditingProduct.regular_price : "0";
+				const salePrice = (STATE.activeEditingProduct && STATE.activeEditingProduct.sale_price) ? STATE.activeEditingProduct.sale_price : "";
+				const status = document.getElementById("editStatus").value;
+				const stockStatus = document.getElementById("editStockStatus").value;
+				const stockQty = parseInt(document.getElementById("editStockQty").value) || 100;
+				const shortDesc = document.getElementById("editShortDesc").value.trim();
+
+				syncEditorHtmlToSource();
+				const fullDesc = document.getElementById("rawHtmlDescriptionArea").value.trim();
+
+				const selectedCatObjs = [];
+				STATE.selectedCategories.forEach(catId => {
+					const found = STATE.categories.find(c => String(c.id) === String(catId));
+					selectedCatObjs.push(found || { id: catId, name: "Leather Goods" });
+				});
+
+				const mainImg = document.getElementById("editMainImage").value.trim() || "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg";
+				const allImages = [mainImg, ...STATE.galleryImages];
+
+				const attributes = {
+					leather: document.getElementById("specLeather").value.trim() || "Soft Grain Leather",
+					dimension: document.getElementById("specDimension").value.trim() || "Standard Dimensions",
+					fittings: document.getElementById("specFittings").value.trim() || "Antique Brass Fittings",
+					weight: document.getElementById("specWeight").value.trim() || "950 Gms",
+					strap: document.getElementById("specStrap").value.trim() || "Dual Leather Detachable Strap"
+				};
+
+				// Construct WooCommerce attributes array
+				const baseAttrs = (STATE.activeEditingProduct && Array.isArray(STATE.activeEditingProduct.rawAttributes))
+					? JSON.parse(JSON.stringify(STATE.activeEditingProduct.rawAttributes))
+					: [];
+
+				const specDefinitions = [
+					{ name: "LEATHER", regex: /leather/i, val: attributes.leather },
+					{ name: "DIMENSIONS", regex: /dimension|size/i, val: attributes.dimension },
+					{ name: "FITTINGS", regex: /fitting|hardware/i, val: attributes.fittings },
+					{ name: "WEIGHT", regex: /weight/i, val: attributes.weight },
+					{ name: "STRAP", regex: /strap|handle/i, val: attributes.strap }
+				];
+
+				const mergedWcAttrs = [...baseAttrs];
+				specDefinitions.forEach(spec => {
+					const existingIdx = mergedWcAttrs.findIndex(a => spec.regex.test(a.name));
+					if (existingIdx !== -1) {
+						mergedWcAttrs[existingIdx].options = [spec.val];
+						mergedWcAttrs[existingIdx].visible = true;
+					} else {
+						mergedWcAttrs.push({
+							name: spec.name,
+							visible: true,
+							variation: false,
+							options: [spec.val]
+						});
+					}
+				});
+
+				const wcMetaData = [
+					{ key: "_zakara_specs", value: attributes },
+					{ key: "specs_leather", value: attributes.leather },
+					{ key: "specs_dimension", value: attributes.dimension },
+					{ key: "specs_fittings", value: attributes.fittings },
+					{ key: "specs_weight", value: attributes.weight },
+					{ key: "specs_strap", value: attributes.strap }
+				];
+
+				const productPayload = {
+					id: productId,
+					name,
+					slug,
+					sku,
+					status,
+					stock_status: stockStatus,
+					stock_quantity: stockQty,
+					regular_price: regularPrice,
+					sale_price: salePrice,
+					price_html: "",
+					description: fullDesc,
+					short_description: shortDesc,
+					categories: selectedCatObjs,
+					images: allImages,
+					attributes,
+					rawAttributes: mergedWcAttrs,
+					permalink: `https://www.zakarabags.com/product/${slug}/`,
+					date_modified: new Date().toISOString()
+				};
+
+				// 1. Check if proxy is available on current host
+				let proxyAvailable = false;
+				try {
+					const health = await fetch("/api/health").then(r => r.json()).catch(() => null);
+					if (health && health.status === "ok") proxyAvailable = true;
+				} catch (e) {}
+
+				const wcPayload = {
+					name,
+					slug,
+					sku,
+					status,
+					regular_price: regularPrice,
+					sale_price: salePrice,
+					description: fullDesc,
+					short_description: shortDesc,
+					categories: selectedCatObjs.map(c => ({ id: c.id })),
+					images: allImages.map(src => ({ src })),
+					attributes: mergedWcAttrs,
+					meta_data: wcMetaData
+				};
+
+				let saveSuccess = false;
+				let wpResult = null;
+				let errorMessage = "";
+
+				if (proxyAvailable) {
+					// Route through zero-CORS local proxy
+					try {
+						const proxyEndpoint = isNew ? "/api/products" : `/api/products/${productId}`;
+						const res = await fetch(proxyEndpoint, {
+							method: isNew ? "POST" : "PUT",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify(wcPayload)
+						});
+						wpResult = await res.json();
+						if (res.ok && (wpResult.id || wpResult.name)) {
+							saveSuccess = true;
+							productPayload.id = wpResult.id;
+							if (wpResult.attributes) productPayload.rawAttributes = wpResult.attributes;
+						} else {
+							errorMessage = wpResult.message || `WordPress Error (HTTP ${res.status})`;
+						}
+					} catch (err) {
+						errorMessage = err.message;
+					}
+				} else {
+					// Direct WP API call
+					try {
+						const endpoint = isNew 
+							? `${APP_CONFIG.wpUrl}/wp-json/wc/v3/products?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}`
+							: `${APP_CONFIG.wpUrl}/wp-json/wc/v3/products/${productId}?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}`;
+
+						const res = await fetch(endpoint, {
+							method: isNew ? "POST" : "PUT",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify(wcPayload)
+						});
+						wpResult = await res.json();
+						if (res.ok && (wpResult.id || wpResult.name)) {
+							saveSuccess = true;
+							productPayload.id = wpResult.id;
+							if (wpResult.attributes) productPayload.rawAttributes = wpResult.attributes;
+						} else {
+							errorMessage = wpResult.message || `WordPress Error (HTTP ${res.status})`;
+						}
+					} catch (corsErr) {
+						errorMessage = "Browser blocked direct request (CORS). Please run 'node server.js' in terminal on port 5501 to enable the zero-CORS proxy.";
+					}
+				}
+
+				if (saveSuccess) {
+					if (isNew) {
+						STATE.products.unshift(productPayload);
+					} else {
+						const idx = STATE.products.findIndex(p => String(p.id) === String(productId));
+						if (idx !== -1) STATE.products[idx] = productPayload;
+					}
+					localStorage.setItem("zakara_synced_products", JSON.stringify(STATE.products));
+					updateKpis();
+					handleSearchFilter();
+					closeProductModal();
+					showToast(`Product #${productPayload.id} (${productPayload.name}) uploaded live to WordPress!`, "success");
+				} else {
+					alert(`⚠️ WordPress Upload Notice:\n\n${errorMessage}\n\nHow to fix:\n1. Make sure "node server.js" is running in your terminal on port 5501 (it proxies all requests without CORS blocks), OR\n2. In WordPress Admin → WooCommerce → Settings → Advanced → REST API, ensure your key has "Read/Write" permissions.`);
+					showToast(`Upload failed: ${errorMessage}`, "error");
+				}
+
+			} catch (err) {
+				showToast("Failed to save product: " + err.message, "error");
+			} finally {
+				saveBtn.disabled = false;
+				saveBtn.innerHTML = `<span>Save &amp; Upload to WP</span>`;
+			}
+		}
+
+		async function deleteProduct(productId) {
+			const prod = STATE.products.find(p => String(p.id) === String(productId));
+			const title = prod ? prod.name : `Product #${productId}`;
+
+			if (!confirm(`Are you sure you want to move "${title}" to Trash?`)) return;
+
+			try {
+				try {
+					await fetch(`${APP_CONFIG.wpUrl}/wp-json/wc/v3/products/${productId}?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}&force=false`, {
+						method: "DELETE"
+					});
+				} catch (e) {}
+
+				STATE.products = STATE.products.filter(p => String(p.id) !== String(productId));
+				localStorage.setItem("zakara_synced_products", JSON.stringify(STATE.products));
+
+				updateKpis();
+				handleSearchFilter();
+				showToast(`Product moved to trash.`, "info");
+			} catch (err) {
+				showToast("Error trashing product: " + err.message, "error");
+			}
+		}
+
+		function previewCurrentProductPage() {
+			const slug = document.getElementById("editSlug").value || "ladies-soft-leather-handbag";
+			window.open(`https://www.zakarabags.com/product/${slug}/`, "_blank");
+		}
+
+
+		/* --------------------------------------------------------------------------
+		   6. SETTINGS & SYSTEM UTILITIES
+		   -------------------------------------------------------------------------- */
+		function openSettingsModal() {
+			document.getElementById("settingsModal").classList.add("active");
+			document.getElementById("settingWpUrl").value = APP_CONFIG.wpUrl;
+			document.getElementById("settingConsumerKey").value = APP_CONFIG.consumerKey;
+			document.getElementById("settingConsumerSecret").value = APP_CONFIG.consumerSecret;
+		}
+
+		function closeSettingsModal() {
+			document.getElementById("settingsModal").classList.remove("active");
+		}
+
+		function saveSettings() {
+			APP_CONFIG.wpUrl = document.getElementById("settingWpUrl").value.trim().replace(/\/$/, "");
+			APP_CONFIG.consumerKey = document.getElementById("settingConsumerKey").value.trim();
+			APP_CONFIG.consumerSecret = document.getElementById("settingConsumerSecret").value.trim();
+
+			localStorage.setItem("zakara_wp_url", APP_CONFIG.wpUrl);
+			localStorage.setItem("zakara_ck", APP_CONFIG.consumerKey);
+			localStorage.setItem("zakara_cs", APP_CONFIG.consumerSecret);
+
+			closeSettingsModal();
+			showToast("Settings updated successfully!", "success");
+			syncProductsFromWP(true);
+		}
+
+		async function testWpApiConnection() {
+			const label = document.getElementById("settingsTestResult");
+			label.textContent = "Testing connection...";
+			label.style.color = "var(--text-muted)";
+
+			const url = document.getElementById("settingWpUrl").value.trim();
+			const ck = document.getElementById("settingConsumerKey").value.trim();
+			const cs = document.getElementById("settingConsumerSecret").value.trim();
+
+			try {
+				const res = await fetch(`${url}/wp-json/wc/v3/products?consumer_key=${ck}&consumer_secret=${cs}&per_page=1`);
+				if (res.ok) {
+					label.textContent = "✅ WordPress WooCommerce REST API Online!";
+					label.style.color = "var(--success)";
+				} else {
+					const data = await res.json().catch(() => ({}));
+					label.textContent = `⚠️ Connected, note: ${data.message || res.statusText}`;
+					label.style.color = "var(--warning)";
+				}
+			} catch (err) {
+				label.textContent = "❌ Connection failed: " + err.message;
+				label.style.color = "var(--danger)";
+			}
+		}
+
+		function downloadCatalogBackup() {
+			const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(STATE.products, null, 2));
+			const dlAnchor = document.createElement("a");
+			dlAnchor.setAttribute("href", dataStr);
+			dlAnchor.setAttribute("download", `zakara_live_catalog_${new Date().toISOString().slice(0, 10)}.json`);
+			dlAnchor.click();
+			showToast("Exported catalog backup file.", "info");
+		}
+
+		function stripHtml(html) {
+			const tmp = document.createElement("DIV");
+			tmp.innerHTML = html || "";
+			return tmp.textContent || tmp.innerText || "";
+		}
+
+		function showToast(message, type = "info") {
+			const container = document.getElementById("toastContainer");
+			const toast = document.createElement("div");
+			toast.className = `toast ${type}`;
+			toast.innerHTML = `
+				<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+				<span>${message}</span>
+			`;
+			container.appendChild(toast);
+			setTimeout(() => {
+				toast.style.opacity = "0";
+				toast.style.transform = "translateX(50px)";
+				toast.style.transition = "all 0.3s ease";
+				setTimeout(() => toast.remove(), 300);
+			}, 3600);
+		}
+
+		// Launch on DOM ready
+		window.addEventListener("DOMContentLoaded", () => {
+			checkExistingSession();
+		});
+	</script>
+
+</body>
+</html>

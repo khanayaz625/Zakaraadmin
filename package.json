@@ -1,0 +1,21 @@
+{
+  "name": "zakara-bags-admin-console",
+  "version": "1.0.0",
+  "description": "Zakara Bags Admin Console and Product Manager with zero-CORS WooCommerce API proxy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "zakara",
+    "woocommerce",
+    "admin-console",
+    "leather-goods"
+  ],
+  "author": "Zakara International",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

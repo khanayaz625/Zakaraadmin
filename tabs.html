@@ -1,0 +1,861 @@
+<!-- Paste this complete fragment into a WordPress Custom HTML or Elementor HTML widget. -->
+<!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & RESET
+       ========================================================================== */
+    .zakara-tabs,
+    .zakara-tabs *,
+    .zakara-tabs *::before,
+    .zakara-tabs *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-page: #FFFFFF;
+      --bg-surface: #FBF9F6;
+      --bg-surface-hover: #F4EFEA;
+      --bg-card: #FFFFFF;
+      
+      --text-dark: #1C1815;
+      --text-muted: #665F59;
+      --text-light: #948C84;
+      
+      --accent-tan: #9A5D32;
+      --accent-tan-light: #B87343;
+      --accent-tan-glow: rgba(154, 93, 50, 0.12);
+      --accent-dark: #1E1A17;
+      
+      --border-subtle: #ECE6DD;
+      --border-hover: #D7CCC0;
+      
+      --shadow-sm: 0 2px 8px rgba(28, 24, 21, 0.04);
+      --shadow-card: 0 4px 20px -2px rgba(28, 24, 21, 0.05);
+      --shadow-hover: 0 16px 36px -6px rgba(154, 93, 50, 0.14), 0 4px 12px -2px rgba(28, 24, 21, 0.04);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .zakara-tabs {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .zakara-tabs a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .zakara-tabs .container {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       SECTION HEADERS (CLEAN BRAND AESTHETIC)
+       ========================================================================== */
+    .zakara-tabs .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 52px;
+    }
+
+    .zakara-tabs .section-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      color: var(--text-dark);
+    }
+
+    .zakara-tabs .section-title .title-accent {
+      color: var(--accent-tan);
+    }
+
+    /* Signature Dual-Tone Accent Divider */
+    .zakara-tabs .brand-accent-line {
+      width: 100px;
+      height: 3.5px;
+      margin: 0 auto 16px;
+      display: flex;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .zakara-tabs .brand-accent-line .dark-bar {
+      flex: 1;
+      background-color: var(--accent-dark);
+    }
+
+    .zakara-tabs .brand-accent-line .tan-bar {
+      flex: 1;
+      background-color: var(--accent-tan);
+    }
+
+    .zakara-tabs .section-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       SECTION 1: WHY CHOOSE US
+       ========================================================================== */
+    .why-choose-us-section {
+      padding: 72px 0 84px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FAF8F5 100%);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* Feature Card */
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* Subtle top accent highlight on hover */
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-tan), var(--accent-tan-light));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    /* Icon Pedestal */
+    .feature-icon-wrapper {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      transition: var(--transition);
+      color: var(--accent-tan);
+    }
+
+    .feature-icon-wrapper svg {
+      width: 32px;
+      height: 32px;
+      transition: var(--transition);
+    }
+
+    .feature-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      letter-spacing: -0.2px;
+      transition: var(--transition);
+    }
+
+    .feature-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    /* Subtle Arrow Link */
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-tan);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: var(--transition);
+    }
+
+    .feature-link svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.2s ease;
+    }
+
+    /* Hover States for Feature Card */
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(154, 93, 50, 0.35);
+      box-shadow: var(--shadow-hover);
+      background: #FFFFFF;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-card:hover .feature-icon-wrapper {
+      background: var(--accent-tan);
+      border-color: var(--accent-tan);
+      color: #FFFFFF;
+      transform: scale(1.08) rotate(3deg);
+      box-shadow: 0 8px 20px -4px rgba(154, 93, 50, 0.35);
+    }
+
+    .feature-card:hover .feature-title {
+      color: var(--accent-tan);
+    }
+
+    .feature-card:hover .feature-link {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .feature-card:hover .feature-link svg {
+      transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       SECTION 2: POPULAR IN SEARCHES (PRODUCT TAGS)
+       ========================================================================== */
+    .popular-searches-section {
+      padding: 80px 0 96px;
+      background-color: #FFFFFF;
+    }
+
+    .tags-container-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .tags-header-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .tags-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.2px;
+    }
+
+    .tags-label-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-tan-glow);
+      color: var(--accent-tan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tags-count-badge {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: #FFFFFF;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Tag Cloud Grid */
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Modern Clean Tag Pill */
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFFFFF;
+      color: var(--text-dark);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      transition: var(--transition);
+      cursor: pointer;
+      line-height: 1.3;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    /* Keep the cloud focused on the highest-intent product and gifting tags. */
+    .tags-cloud .tag-pill {
+      display: none;
+    }
+
+    .tags-cloud .tag-pill:nth-child(1),
+    .tags-cloud .tag-pill:nth-child(5),
+    .tags-cloud .tag-pill:nth-child(6),
+    .tags-cloud .tag-pill:nth-child(7),
+    .tags-cloud .tag-pill:nth-child(11),
+    .tags-cloud .tag-pill:nth-child(12),
+    .tags-cloud .tag-pill:nth-child(13),
+    .tags-cloud .tag-pill:nth-child(14),
+    .tags-cloud .tag-pill:nth-child(15),
+    .tags-cloud .tag-pill:nth-child(16),
+    .tags-cloud .tag-pill:nth-child(17),
+    .tags-cloud .tag-pill:nth-child(18),
+    .tags-cloud .tag-pill:nth-child(21),
+    .tags-cloud .tag-pill:nth-child(22),
+    .tags-cloud .tag-pill:nth-child(23),
+    .tags-cloud .tag-pill:nth-child(24),
+    .tags-cloud .tag-pill:nth-child(25),
+    .tags-cloud .tag-pill:nth-child(27),
+    .tags-cloud .tag-pill:nth-child(28),
+    .tags-cloud .tag-pill:nth-child(29),
+    .tags-cloud .tag-pill:nth-child(34),
+    .tags-cloud .tag-pill:nth-child(40),
+    .tags-cloud .tag-pill:nth-child(42),
+    .tags-cloud .tag-pill:nth-child(43),
+    .tags-cloud .tag-pill:nth-child(45) {
+      display: inline-flex;
+    }
+
+    .tag-pill svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+
+    /* Clean Elevated Hover Effect */
+    .tag-pill:hover {
+      background: var(--accent-dark);
+      color: #FFFFFF;
+      border-color: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px -2px rgba(30, 26, 23, 0.2);
+    }
+
+    .tag-pill:hover svg {
+      color: var(--accent-tan-light);
+      transform: scale(1.15);
+    }
+
+    /* Alternate Featured Tag (Highlights key categories) */
+    .tag-pill.featured {
+      background: rgba(154, 93, 50, 0.07);
+      border-color: rgba(154, 93, 50, 0.25);
+      color: var(--accent-tan);
+      font-weight: 600;
+    }
+
+    .tag-pill.featured:hover {
+      background: var(--accent-tan);
+      border-color: var(--accent-tan);
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px -2px rgba(154, 93, 50, 0.35);
+    }
+
+    .tag-pill.featured:hover svg {
+      color: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .tags-container-card {
+        padding: 28px 22px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .section-title {
+        font-size: 26px;
+      }
+      .feature-card {
+        padding: 28px 20px;
+      }
+      .tags-cloud {
+        gap: 8px;
+      }
+      .tag-pill {
+        font-size: 12.5px;
+        padding: 7px 13px;
+      }
+    }
+  </style>
+<div class="zakara-tabs">
+  <main>
+    <!-- ==========================================================================
+         SECTION 1: WHY CHOOSE US
+         ========================================================================== -->
+    <section class="why-choose-us-section" id="why-choose-us">
+      <div class="container">
+        
+        <!-- Header -->
+        <header class="section-header">
+          <h2 class="section-title">
+            <span class="title-accent">WHY</span> CHOOSE US
+          </h2>
+          
+          <div class="brand-accent-line" aria-hidden="true">
+            <span class="dark-bar"></span>
+            <span class="tan-bar"></span>
+          </div>
+
+          <p class="section-desc">
+            Zakara is a custom leather goods manufacturer in India, combining artisan craftsmanship, reliable quality control, and flexible OEM export for growing brands.
+          </p>
+        </header>
+
+        <!-- 6 Features Grid with Clean Hover Effects & Links -->
+        <div class="features-grid">
+
+          <!-- 1. Skilled Professionals -->
+          <a href="https://www.zakarabags.com/about-us/" class="feature-card" title="Learn about our skilled master craftsmen">
+            <div class="feature-icon-wrapper" aria-hidden="true">
+              <!-- Team / Skilled Workers Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Skilled Professionals</h3>
+            <p class="feature-text">We work hard to manufacture leather goods you can be proud to own.</p>
+            <span class="feature-link">
+              <span>Learn More</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <!-- 2. Quality Materials -->
+          <a href="https://www.zakarabags.com/leathers/" class="feature-card" title="Explore our 100% genuine leathers and hardware">
+            <div class="feature-icon-wrapper" aria-hidden="true">
+              <!-- Quality Ribbon / Badge Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="6"/>
+                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Quality Materials</h3>
+            <p class="feature-text">We use 100% real leather and raw materials to manufacture products.</p>
+            <span class="feature-link">
+              <span>View Materials</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <!-- 3. Custom Design -->
+          <a href="https://www.zakarabags.com/custom-development/" class="feature-card" title="Learn about bespoke CAD & sample development">
+            <div class="feature-icon-wrapper" aria-hidden="true">
+              <!-- Pen Tool & Design Craft Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m18 5-3-3L3.5 13.5a2.12 2.12 0 0 0-.6 1.5V19h4a2.12 2.12 0 0 0 1.5-.6L20 6.5l-2-1.5Z"/>
+                <path d="m15 5 3 3"/>
+                <path d="m2 22 2-2"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Custom Design</h3>
+            <p class="feature-text">We have expertise in custom product designing & development.</p>
+            <span class="feature-link">
+              <span>Custom R&D</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <!-- 4. White / Private Labeling -->
+          <a href="https://www.zakarabags.com/private-label-oem/" class="feature-card" title="Discover private label & bespoke embossing">
+            <div class="feature-icon-wrapper" aria-hidden="true">
+              <!-- Label Tag Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+                <circle cx="7" cy="7" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">White / Private Labeling</h3>
+            <p class="feature-text">Custom leather goods manufacturing services with Private Labeling.</p>
+            <span class="feature-link">
+              <span>OEM Options</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <!-- 5. Quality Assured -->
+          <a href="https://www.zakarabags.com/quality-control/" class="feature-card" title="See our multi-stage inspection standards">
+            <div class="feature-icon-wrapper" aria-hidden="true">
+              <!-- Checkmark Verified Shield Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Quality Assured</h3>
+            <p class="feature-text">We ensure 100% quality in every product that we manufacture.</p>
+            <span class="feature-link">
+              <span>Quality Control</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <!-- 6. Durability -->
+          <a href="https://www.zakarabags.com/craftsmanship/" class="feature-card" title="Engineered for decades of reliable use">
+            <div class="feature-icon-wrapper" aria-hidden="true">
+              <!-- Sturdy Briefcase & Clock Icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                <circle cx="12" cy="14" r="2.5"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Durability</h3>
+            <p class="feature-text">All of our sturdy products are manufactured from genuine leather materials.</p>
+            <span class="feature-link">
+              <span>Our Guarantee</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================================================
+         SECTION 2: POPULAR IN SEARCHES (PRODUCT TAGS)
+         ========================================================================== -->
+    <section class="popular-searches-section" id="popular-searches">
+      <div class="container">
+        
+        <!-- Header -->
+        <header class="section-header">
+          <h2 class="section-title">
+            <span class="title-accent">POPULAR</span> IN SEARCHES
+          </h2>
+          
+          <div class="brand-accent-line" aria-hidden="true">
+            <span class="dark-bar"></span>
+            <span class="tan-bar"></span>
+          </div>
+
+          <p class="section-desc">
+            Explore popular leather bags, custom hardware specifications, and gifting products from our custom leather goods manufacturing collection.
+          </p>
+        </header>
+
+        <!-- Clean Tags Container Card -->
+        <div class="tags-container-card">
+          
+          <div class="tags-header-wrap">
+            <div class="tags-label">
+              <span class="tags-label-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                  <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
+                  <circle cx="7" cy="7" r="1.5" fill="currentColor"/>
+                </svg>
+              </span>
+              <span>Product tags</span>
+            </div>
+            <span class="tags-count-badge">25 Curated Tags</span>
+          </div>
+
+          <!-- 25 high-intent product tags with clean hover effects and links -->
+          <div class="tags-cloud">
+
+            <a href="https://www.zakarabags.com/product-tag/15-inch-laptop-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>15 Inch Laptop Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/antique-brass-fittings/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Antique Brass Fittings</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/back-to-school/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Back to School</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/back-to-school-gift/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Back to School Gift</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/birthday-gift-bag/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Birthday Gift Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/briefcase-vintage/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Briefcase Vintage</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/dark-brown-backpack/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Dark Brown Backpack</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/dark-brown-polyester-linen/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Dark Brown Polyester Linen</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/dual-leather-strap/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Dual Leather Strap</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/external-pocket/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>External Pocket</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/fathers-day-gift/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Father's day Gift</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/full-grain-buffalo-leather/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Full Grain Buffalo Leather</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/genuine-leather/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Genuine Leather</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/genuine-leather-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Genuine Leather Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/gift-for-her/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Gift for Her</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/gift-for-him/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Gift for Him</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/graduation-gift/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Graduation Gift</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/handmade-leather-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Handmade Leather Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/high-durable-metal-fittings/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>High Durable Metal Fittings</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/journey-collection/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Journey Collection</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/laptop-portfolio-bag/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Laptop Portfolio Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-backpack/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Backpack</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-duffle-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Duffle Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-gym-bag/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Gym Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-laptop-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Laptop Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-pullers/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Pullers</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-tote-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Tote Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-travel-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Travel Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/leather-weekend-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Leather Weekend Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/light-weight-brown-leather-laptop-bag/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Light Weight Brown Leather Laptop Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/luggage-sport-duffle/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Luggage Sport Duffle</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/macbook-pro-15/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Macbook Pro 15</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/men-briefcase/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Men Briefcase</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/messenger-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Messenger Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/metal-round-studs-at-base/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Metal round studs at base</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/metal-ykk-zipper/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Metal YKK Zipper</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/metal-zipper-closure/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Metal zipper closure</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/mothers-day-gift/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Mother's Day Gift</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/original-ykk-zipper/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Original YKK zipper</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/overnight-travel-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Overnight Travel Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/polyester-linen-interior/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Polyester Linen Interior</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/sleek-laptop-bag/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Sleek Laptop Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/soft-laptop-work-bag/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Soft Laptop Work Bag</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/wedding-gift/" class="tag-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Wedding Gift</span>
+            </a>
+
+            <a href="https://www.zakarabags.com/product-tag/womens-bag/" class="tag-pill featured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Womens Bag</span>
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+</div>

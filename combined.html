@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Explore Zakara International's factory, 12+ years of trust, leather bag categories, product tags, and contact details in one page." />
+  <title>Zakara International | Leather Goods Manufacturer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --page-bg: #ffffff;
+      --section-gap: 0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--page-bg);
+    }
+
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: #1c1815;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .combined-page {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .combined-section {
+      width: 100%;
+      margin: var(--section-gap) 0 0;
+      padding: 0;
+      border: 0;
+      display: block;
+      vertical-align: top;
+    }
+
+    .combined-frame {
+      display: block;
+      width: 100%;
+      height: 720px;
+      border: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .combined-frame.video {
+      height: 720px;
+    }
+
+    .combined-frame.banner {
+      height: 330px;
+      background: #1e1a17;
+    }
+
+    .combined-frame.explore {
+      height: 1180px;
+    }
+
+    .combined-frame.tabs {
+      height: 1500px;
+    }
+
+    .combined-frame.contact {
+      height: 900px;
+    }
+
+    @media (max-width: 900px) {
+      .combined-frame.video {
+        height: 650px;
+      }
+
+      .combined-frame.banner {
+        height: 500px;
+      }
+
+      .combined-frame.explore {
+        height: 1600px;
+      }
+
+      .combined-frame.tabs {
+        height: 2200px;
+      }
+
+      .combined-frame.contact {
+        height: 1050px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .combined-frame.video {
+        height: 620px;
+      }
+
+      .combined-frame.banner {
+        height: 610px;
+      }
+
+      .combined-frame.explore {
+        height: 2700px;
+      }
+
+      .combined-frame.tabs {
+        height: 3900px;
+      }
+
+      .combined-frame.contact {
+        height: 1180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="combined-page" aria-label="Zakara International leather goods manufacturer">
+    <section class="combined-section" aria-label="Factory video slider">
+      <iframe class="combined-frame video" src="video-slider.html" title="Zakara International factory video slider"></iframe>
+    </section>
+
+    <section class="combined-section" aria-label="Zakara International trust banner">
+      <iframe class="combined-frame banner" src="banner.html" title="Zakara International 12 plus years trust banner"></iframe>
+    </section>
+
+    <section class="combined-section" aria-label="Explore leather bag categories">
+      <iframe class="combined-frame explore" src="explore.html" title="Explore Zakara leather bag categories"></iframe>
+    </section>
+
+    <section class="combined-section" aria-label="Why choose Zakara and popular product tags">
+      <iframe class="combined-frame tabs" src="tabs.html" title="Zakara benefits and popular leather product tags"></iframe>
+    </section>
+
+    <section class="combined-section" aria-label="Contact Zakara International">
+      <iframe class="combined-frame contact" src="homeContact.html" title="Contact Zakara International leather goods factory"></iframe>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Zakara International's Kanpur leather goods manufacturing facility for OEM samples, private labeling, custom orders, and export enquiries." />
+  <title>Contact Our Leather Goods Factory | Zakara International</title>
+
+  <!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Local preview reset (does not leak when pasted in WordPress) */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       SCOPED DESIGN TOKENS & ISOLATION (SAFE FOR WORDPRESS / ELEMENTOR)
+       Scopes all styling under .zakara-contact-section to avoid theme conflicts
+       ========================================================================== */
+    .zakara-contact-section,
+    .zakara-contact-toast {
+      --bg-page: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-card-subtle: #FAF8F5;
+      
+      --text-dark: #1C1815;
+      --text-muted: #665F58;
+      --text-dim: #948B82;
+      
+      --accent-tan: #965B34;
+      --accent-tan-light: #B87343;
+      --accent-dark: #1E1A17;
+      
+      --border-subtle: #ECE6DD;
+      --border-hover: #D7CCC0;
+      
+      --shadow-sm: 0 2px 8px rgba(28, 24, 21, 0.04);
+      --shadow-card: 0 6px 20px -3px rgba(28, 24, 21, 0.06);
+      --shadow-hover: 0 16px 36px -6px rgba(150, 91, 52, 0.14);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Scoped Box-Sizing & Reset inside this section only */
+    .zakara-contact-section,
+    .zakara-contact-section *,
+    .zakara-contact-section *::before,
+    .zakara-contact-section *::after,
+    .zakara-contact-toast,
+    .zakara-contact-toast * {
+      box-sizing: border-box;
+      font-family: var(--font-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Neutralize WordPress Theme Injected Margins/Paddings/Borders */
+    .zakara-contact-section h2,
+    .zakara-contact-section p,
+    .zakara-contact-section a {
+      margin: 0;
+      padding: 0;
+    }
+
+    .zakara-contact-section a {
+      color: inherit;
+      text-decoration: none !important;
+      box-shadow: none !important;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .zakara-contact-section a:hover,
+    .zakara-contact-section a:focus {
+      text-decoration: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Main Contact Section Wrapper - seamlessly fits inside Elementor / theme containers */
+    .zakara-contact-section {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 32px 0 48px;
+      background-color: transparent;
+      color: var(--text-dark);
+      line-height: 1.6;
+      box-sizing: border-box;
+      clear: both;
+    }
+
+    /* Scoped Container - fills 100% of the parent Elementor container without overflowing */
+    .zakara-contact-section .contact-container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Section Header */
+    .zakara-contact-section .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+
+    .zakara-contact-section .section-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      color: var(--text-dark);
+    }
+
+    .zakara-contact-section .section-title .title-accent {
+      color: var(--accent-tan);
+    }
+
+    /* Signature Dual-Tone Accent Divider */
+    .zakara-contact-section .brand-accent-line {
+      width: 100px;
+      height: 3.5px;
+      margin: 0 auto 16px;
+      display: flex;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .zakara-contact-section .brand-accent-line .dark-bar {
+      flex: 1;
+      height: 100%;
+      background-color: var(--accent-dark);
+    }
+
+    .zakara-contact-section .brand-accent-line .tan-bar {
+      flex: 1;
+      height: 100%;
+      background-color: var(--accent-tan);
+    }
+
+    .zakara-contact-section .section-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       3 CLEAN CONTACT DETAIL CARDS (ADDRESS, PHONE/WHATSAPP, MAIL/EMAIL)
+       ========================================================================== */
+    .zakara-contact-section .contact-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .zakara-contact-section .contact-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .zakara-contact-section .contact-card:hover {
+      background: #FFFFFF;
+      transform: translateY(-4px);
+      border-color: rgba(150, 91, 52, 0.4);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Icon Box */
+    .zakara-contact-section .contact-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(150, 91, 52, 0.1);
+      color: var(--accent-tan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .zakara-contact-section .contact-card-icon svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .zakara-contact-section .contact-card:hover .contact-card-icon {
+      background: var(--accent-tan);
+      color: #FFFFFF;
+      transform: scale(1.08);
+      box-shadow: 0 6px 16px -2px rgba(150, 91, 52, 0.35);
+    }
+
+    .zakara-contact-section .contact-card-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent-tan);
+      margin-bottom: 6px;
+    }
+
+    .zakara-contact-section .contact-card-value {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.55;
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+
+    /* Action Link */
+    .zakara-contact-section .contact-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-tan) !important;
+      transition: var(--transition);
+      margin-top: auto;
+      width: fit-content;
+    }
+
+    .zakara-contact-section .contact-card-link svg {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    .zakara-contact-section .contact-card-link:hover {
+      color: var(--accent-dark) !important;
+    }
+
+    .zakara-contact-section .contact-card-link:hover svg {
+      transform: translateX(3px) translateY(-1px);
+    }
+
+    /* Dual Action Row for Phone & WhatsApp */
+    .zakara-contact-section .phone-actions-wrap {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .zakara-contact-section .btn-action-small {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      color: var(--text-dark) !important;
+      transition: var(--transition);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .zakara-contact-section .btn-action-small:hover {
+      background: var(--accent-dark);
+      color: #FFFFFF !important;
+      border-color: var(--accent-dark);
+    }
+
+    .zakara-contact-section .btn-action-small.whatsapp {
+      background: rgba(37, 211, 102, 0.1);
+      border-color: rgba(37, 211, 102, 0.25);
+      color: #128C7E !important;
+    }
+
+    .zakara-contact-section .btn-action-small.whatsapp:hover {
+      background: #25D366;
+      color: #FFFFFF !important;
+      border-color: #25D366;
+    }
+
+    .zakara-contact-section .phone-link {
+      color: inherit;
+      text-decoration: none !important;
+      transition: var(--transition);
+    }
+
+    .zakara-contact-section .phone-link:hover {
+      color: var(--accent-tan) !important;
+    }
+
+    /* ==========================================================================
+       CLEAN EMBEDDED GOOGLE MAP CARD WITH 4.9★ RATING BADGE
+       ========================================================================== */
+    .zakara-contact-section .map-container-card {
+      position: relative;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      height: 380px;
+      transition: var(--transition);
+    }
+
+    .zakara-contact-section .map-container-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .zakara-contact-section .map-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      filter: contrast(1.02) saturate(1.05);
+    }
+
+    /* Floating Rating & Location Badge on Map */
+    .zakara-contact-section .map-floating-badge {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(28, 24, 21, 0.08);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+      pointer-events: auto;
+      text-decoration: none !important;
+    }
+
+    .zakara-contact-section .rating-star-icon {
+      color: #F5A623;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .zakara-contact-section .rating-text-wrap {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .zakara-contact-section .rating-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.3;
+    }
+
+    .zakara-contact-section .rating-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       FEEDBACK TOAST NOTIFICATION
+       ========================================================================== */
+    .zakara-contact-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: #1C1815;
+      color: #FFFFFF;
+      padding: 12px 24px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 999999;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .zakara-contact-toast svg {
+      color: #25D366;
+      flex-shrink: 0;
+    }
+
+    .zakara-contact-toast.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS (TAILORED FOR ELEMENTOR CONTAINERS)
+       ========================================================================== */
+    @media (max-width: 1100px) {
+      .zakara-contact-section .contact-cards-grid {
+        gap: 14px;
+      }
+      .zakara-contact-section .contact-card {
+        padding: 20px 16px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .zakara-contact-section .contact-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .zakara-contact-section .map-container-card {
+        height: 320px;
+      }
+      .zakara-contact-section .section-title {
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .zakara-contact-section {
+        padding: 24px 0 36px;
+      }
+      .zakara-contact-section .contact-card {
+        padding: 18px 14px;
+      }
+      .zakara-contact-section .map-floating-badge {
+        top: 10px;
+        left: 10px;
+        padding: 6px 10px;
+      }
+      .zakara-contact-section .map-container-card {
+        height: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================================================
+       START COPYING FROM HERE TO PASTE INTO WORDPRESS / ELEMENTOR HTML WIDGET
+       ========================================================================== -->
+  <section class="zakara-contact-section" id="contact-details">
+    <div class="contact-container">
+
+      <!-- Header -->
+      <header class="section-header">
+        <h2 class="section-title">
+          <span class="title-accent">CONTACT</span> DETAILS
+        </h2>
+        
+        <div class="brand-accent-line" aria-hidden="true">
+          <span class="dark-bar"></span>
+          <span class="tan-bar"></span>
+        </div>
+
+        <p class="section-desc">
+          Direct access to our Kanpur manufacturing facility and international export desk for OEM sampling, custom orders, and facility visits.
+        </p>
+      </header>
+
+      <!-- 3 Clean Contact Detail Cards (Address, Phone/WhatsApp, Mail/Email) -->
+      <div class="contact-cards-grid">
+
+        <!-- 1. Address Card -->
+        <div class="contact-card">
+          <div class="contact-card-icon" aria-hidden="true">
+            <!-- Location Pin SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <span class="contact-card-label">Factory & Manufacturing</span>
+          <p class="contact-card-value">
+            Zakara International,<br>
+            77-H, Panki Industrial Estate,<br>
+            Site-1, Kanpur-208022,<br>
+            Uttar Pradesh, INDIA
+          </p>
+          <a href="https://maps.app.goo.gl/rhkoSe9Zoq6PVdAt7" target="_blank" rel="noopener" class="contact-card-link" title="Open Zakara International in Google Maps">
+            <span>Open in Google Maps</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+          </a>
+        </div>
+
+        <!-- 2. Phone & WhatsApp Card -->
+        <div class="contact-card">
+          <div class="contact-card-icon" aria-hidden="true">
+            <!-- Phone / Headset SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <span class="contact-card-label">Direct Export Desk</span>
+          <p class="contact-card-value">
+            <a href="tel:+919621486975" class="phone-link" title="Click to call +91-96214 86975" onclick="handleCallClick(event)">+91-96214 86975</a>
+          </p>
+          <div class="phone-actions-wrap">
+            <a href="tel:+919621486975" class="btn-action-small" id="callNowBtn" title="Call Zakara International" onclick="handleCallClick(event)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width: 13px; height: 13px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>Call Now</span>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=919621486975&text=Hello%20Zakara%20International,%20I%20am%20inquiring%20about%20custom%20leather%20manufacturing" target="_blank" rel="noopener" class="btn-action-small whatsapp" title="Chat on WhatsApp (+91 96214 86975)">
+              <!-- WhatsApp SVG icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 14px; height: 14px;"><path d="M12.031 2C6.495 2 2 6.494 2 12.031c0 1.768.46 3.493 1.332 5.006L2 22l5.107-1.338A10.007 10.007 0 0 0 12.03 22c5.536 0 10.03-4.495 10.03-10.031C22.062 6.495 17.567 2 12.031 2zm5.834 14.218c-.244.685-1.42 1.309-1.966 1.393-.508.078-1.168.11-1.89-.122-.437-.14-1-.326-1.727-.64-3.064-1.326-5.06-4.417-5.214-4.62-.152-.204-1.246-1.656-1.246-3.158 0-1.503.788-2.242 1.069-2.548.28-.306.61-.382.814-.382.204 0 .407.002.585.01.19.009.444-.072.695.53.254.611.865 2.112.941 2.266.076.152.127.33.025.534-.1.203-.152.33-.305.508-.153.178-.321.398-.458.534-.153.152-.313.318-.135.624.178.305.792 1.307 1.7 2.116 1.168 1.042 2.152 1.365 2.457 1.518.305.152.483.127.66-.077.178-.203.763-.89 967-1.195.203-.305.406-.254.685-.152.28.102 1.777.838 2.082.99.305.153.508.23.584.356.077.127.077.737-.167 1.422z"/></svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Mail / Email Card -->
+        <div class="contact-card">
+          <div class="contact-card-icon" aria-hidden="true">
+            <!-- Mail SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+          </div>
+          <span class="contact-card-label">Wholesale & RFQ Email</span>
+          <p class="contact-card-value">
+            <a href="mailto:enquiry@zakarabags.com" class="phone-link" title="Email enquiry@zakarabags.com">enquiry@zakarabags.com</a>
+          </p>
+          <a href="mailto:enquiry@zakarabags.com" class="contact-card-link" title="Email enquiry@zakarabags.com">
+            <span>Send An Email</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Interactive Embedded Google Map with Luxury Framing -->
+      <div class="map-container-card">
+        
+        <!-- Rating Overlay linking directly to Maps URL -->
+        <a href="https://maps.app.goo.gl/rhkoSe9Zoq6PVdAt7" target="_blank" rel="noopener" class="map-floating-badge" title="View Zakara International Reviews on Google Maps">
+          <div class="rating-star-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width: 18px; height: 18px;">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="rating-text-wrap">
+            <span class="rating-title">Zakara International <span>4.9 ★</span></span>
+            <span class="rating-sub">46 Verified Google Reviews • Open Map ↗</span>
+          </div>
+        </a>
+
+        <!-- Google Maps Embed for Zakara International -->
+        <iframe 
+          class="map-iframe" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3571.503461426188!2d80.2605285!3d26.4550875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c481afdc41adf%3A0x496f0561fc6a51d8!2sZakara%20International!5e0!3m2!1sen!2sin!4v1725974000000!5m2!1sen!2sin"
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Zakara International Manufacturing Facility Location on Google Maps">
+        </iframe>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Feedback Toast Element -->
+  <div id="contactToast" class="zakara-contact-toast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 18px; height: 18px;"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toastMessage">Copied to clipboard!</span>
+  </div>
+
+  <script>
+    // Scoped Handler for WordPress & Browser Compatibility
+    (function() {
+      window.handleCallClick = function(e) {
+        if (e) e.preventDefault();
+        const phoneNumber = '+919621486975';
+        const formattedNumber = '+91 96214 86975';
+        
+        // Copy to clipboard
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(phoneNumber).then(function() {
+            showToast('Dialing & copied: ' + formattedNumber);
+          }).catch(function() {
+            showToast('Calling: ' + formattedNumber);
+          });
+        } else {
+          showToast('Calling: ' + formattedNumber);
+        }
+
+        // Initiate phone call
+        setTimeout(function() {
+          window.location.href = 'tel:' + phoneNumber;
+        }, 300);
+      };
+
+      window.showToast = function(msg) {
+        const toast = document.getElementById('contactToast');
+        const message = document.getElementById('toastMessage');
+        if (!toast || !message) return;
+
+        message.textContent = msg;
+        toast.classList.add('active');
+
+        if (window._toastTimeout) clearTimeout(window._toastTimeout);
+        window._toastTimeout = setTimeout(function() {
+          toast.classList.remove('active');
+        }, 3500);
+      };
+    })();
+  </script>
+
+</body>
+</html>

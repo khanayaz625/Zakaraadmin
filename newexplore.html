@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Explore Zakara's leather bag categories, from laptop bags and backpacks to travel, camera, messenger, and handmade leather bags." />
+  <title>Explore Leather Bag Categories | Zakara International</title>
+
+  <!-- Modern Clean Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CLEAN DESIGN SYSTEM & RESET (MODERN LUXURY EDITION)
+       ========================================================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-page: #171614;
+      --bg-card: #eee9df;
+      --text-main: #f7f3eb;
+      --text-muted: #b7b0a5;
+      --accent-tan: #d49a65;
+      --accent-tan-light: #edbd8a;
+      --accent-dark: #1e1b18;
+      --border-subtle: rgba(255, 255, 255, 0.14);
+      --border-hover: #d49a65;
+
+      --radius-card: 4px;
+      --radius-full: 9999px;
+
+      --transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       EXPLORE BY CATEGORY - MODERN LUXURY SECTION
+       ========================================================================== */
+    .category-section {
+      padding: 82px 0 104px;
+      background-color: #171614 !important;
+      background-image:
+        radial-gradient(circle at 8% 12%, rgba(212, 154, 101, 0.16), transparent 28%),
+        radial-gradient(circle at 92% 80%, rgba(255, 255, 255, 0.04), transparent 25%),
+        linear-gradient(135deg, #1d1b18 0%, var(--bg-page) 55%, #211c18 100%);
+      color: #f7f3eb;
+    }
+
+    /* Section Header */
+    .section-header {
+      max-width: 760px;
+      margin: 0 0 38px;
+      text-align: left;
+    }
+
+    .section-eyebrow {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      color: var(--accent-tan);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    /* Signature Brand Accent Line */
+    .brand-accent-line {
+      width: 90px;
+      height: 3.5px;
+      margin: 0 0 18px;
+      display: flex;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .brand-accent-line .dark-segment {
+      flex: 1;
+      background-color: #f7f3eb;
+    }
+
+    .brand-accent-line .tan-segment {
+      flex: 1;
+      background-color: var(--accent-tan);
+    }
+
+    .section-subtitle {
+      max-width: 590px;
+      font-size: clamp(14px, 1.3vw, 16px);
+      color: #e0d8cc;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       CATEGORY GRID (4 Columns x 2 Rows)
+       ========================================================================== */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    /* ==========================================================================
+       MODERN LUXURY CATEGORY CARDS
+       ========================================================================== */
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      border-radius: var(--radius-card);
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+      background: transparent;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+      outline: none;
+    }
+
+    /* Product Showcase Frame */
+    .card-media {
+      position: relative;
+      width: 100%;
+      height: 292px;
+      background: linear-gradient(145deg, #f7f3eb, #d9d0c2);
+      border: 0;
+      border-radius: var(--radius-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    /* Warm Luxury Grounding Shadow */
+    .card-media::after {
+      content: '';
+      position: absolute;
+      bottom: 24px;
+      width: 65%;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(150, 91, 52, 0.12) 0%, transparent 70%);
+      transition: var(--transition);
+      z-index: 1;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
+      margin: 0 auto;
+      mix-blend-mode: multiply;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Circular Luxury Corner Pill */
+    .card-hover-arrow {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      opacity: 0;
+      transform: scale(0.85);
+      transition: var(--transition);
+      z-index: 5;
+    }
+
+    .card-hover-arrow svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: var(--accent-tan);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.25s ease;
+    }
+
+    /* Card Details */
+    .card-info {
+      min-height: 92px;
+      padding: 17px 18px 16px;
+      text-align: left;
+      background: #f3eee5;
+      border-top: 3px solid var(--accent-tan);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 7px;
+      transition: color 0.25s ease;
+    }
+
+    .card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--accent-tan);
+      opacity: 0.9;
+      transition: var(--transition);
+    }
+
+    .category-card::before {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 6;
+      color: rgba(30, 26, 23, 0.48);
+      content: counter(category-card);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .category-grid {
+      counter-reset: category-card;
+    }
+
+    .category-card {
+      counter-increment: category-card;
+    }
+
+    .card-action svg {
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.25s ease;
+    }
+
+    /* Card Hover & Focus States */
+    .category-card:hover .card-media,
+    .category-card:focus-visible .card-media {
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 42px -8px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(212, 154, 101, 0.34);
+      transform: translateY(-5px);
+    }
+
+    .category-card:hover .card-media::after,
+    .category-card:focus-visible .card-media::after {
+      width: 76%;
+      background: radial-gradient(ellipse, rgba(150, 91, 52, 0.2) 0%, transparent 70%);
+      transform: scale(1.08);
+    }
+
+    .category-card:hover .card-image,
+    .category-card:focus-visible .card-image {
+      transform: translateY(-5px) scale(1.04);
+    }
+
+    .category-card:hover .card-hover-arrow,
+    .category-card:focus-visible .card-hover-arrow {
+      opacity: 1;
+      transform: scale(1);
+      border-color: var(--accent-tan);
+    }
+
+    .category-card:hover .card-hover-arrow svg {
+      transform: translate(1px, -1px);
+    }
+
+    .category-card:hover .card-title,
+    .category-card:focus-visible .card-title {
+      color: var(--accent-tan);
+    }
+
+    .category-card:hover .card-info,
+    .category-card:focus-visible .card-info {
+      background: #fffaf1;
+    }
+
+    .category-card:hover .card-action,
+    .category-card:focus-visible .card-action {
+      opacity: 1;
+      color: var(--accent-tan-light);
+    }
+
+    .category-card:hover .card-action svg,
+    .category-card:focus-visible .card-action svg {
+      transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1080px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .category-grid {
+        gap: 14px;
+      }
+
+      .card-media {
+        height: 240px;
+        padding: 10px;
+        border-radius: 3px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .category-section {
+        padding: 48px 0 68px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .card-media {
+        height: 220px;
+        padding: 8px;
+        border-radius: 3px;
+      }
+
+      .card-info {
+        min-height: 84px;
+        padding: 14px;
+      }
+
+      .card-title {
+        font-size: 13px;
+        letter-spacing: 0.6px;
+      }
+
+      .card-action {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <!-- EXPLORE BY CATEGORY SECTION -->
+    <section id="explore-categories" class="category-section">
+      <div class="container">
+
+        <!-- Section Header -->
+        <header class="section-header">
+          <span class="section-eyebrow">Collections</span>
+          <h1 class="section-title">Explore By Category</h1>
+          <!-- Signature Brand Accent Line -->
+          <div class="brand-accent-line" aria-hidden="true">
+            <span class="dark-segment"></span>
+            <span class="tan-segment"></span>
+          </div>
+          <p class="section-subtitle">Custom leather goods handcrafted with authentic artisan precision in Kanpur,
+            India.</p>
+        </header>
+
+        <!-- Category Grid (8 Categories) -->
+        <div id="categoryGrid" class="category-grid">
+
+          <!-- 1. Camera Bags -->
+          <a href="https://www.zakarabags.com/product-category/leather-accessories/camera-bags/" class="category-card"
+            aria-label="Explore Camera Bags collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image"
+                src="https://www.zakarabags.com/wp-content/uploads/2021/04/Leather-Camera-Bag-ZB-CB-265-1-1.jpg"
+                alt="Camera Bags" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Camera Bags</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 2. Canvas Bags -->
+          <a href="https://www.zakarabags.com/product-category/canvas-bags/" class="category-card"
+            aria-label="Explore Canvas Bags collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image"
+                src="https://www.zakarabags.com/wp-content/uploads/2026/02/Canvas-Laptop-Bag-ZB-PB-210-A.jpg"
+                alt="Canvas Bags" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Canvas Bags</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 3. Duffle / Travel Bags -->
+          <a href="https://www.zakarabags.com/product-category/duffle-travel-bags/" class="category-card"
+            aria-label="Explore Duffle and Travel Bags collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image"
+                src="https://www.zakarabags.com/wp-content/uploads/2019/06/Leather-Weekend-Bag-ZB-WB-163-4-1.jpg"
+                alt="Duffle / Travel Bags" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Duffle / Travel Bags</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 4. Ladies Bags -->
+          <a href="https://www.zakarabags.com/product-category/ladies-bags/" class="category-card"
+            aria-label="Explore Ladies Bags collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image" src="https://www.zakarabags.com/wp-content/uploads/2026/02/Ladies-Tote-Bag.jpg"
+                alt="Ladies Bags" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Ladies Bags</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 5. Leather Backpacks -->
+          <a href="https://www.zakarabags.com/product-category/leather-backpack/" class="category-card"
+            aria-label="Explore Backpacks collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image" src="https://www.zakarabags.com/wp-content/uploads/2026/02/ZB-BP-658.jpg"
+                alt="Backpacks" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Backpacks</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 6. Leather Cushion Covers -->
+          <a href="https://www.zakarabags.com/leather-cushion-cover-2/" class="category-card"
+            aria-label="Explore Leather Cushion Covers collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image"
+                src="https://www.zakarabags.com/wp-content/uploads/2026/02/Leather-Cushion-Cover.jpg"
+                alt="Leather Cushion Covers" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Leather Cushion Covers</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 7. Messenger / Laptop Bags -->
+          <a href="https://www.zakarabags.com/product-category/messenger-laptop-bags/" class="category-card"
+            aria-label="Explore Messenger and Laptop Bags collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image" src="https://www.zakarabags.com/wp-content/uploads/2026/02/IMG_8667.jpg"
+                alt="Messenger / Laptop Bags" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Messenger / Laptop Bags</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- 8. Other Accessories -->
+          <a href="https://www.zakarabags.com/product-category/leather-accessories/other-accessories/"
+            class="category-card" aria-label="Explore Other Accessories collection">
+            <div class="card-media">
+              <span class="card-hover-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </span>
+              <img class="card-image"
+                src="https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Wallets-New-3.jpg"
+                alt="Other Accessories" loading="lazy" />
+            </div>
+            <div class="card-info">
+              <h2 class="card-title">Other Accessories</h2>
+              <span class="card-action">
+                View Collection
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+
+</html>

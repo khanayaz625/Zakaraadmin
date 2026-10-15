@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title id="pageTitle">Product Details | Zakara International</title>
+	<meta id="pageMetaDesc" name="description" content="Handcrafted genuine leather bags, wholesale B2B manufacturing, and custom private labeling by Zakara International Kanpur." />
+	<meta name="keywords" content="zakara leather bags, leather bag manufacturer, B2B leather wholesale, leather bags kanpur, private label leather" />
+
+	<link rel="shortcut icon" href="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" type="image/png" />
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+	<style>
+		/* ==========================================================================
+		   LUXURY PANTONE & LEATHER DESIGN TOKENS
+		   ========================================================================== */
+		:root {
+			--pantone-cocoa: #6b4537;
+			--pantone-gold: #c28a5a;
+			--pantone-gold-light: #d49866;
+			--pantone-ivory: #f5f0ea;
+			--pantone-cream: #eadcc8;
+			--pantone-asphalt: #292525;
+			--pantone-mocha: #a47864;
+			
+			--ink-dark: #1c1917;
+			--text-body: #4a423a;
+			--text-muted: #756d66;
+			--border-line: #e6ded6;
+			--bg-page: #fbf9f6;
+			--bg-card: #ffffff;
+			--bg-card-subtle: #f8f4ef;
+			
+			--radius-sm: 8px;
+			--radius-md: 14px;
+			--radius-lg: 20px;
+			--radius-full: 9999px;
+			
+			--shadow-card: 0 10px 30px rgba(41, 37, 37, 0.06);
+			--shadow-hover: 0 16px 36px rgba(107, 69, 55, 0.14);
+			--transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+			
+			--font-heading: 'Poppins', sans-serif;
+			--font-body: 'Roboto', sans-serif;
+		}
+
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+		html { scroll-behavior: smooth; }
+		
+		body {
+			color: var(--text-body);
+			background-color: var(--bg-page);
+			font-family: var(--font-body);
+			line-height: 1.6;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		a { color: inherit; text-decoration: none !important; transition: var(--transition); }
+		button, input, select, textarea { font-family: inherit; }
+		button { cursor: pointer; border: none; outline: none; }
+
+		.shop-shell {
+			width: 100vw;
+			max-width: none;
+			margin: 0 0 0 calc(50% - 50vw);
+			padding: 20px 4vw 80px;
+			background-color: var(--bg-page);
+		}
+
+		.product-detail-container {
+			max-width: 1320px;
+			margin: 0 auto;
+		}
+
+		/* Main Showcase Grid */
+		.product-main-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 44px;
+			align-items: start;
+			background: var(--bg-card);
+			padding: 36px;
+			border-radius: var(--radius-lg);
+			border: 1px solid var(--border-line);
+			box-shadow: var(--shadow-card);
+			margin-bottom: 48px;
+		}
+
+		/* Left Column: Gallery + Swatches + Specs + Trust Grid */
+		.left-showcase-column {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+		}
+
+		.gallery-wrapper {
+			display: grid;
+			grid-template-columns: 96px 1fr;
+			gap: 20px;
+			position: static;
+		}
+
+		.thumbs-column {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			max-height: 540px;
+			overflow-y: auto;
+			padding-right: 4px;
+		}
+
+		.thumbs-column::-webkit-scrollbar {
+			width: 4px;
+		}
+		.thumbs-column::-webkit-scrollbar-thumb {
+			background: var(--pantone-cream);
+			border-radius: var(--radius-full);
+		}
+
+		.thumb-item {
+			width: 86px;
+			height: 86px;
+			border-radius: var(--radius-sm);
+			border: 2px solid var(--border-line);
+			overflow: hidden;
+			cursor: pointer;
+			background: var(--bg-card-subtle);
+			transition: var(--transition);
+			position: relative;
+			flex-shrink: 0;
+		}
+
+		.thumb-item img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		.thumb-item:hover, .thumb-item.active {
+			border-color: var(--pantone-gold);
+			box-shadow: 0 4px 12px rgba(194, 138, 90, 0.25);
+			transform: scale(1.03);
+		}
+
+		.main-display {
+			position: relative;
+			width: 100%;
+			aspect-ratio: 1 / 1.05;
+			border-radius: var(--radius-md);
+			overflow: hidden;
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.main-display-img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			transition: transform 0.5s ease, opacity 0.3s ease;
+			cursor: zoom-in;
+		}
+
+		.main-display:hover .main-display-img {
+			transform: scale(1.04);
+		}
+
+		.badge-stack {
+			position: absolute;
+			top: 14px;
+			left: 14px;
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			z-index: 2;
+		}
+
+		.badge-tag {
+			padding: 5px 10px;
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border: 1px solid var(--pantone-gold);
+			border-radius: 4px;
+			font-size: 10px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 0.8px;
+			text-transform: uppercase;
+			box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+		}
+
+		.badge-tag.highlight {
+			background: #ffffff;
+			color: var(--pantone-cocoa);
+			border-color: var(--pantone-gold);
+		}
+
+		.zoom-trigger {
+			position: absolute;
+			bottom: 14px;
+			right: 14px;
+			width: 38px;
+			height: 38px;
+			border-radius: var(--radius-full);
+			background: rgba(255, 255, 255, 0.9);
+			backdrop-filter: blur(4px);
+			border: 1px solid var(--border-line);
+			color: var(--ink-dark);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: var(--shadow-card);
+			transition: var(--transition);
+			z-index: 2;
+		}
+
+		.zoom-trigger:hover {
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border-color: var(--pantone-cocoa);
+			transform: scale(1.1);
+		}
+
+		/* Right Column: Information, Action Box & Craftsmanship Highlights */
+		.product-info-column {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.product-header-category {
+			font-family: var(--font-heading);
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 1.8px;
+			text-transform: uppercase;
+			color: var(--pantone-gold);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.product-header-category::before {
+			content: '';
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			background: var(--pantone-gold);
+		}
+
+		.product-title {
+			font-family: var(--font-heading);
+			font-size: 30px;
+			font-weight: 700;
+			color: var(--ink-dark);
+			line-height: 1.25;
+		}
+
+		.short-desc {
+			font-size: 15px;
+			color: var(--text-body);
+			line-height: 1.6;
+			padding-bottom: 12px;
+			border-bottom: 1px dashed var(--border-line);
+		}
+
+		.sku-badge-card {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			padding: 8px 16px;
+			background: var(--pantone-ivory);
+			border: 1px solid var(--pantone-gold);
+			border-radius: var(--radius-sm);
+			color: var(--pantone-cocoa);
+			font-family: var(--font-heading);
+			font-size: 13.5px;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+			width: fit-content;
+		}
+
+		.specs-table {
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 20px;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 14px 20px;
+		}
+
+		.spec-item {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+		}
+
+		.spec-label {
+			font-size: 11.5px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 0.8px;
+			text-transform: uppercase;
+			color: var(--text-muted);
+		}
+
+		.spec-value {
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--ink-dark);
+		}
+
+		.spec-item.full-width {
+			grid-column: 1 / -1;
+		}
+
+		/* Color Swatches */
+		.color-swatch-wrapper {
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 16px 20px;
+		}
+
+		.color-swatch-label {
+			font-size: 12.5px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			color: var(--ink-dark);
+			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.color-swatches {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.swatch-btn {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			border: 2px solid var(--bg-card);
+			outline: 2px solid var(--border-line);
+			cursor: pointer;
+			transition: var(--transition);
+			position: relative;
+		}
+
+		.swatch-btn.active, .swatch-btn:hover {
+			outline-color: var(--pantone-cocoa);
+			transform: scale(1.12);
+		}
+
+		.swatch-btn.active::after {
+			content: '✓';
+			position: absolute;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #ffffff;
+			font-size: 12px;
+			font-weight: bold;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+		}
+
+		/* Action Box */
+		.action-box {
+			background: var(--pantone-ivory);
+			border: 1px solid var(--pantone-gold);
+			border-radius: var(--radius-md);
+			padding: 24px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		.action-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.b2b-price-notice {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.price-title {
+			font-size: 12px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			text-transform: uppercase;
+			color: var(--pantone-cocoa);
+			letter-spacing: 0.5px;
+		}
+
+		.price-val {
+			font-size: 22px;
+			font-family: var(--font-heading);
+			font-weight: 700;
+			color: var(--ink-dark);
+		}
+
+		.stock-tag {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 4px 10px;
+			border-radius: var(--radius-full);
+			background: #e6f4ea;
+			color: #137333;
+			font-size: 11.5px;
+			font-weight: 600;
+		}
+
+		.stock-tag::before {
+			content: '';
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background: #137333;
+		}
+
+		.qty-row {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+		}
+
+		.qty-label {
+			font-size: 13px;
+			font-weight: 600;
+			color: var(--ink-dark);
+		}
+
+		.qty-selector {
+			display: inline-flex;
+			align-items: center;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+			overflow: hidden;
+		}
+
+		.qty-btn {
+			width: 36px;
+			height: 36px;
+			background: #ffffff;
+			color: var(--ink-dark);
+			font-size: 16px;
+			font-weight: 700;
+			transition: var(--transition);
+		}
+
+		.qty-btn:hover {
+			background: var(--pantone-ivory);
+			color: var(--pantone-cocoa);
+		}
+
+		.qty-input {
+			width: 48px;
+			height: 36px;
+			text-align: center;
+			border: none;
+			outline: none;
+			font-weight: 700;
+			color: var(--ink-dark);
+			font-size: 14px;
+		}
+
+		.button-group {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+		}
+
+		.btn-primary {
+			padding: 14px 20px;
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border: 1px solid var(--pantone-gold);
+			border-radius: var(--radius-sm);
+			font-family: var(--font-heading);
+			font-size: 13.5px;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			transition: var(--transition);
+			box-shadow: 0 4px 14px rgba(107, 69, 55, 0.2);
+		}
+
+		.btn-primary:hover {
+			background: #523429;
+			border-color: #ffffff;
+			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(107, 69, 55, 0.3);
+		}
+
+		.btn-whatsapp {
+			padding: 14px 20px;
+			background: #25d366;
+			color: #ffffff;
+			border: 1px solid #1ebe5d;
+			border-radius: var(--radius-sm);
+			font-family: var(--font-heading);
+			font-size: 13.5px;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			transition: var(--transition);
+		}
+
+		.btn-whatsapp:hover {
+			background: #1eb957;
+			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+		}
+
+		.btn-full {
+			grid-column: 1 / -1;
+		}
+
+		/* Right Side Highlights & B2B Customization Card */
+		.side-highlights-card {
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 24px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		.side-highlights-title {
+			font-family: var(--font-heading);
+			font-size: 15px;
+			font-weight: 700;
+			color: var(--pantone-cocoa);
+			text-transform: uppercase;
+			letter-spacing: 0.8px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.highlights-list {
+			list-style: none;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		.highlights-list li {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			font-size: 13.5px;
+			color: var(--text-body);
+			line-height: 1.5;
+		}
+
+		.highlights-list svg {
+			color: var(--pantone-gold);
+			flex-shrink: 0;
+			margin-top: 2px;
+		}
+
+		.trust-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 12px;
+			padding: 16px;
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+		}
+
+		.trust-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 12px;
+			color: var(--text-muted);
+			font-weight: 500;
+		}
+
+		.trust-item svg {
+			color: var(--pantone-gold);
+			flex-shrink: 0;
+		}
+
+		/* ==========================================================================
+		   DETAILED INFORMATION TABS SECTION
+		   ========================================================================== */
+		.details-tabs-wrapper {
+			width: 100%;
+			background: var(--bg-card);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-lg);
+			box-shadow: var(--shadow-card);
+			overflow: hidden;
+			margin-bottom: 48px;
+		}
+
+		.tab-nav {
+			display: flex;
+			border-bottom: 1px solid var(--border-line);
+			background: var(--bg-card-subtle);
+			overflow-x: auto;
+		}
+
+		.tab-button {
+			padding: 18px 28px;
+			font-family: var(--font-heading);
+			font-size: 13.5px;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			color: var(--text-muted);
+			background: transparent;
+			border-bottom: 3px solid transparent;
+			transition: var(--transition);
+			white-space: nowrap;
+		}
+
+		.tab-button:hover {
+			color: var(--pantone-cocoa);
+			background: rgba(245, 240, 234, 0.5);
+		}
+
+		.tab-button.active {
+			color: var(--pantone-cocoa);
+			background: var(--bg-card);
+			border-bottom-color: var(--pantone-gold);
+		}
+
+		.tab-content {
+			padding: 32px;
+			display: none;
+		}
+
+		.tab-content.active {
+			display: block;
+			animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.tab-content h3 {
+			font-family: var(--font-heading);
+			font-size: 20px;
+			color: var(--ink-dark);
+			margin-bottom: 16px;
+		}
+
+		.tab-content p {
+			margin-bottom: 14px;
+			font-size: 14.5px;
+			line-height: 1.7;
+			color: var(--text-body);
+		}
+
+		.tab-content ul {
+			margin-left: 20px;
+			margin-bottom: 16px;
+		}
+
+		.tab-content li {
+			margin-bottom: 8px;
+			font-size: 14px;
+			color: var(--text-body);
+		}
+
+		.spec-grid-detail {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 20px;
+			margin-top: 20px;
+		}
+
+		.spec-card-box {
+			padding: 18px;
+			background: var(--bg-card-subtle);
+			border-radius: var(--radius-sm);
+			border: 1px solid var(--border-line);
+		}
+
+		.spec-card-box h4 {
+			font-family: var(--font-heading);
+			font-size: 14px;
+			color: var(--pantone-cocoa);
+			margin-bottom: 6px;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		/* ==========================================================================
+		   RELATED PRODUCTS SECTION
+		   ========================================================================== */
+		.related-section {
+			width: 100%;
+			margin-top: 40px;
+		}
+
+		.related-title-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			margin-bottom: 24px;
+			padding-bottom: 12px;
+			border-bottom: 1px solid var(--border-line);
+		}
+
+		.related-heading {
+			font-family: var(--font-heading);
+			font-size: 22px;
+			font-weight: 700;
+			color: var(--ink-dark);
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.related-heading::before {
+			content: '';
+			display: inline-block;
+			width: 4px;
+			height: 20px;
+			background: var(--pantone-gold);
+			border-radius: var(--radius-full);
+		}
+
+		.view-all-link {
+			color: var(--pantone-cocoa);
+			font-family: var(--font-heading);
+			font-size: 12.5px;
+			font-weight: 700;
+			letter-spacing: 0.8px;
+			text-transform: uppercase;
+		}
+
+		.products-grid {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 24px;
+		}
+
+		.product-card {
+			background: var(--bg-card);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 12px;
+			transition: var(--transition);
+			box-shadow: var(--shadow-card);
+			display: flex;
+			flex-direction: column;
+		}
+
+		.product-card:hover {
+			transform: translateY(-5px);
+			border-color: var(--pantone-gold);
+			box-shadow: var(--shadow-hover);
+		}
+
+		.product-media {
+			position: relative;
+			display: block;
+			aspect-ratio: 1 / 1.05;
+			overflow: hidden;
+			border-radius: var(--radius-sm);
+			background: var(--bg-card-subtle);
+		}
+
+		.product-image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.product-card:hover .product-image {
+			transform: scale(1.06);
+		}
+
+		.product-badge {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			padding: 4px 8px;
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border: 1px solid var(--pantone-gold);
+			border-radius: 4px;
+			font-size: 9.5px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 0.8px;
+			text-transform: uppercase;
+		}
+
+		.product-info {
+			padding: 14px 4px 4px;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+		}
+
+		.product-category {
+			color: var(--pantone-gold);
+			font-size: 10.5px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			margin-bottom: 4px;
+		}
+
+		.product-name {
+			margin: 4px 0 12px;
+			font-family: var(--font-heading);
+			font-size: 15px;
+			font-weight: 600;
+			line-height: 1.35;
+			color: var(--ink-dark);
+			flex-grow: 1;
+		}
+
+		.product-bottom {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			padding-top: 10px;
+			border-top: 1px dashed var(--border-line);
+		}
+
+		.view-product {
+			color: var(--pantone-cocoa);
+			font-family: var(--font-heading);
+			font-size: 11.5px;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+		}
+
+		/* ==========================================================================
+		   POPUP MODAL FORM FOR B2B BULK ENQUIRY
+		   ========================================================================== */
+		.modal-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(28, 25, 23, 0.7);
+			backdrop-filter: blur(8px);
+			z-index: 1000;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			opacity: 0;
+			visibility: hidden;
+			transition: var(--transition);
+		}
+
+		.modal-overlay.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.modal-card {
+			background: var(--bg-card);
+			border: 2px solid var(--pantone-gold);
+			border-radius: var(--radius-lg);
+			width: 100%;
+			max-width: 640px;
+			max-height: 90vh;
+			overflow-y: auto;
+			padding: 36px;
+			box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+			position: relative;
+			transform: scale(0.92);
+			transition: var(--transition);
+		}
+
+		.modal-overlay.active .modal-card {
+			transform: scale(1);
+		}
+
+		.modal-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			background: var(--bg-card-subtle);
+			border: 1px solid var(--border-line);
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			font-size: 20px;
+			color: var(--ink-dark);
+			transition: var(--transition);
+		}
+
+		.modal-close:hover {
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+		}
+
+		.modal-title-wrap {
+			margin-bottom: 24px;
+			padding-bottom: 16px;
+			border-bottom: 1px solid var(--border-line);
+		}
+
+		.modal-title {
+			font-family: var(--font-heading);
+			font-size: 24px;
+			font-weight: 700;
+			color: var(--ink-dark);
+			margin-bottom: 6px;
+		}
+
+		.modal-subtitle {
+			font-size: 14px;
+			color: var(--text-muted);
+		}
+
+		.modal-form-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 18px;
+		}
+
+		.form-group {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.form-group.full-width {
+			grid-column: 1 / -1;
+		}
+
+		.form-label {
+			font-size: 12px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			color: var(--ink-dark);
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.form-input, .form-select, .form-textarea {
+			padding: 12px 16px;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+			font-size: 14px;
+			color: var(--ink-dark);
+			outline: none;
+			transition: var(--transition);
+		}
+
+		.form-input:focus, .form-select:focus, .form-textarea:focus {
+			border-color: var(--pantone-cocoa);
+			box-shadow: 0 0 0 3px rgba(107, 69, 55, 0.1);
+		}
+
+		/* Lightbox Overlay */
+		.lightbox-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0,0,0,0.9);
+			z-index: 1100;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0;
+			visibility: hidden;
+			transition: var(--transition);
+		}
+
+		.lightbox-overlay.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.lightbox-img {
+			max-width: 90vw;
+			max-height: 90vh;
+			object-fit: contain;
+			border-radius: var(--radius-sm);
+		}
+
+		.lightbox-close {
+			position: absolute;
+			top: 24px;
+			right: 24px;
+			color: #ffffff;
+			font-size: 32px;
+			cursor: pointer;
+		}
+
+		@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+		/* Responsive */
+		@media (max-width: 1024px) {
+			.product-main-grid { grid-template-columns: 1fr; gap: 32px; padding: 24px; }
+			.gallery-wrapper { grid-template-columns: 80px 1fr; }
+			.products-grid { grid-template-columns: repeat(2, 1fr); }
+			.modal-form-grid { grid-template-columns: 1fr; }
+		}
+
+		@media (max-width: 640px) {
+			.gallery-wrapper { grid-template-columns: 1fr; }
+			.thumbs-column { flex-direction: row; max-height: none; overflow-x: auto; width: 100%; order: 2; }
+			.main-display { order: 1; }
+			.products-grid { grid-template-columns: 1fr; }
+			.button-group { grid-template-columns: 1fr; }
+		}
+	</style>
+</head>
+<body>
+
+	<main class="shop-shell">
+		<div class="product-detail-container">
+
+			<!-- MAIN PRODUCT SHOWCASE GRID -->
+			<section class="product-main-grid" aria-label="Product details showcase">
+				
+				<!-- LEFT: GALLERY + SWATCHES + SPECS + TRUST GRID -->
+				<div class="left-showcase-column">
+					<div class="gallery-wrapper">
+						<div class="thumbs-column" id="thumbsColumn">
+							<!-- Thumbnails populated dynamically -->
+						</div>
+
+						<div class="main-display">
+							<div class="badge-stack">
+								<span class="badge-tag" id="badgeSku">ZB-LB-236</span>
+								<span class="badge-tag highlight">Genuine Leather</span>
+								<span class="badge-tag">Factory Direct</span>
+							</div>
+
+							<img id="mainImage" src="https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg" alt="Product Image" class="main-display-img" />
+							<button type="button" class="zoom-trigger" id="zoomBtn" title="Zoom image">
+								<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+							</button>
+						</div>
+					</div>
+
+					<!-- COLOR SWATCH SELECTOR UNDER GALLERY -->
+					<div class="color-swatch-wrapper">
+						<div class="color-swatch-label">
+							Selected Shade: <strong id="colorName">Tan / Brown Grain</strong>
+						</div>
+						<div class="color-swatches">
+							<button type="button" class="swatch-btn active" style="background: #6b4537;" data-color="Tan / Brown Grain" title="Tan / Brown"></button>
+							<button type="button" class="swatch-btn" style="background: #3b2319;" data-color="Dark Mocha Brown" title="Dark Brown"></button>
+							<button type="button" class="swatch-btn" style="background: #1c1917;" data-color="Classic Onyx Black" title="Black"></button>
+							<button type="button" class="swatch-btn" style="background: #a47864;" data-color="Rustic Cognac" title="Cognac"></button>
+						</div>
+					</div>
+
+					<!-- SPECIFICATIONS TABLE UNDER IMAGE -->
+					<div class="specs-table">
+						<div class="spec-item">
+							<span class="spec-label">Leather Material</span>
+							<span class="spec-value" id="specLeather">Soft Grain Leather</span>
+						</div>
+						<div class="spec-item">
+							<span class="spec-label">Dimensions</span>
+							<span class="spec-value" id="specDimension">13.5 x 4.7 x 11 inches</span>
+						</div>
+						<div class="spec-item">
+							<span class="spec-label">Hardware & Fittings</span>
+							<span class="spec-value" id="specFittings">Antique Brass Fittings</span>
+						</div>
+						<div class="spec-item">
+							<span class="spec-label">Approx Weight</span>
+							<span class="spec-value" id="specWeight">950 Gms</span>
+						</div>
+						<div class="spec-item full-width">
+							<span class="spec-label">Strap & Handles</span>
+							<span class="spec-value" id="specStrap">Dual leather handles & detachable shoulder strap. Adjustable 120cm - 130cm.</span>
+						</div>
+					</div>
+
+					<!-- TRUST BADGES GRID UNDER IMAGE -->
+					<div class="trust-grid">
+						<div class="trust-item">
+							<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+							<span>15-20 Days Lead Time</span>
+						</div>
+						<div class="trust-item">
+							<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+							<span>Custom Private Labeling</span>
+						</div>
+						<div class="trust-item">
+							<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+							<span>Worldwide Freight</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- RIGHT: PRODUCT INFO + ACTION BOX + SIDE HIGHLIGHTS -->
+				<div class="product-info-column">
+					<span class="product-header-category" id="categoryLabel">Ladies Bags</span>
+
+					<h1 class="product-title" id="productTitle">Ladies Soft Leather Handbag</h1>
+
+					<div class="sku-badge-card">
+						<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+						<span id="productCodeDisplay">Product Code: ZB-LB-236</span>
+					</div>
+
+					<p class="short-desc" id="shortDesc">
+						Handcrafted soft grain genuine leather handbag designed for working professionals. Features dedicated compartment for 13" MacBook Air/laptop, antique brass fittings, and detachable leather shoulder strap.
+					</p>
+
+					<!-- B2B ACTION BOX -->
+					<div class="action-box">
+						<div class="action-header">
+							<div class="b2b-price-notice">
+								<span class="price-title">Wholesale B2B Pricing</span>
+								<span class="price-val">Inquire Bulk Quote</span>
+							</div>
+							<span class="stock-tag">In Stock &bull; Factory Direct</span>
+						</div>
+
+						<div class="qty-row">
+							<span class="qty-label">Quantity:</span>
+							<div class="qty-selector">
+								<button type="button" class="qty-btn" id="qtyMinus">-</button>
+								<input type="text" class="qty-input" id="qtyInput" value="10" readonly />
+								<button type="button" class="qty-btn" id="qtyPlus">+</button>
+							</div>
+							<span style="font-size: 12px; color: var(--text-muted);">(MOQ: 10 Units)</span>
+						</div>
+
+						<div class="button-group">
+							<button type="button" class="btn-primary" id="openModalInquiry">
+								<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+								Bulk Enquiry Form
+							</button>
+							<a href="https://api.whatsapp.com/send?phone=919838031301&text=Hello%20Zakara,%20I%20am%20interested%20in%20a%20bulk%20enquiry%20for%20the%20Ladies%20Soft%20Leather%20Handbag" target="_blank" class="btn-whatsapp" id="whatsappBtn">
+								<svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+								WhatsApp Us
+							</a>
+						</div>
+					</div>
+
+					<!-- SIDE HIGHLIGHTS CARD -->
+					<div class="side-highlights-card">
+						<h3 class="side-highlights-title">
+							<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+							Craftsmanship & OEM Capabilities
+						</h3>
+						<ul class="highlights-list">
+							<li>
+								<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span><strong>Padded Laptop Storage:</strong> Custom padded compartment to protect up to 13.5" laptops and tablets.</span>
+							</li>
+							<li>
+								<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span><strong>Custom Brand Debossing:</strong> Heat deboss your brand logo, metal plaque, or custom lining tags.</span>
+							</li>
+							<li>
+								<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span><strong>Solid Metal Hardware:</strong> Heavy-duty YKK / antique brass zippers & stress-tested D-rings.</span>
+							</li>
+							<li>
+								<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span><strong>Sample Turnaround:</strong> Prototype dispatched in 5-7 business days with global express delivery.</span>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</section>
+
+			<!-- DETAILED INFORMATION TABS -->
+			<section class="details-tabs-wrapper">
+				<div class="tab-nav">
+					<button type="button" class="tab-button active" data-tab="tabDesc">Craftsmanship & Description</button>
+					<button type="button" class="tab-button" data-tab="tabSpecs">Technical Specifications</button>
+					<button type="button" class="tab-button" data-tab="tabCustom">Private Labeling & OEM</button>
+					<button type="button" class="tab-button" data-tab="tabShipping">Wholesale Shipping & Samples</button>
+				</div>
+
+				<!-- TAB 1: DESCRIPTION -->
+				<div class="tab-content active" id="tabDesc">
+					<h3>Handcrafted Leather Excellence</h3>
+					<p id="fullDescText">
+						Designed for modern professionals who demand both luxury aesthetics and functional organization. Handcrafted in Kanpur by Zakara's master leather artisans using full-grain, soft-touch bovine leather.
+					</p>
+					<ul>
+						<li>Fits up to a 13-inch MacBook Air or tablet comfortably in padded compartment.</li>
+						<li>Heavy-duty antique brass metal zippers and solid brass rivets for long-lasting durability.</li>
+						<li>Interior zipped safety pocket, smartphone slot, and pen organizer.</li>
+						<li>Adjustable and fully detachable leather shoulder strap with padded shoulder guard.</li>
+						<li>Reinforced base with metal stud feet to protect leather from wear.</li>
+					</ul>
+				</div>
+
+				<!-- TAB 2: SPECS -->
+				<div class="tab-content" id="tabSpecs">
+					<h3>Technical Specification Sheet</h3>
+					<div class="spec-grid-detail">
+						<div class="spec-card-box">
+							<h4>Leather Grade</h4>
+							<p id="tabSpecLeather">Full Grain / Soft Grain Cow Hide Leather</p>
+						</div>
+						<div class="spec-card-box">
+							<h4>Dimensions (LxWxH)</h4>
+							<p id="tabSpecDimensions">13.5 x 4.7 x 11 inches</p>
+						</div>
+						<div class="spec-card-box">
+							<h4>Internal Lining</h4>
+							<p>100% Cotton Canvas / Heavy Twill Fabric</p>
+						</div>
+						<div class="spec-card-box">
+							<h4>Strap & Drop</h4>
+							<p id="tabSpecStrap">Detachable strap (Drop: 70cm, Length: 130cm max)</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- TAB 3: CUSTOMIZATION -->
+				<div class="tab-content" id="tabCustom">
+					<h3>B2B Private Labeling & OEM Customization</h3>
+					<p>Zakara International provides comprehensive OEM / ODM manufacturing services for international brands, wholesalers, and corporate clients.</p>
+					<ul>
+						<li><strong>Custom Logo Stamping:</strong> Heat debossing, foil stamping, or metal plaque installation.</li>
+						<li><strong>Leather Options:</strong> Choice of Buff Calf, Crazy Horse, Nappa, Oil Pull-up, or Vegetable Tanned Leather.</li>
+						<li><strong>Custom Packaging:</strong> Branded cotton dustbags, custom rigid boxes, and barcode labeling.</li>
+						<li><strong>Flexible MOQs:</strong> Low minimum order quantities starting from 10-25 pieces per colorway.</li>
+					</ul>
+				</div>
+
+				<!-- TAB 4: SHIPPING -->
+				<div class="tab-content" id="tabShipping">
+					<h3>Wholesale Dispatch & Sample Policy</h3>
+					<p>We export to 15+ countries across North America, Europe, Australia, and the Middle East.</p>
+					<ul>
+						<li><strong>Sample Lead Time:</strong> 5 to 7 working days via DHL / FedEx Express.</li>
+						<li><strong>Bulk Production Lead Time:</strong> 15 to 25 days depending on order quantity.</li>
+						<li><strong>Freight Options:</strong> Air Express Courier, Air Cargo, or Sea Freight (FOB / CIF Kanpur / Delhi / Mumbai ports).</li>
+					</ul>
+				</div>
+			</section>
+
+			<!-- RELATED PRODUCTS GRID -->
+			<section class="related-section">
+				<div class="related-title-row">
+					<h2 class="related-heading">Complementary Leather Collection</h2>
+					<a href="allproducts.html" class="view-all-link">View All Products &rsaquo;</a>
+				</div>
+
+				<div class="products-grid" id="relatedProductsGrid">
+					<!-- Dynamically populated -->
+				</div>
+			</section>
+
+		</div>
+	</main>
+
+	<!-- POPUP MODAL ENQUIRY FORM -->
+	<div class="modal-overlay" id="enquiryModal">
+		<div class="modal-card">
+			<div class="modal-close" id="closeModal">&times;</div>
+			
+			<div class="modal-title-wrap">
+				<h2 class="modal-title">Request B2B Wholesale Quote</h2>
+				<p class="modal-subtitle">Direct manufacturer pricing & sample details for <strong id="modalProductName">Ladies Soft Leather Handbag</strong>.</p>
+			</div>
+
+			<form id="modalB2bForm" onsubmit="event.preventDefault(); handleModalFormSubmit();">
+				<div class="modal-form-grid">
+					<div class="form-group">
+						<label class="form-label">Your Full Name *</label>
+						<input type="text" id="modalName" class="form-input" placeholder="e.g. Sarah Jenkins" required />
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Business Email *</label>
+						<input type="email" id="modalEmail" class="form-input" placeholder="sarah@brand.com" required />
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Company / Brand Name</label>
+						<input type="text" id="modalCompany" class="form-input" placeholder="e.g. Atelier Leather Goods" />
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Phone / WhatsApp Number *</label>
+						<input type="text" id="modalPhone" class="form-input" placeholder="+1 (555) 019-2834" required />
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Target Quantity (Units) *</label>
+						<input type="number" id="modalQtyVal" class="form-input" value="10" min="1" required />
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Customization Preference</label>
+						<select id="modalCustomization" class="form-select">
+							<option value="Standard Product">Standard Product (As Shown)</option>
+							<option value="Custom Logo Debossing">Custom Logo Debossing / Stamp</option>
+							<option value="Custom Hardware / Lining">Custom Hardware Finish & Lining</option>
+							<option value="Full OEM Production">Full OEM Custom Color Leather</option>
+						</select>
+					</div>
+
+					<div class="form-group full-width">
+						<label class="form-label">Destination Country / Delivery Zip Code</label>
+						<input type="text" id="modalCountry" class="form-input" placeholder="e.g. United States, United Kingdom, Australia..." />
+					</div>
+
+					<div class="form-group full-width">
+						<label class="form-label">Inquiry Message / Specifications</label>
+						<textarea id="modalMsg" class="form-textarea" rows="3" placeholder="Specify logo requirements, sample requests, or target delivery timeline..."></textarea>
+					</div>
+
+					<div class="form-group full-width">
+						<button type="submit" id="modalSubmitBtn" class="btn-primary" style="font-size: 15px; padding: 16px;">
+							Submit Bulk Enquiry
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- LIGHTBOX ZOOM MODAL -->
+	<div class="lightbox-overlay" id="lightbox">
+		<div class="lightbox-close" id="closeLightbox">&times;</div>
+		<img src="" id="lightboxImage" class="lightbox-img" alt="Product Zoom" />
+	</div>
+
+	<!-- SCRIPT FOR MULTI-PRODUCT DYNAMIC LOADING & FORM HANDLING -->
+	<script>
+		/* FULL LOCAL DATABASE OF CATALOG PRODUCTS (MATCHING ALLPRODUCTS.HTML) */
+		const LIVE_PRODUCT_INDEX = [
+			{
+				id: 9435,
+				slug: "ladies-soft-leather-handbag",
+				name: "Ladies Soft Leather Handbag",
+				sku: "ZB-LB-236",
+				category: "Ladies Bags",
+				short_description: "Soft Leather Ladies Handbag with feature to store 13\" MacBook Air for working women. Handcrafted soft grain leather, detachable strap, antique brass fittings.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg",
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3674-copy.jpg",
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3673-1.jpg",
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3672-1.jpg",
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3671-1.jpg",
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3669-1.jpg",
+					"https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3668-1.jpg"
+				],
+				attributes: {
+					leather: "Soft Grain Bovine Leather",
+					dimension: "13.5 x 4.7 x 11 inches",
+					fittings: "Antique Brass Fittings",
+					weight: "950 Gms",
+					strap: "Dual top handles & detachable leather strap (Drop: 70cm, Max 130cm)."
+				}
+			},
+			{
+				id: 9414,
+				slug: "multi-colour-leather-women-sling-bags",
+				name: "Multi Colour Leather Women Sling Bags",
+				sku: "ZB-LB-230",
+				category: "Ladies Bags",
+				short_description: "Vibrant multi-color genuine leather crossbody sling bag handcrafted for modern style and daily organization.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2023/09/IMG_4394-copy.jpg"
+				],
+				attributes: {
+					leather: "Soft Grain Leather",
+					dimension: "9.5 x 3 x 7 inches",
+					fittings: "Brushed Nickel Fittings",
+					weight: "450 Gms",
+					strap: "Adjustable slender leather crossbody strap."
+				}
+			},
+			{
+				id: 9355,
+				slug: "leather-laptop-bag-3",
+				name: "Hunter Leather Female Laptop Bag",
+				sku: "ZB-PB-503",
+				category: "Messenger / Laptop Bags",
+				short_description: "Professional hunter brown genuine leather laptop tote bag with padded 15.6 inch laptop sleeve.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2023/09/IMG_2596.jpg"
+				],
+				attributes: {
+					leather: "Hunter Buff Leather",
+					dimension: "15 x 4 x 11.5 inches",
+					fittings: "Antique Brass Fittings",
+					weight: "1150 Gms",
+					strap: "Twin top carry handles with detachable shoulder strap."
+				}
+			},
+			{
+				id: 9278,
+				slug: "tan-leather-backpack-for-women",
+				name: "Tan Leather Backpack for Women",
+				sku: "ZB-BP-312",
+				category: "Ladies Bags",
+				short_description: "Chic tan genuine leather fashion backpack for women with front zipper pocket and tablet sleeve.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2023/05/IMG_7849-copy.jpg"
+				],
+				attributes: {
+					leather: "Smooth Tan Leather",
+					dimension: "11 x 4.5 x 13 inches",
+					fittings: "Brass Hardware",
+					weight: "780 Gms",
+					strap: "Adjustable leather shoulder backpack straps."
+				}
+			},
+			{
+				id: 8881,
+				slug: "leather-laptop-bag-2",
+				name: "Light Weight Leather Mens Laptop Bag",
+				sku: "ZB-PB-501",
+				category: "Messenger / Laptop Bags",
+				short_description: "Ultra lightweight men's leather laptop messenger bag with multiple organizer slots.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2021/01/Leather-Laptop-Bag-ZB-PB-501-1.jpg"
+				],
+				attributes: {
+					leather: "Buff Grain Leather",
+					dimension: "15.5 x 3.5 x 11 inches",
+					fittings: "Gunmetal Finish",
+					weight: "920 Gms",
+					strap: "Padded detachable canvas-backed leather strap."
+				}
+			},
+			{
+				id: 8858,
+				slug: "cow-hide-leather-laptop-bag-for-men",
+				name: "Cow Hide Leather Laptop Bag for Men",
+				sku: "ZB-PB-313-2",
+				category: "Messenger / Laptop Bags",
+				short_description: "Premium cow hide leather business briefcase with dual compartments and trolley sleeve.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2020/08/Leather-Laptop-Bag-ZB-PB-313-2.jpg"
+				],
+				attributes: {
+					leather: "Full Grain Cow Hide",
+					dimension: "16 x 4.5 x 12 inches",
+					fittings: "Heavy Antique Brass",
+					weight: "1350 Gms",
+					strap: "Heavy duty leather shoulder strap."
+				}
+			},
+			{
+				id: 8469,
+				slug: "buffalo-leather-duffle-bag-for-men",
+				name: "Buffalo Leather Duffle Bag for Men",
+				sku: "ZB-TB-201",
+				category: "Duffle / Travel Bags",
+				short_description: "Rugged buffalo leather travel weekender duffle bag with shoe compartment.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2020/05/IMG_7022-1.jpg"
+				],
+				attributes: {
+					leather: "Pull-up Buffalo Leather",
+					dimension: "22 x 10 x 12 inches",
+					fittings: "Solid Brass Fittings",
+					weight: "1850 Gms",
+					strap: "Padded detachable shoulder strap."
+				}
+			},
+			{
+				id: 8468,
+				slug: "glossy-leather-camera-bags-for-women",
+				name: "Glossy Leather Camera bags for Women",
+				sku: "ZB-CB-220-2",
+				category: "Camera Bags",
+				short_description: "Handcrafted glossy leather camera cross-body bag with removable shockproof foam inserts.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2021/01/Leather-Camera-Bag-ZB-CB-220-2.jpg"
+				],
+				attributes: {
+					leather: "Glossy Nappa Leather",
+					dimension: "10.5 x 5 x 8 inches",
+					fittings: "Polished Nickel",
+					weight: "890 Gms",
+					strap: "Padded cross-body strap."
+				}
+			},
+			{
+				id: 8465,
+				slug: "full-grain-calf-leather-gym-bag",
+				name: "Full Grain Calf Leather Gym Bag",
+				sku: "ZB-TB-228-3",
+				category: "Duffle / Travel Bags",
+				short_description: "Luxury full grain calf leather gym and weekender carry-on bag.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Gym-Bag-ZB-TB-228-3.jpg"
+				],
+				attributes: {
+					leather: "Soft Calf Leather",
+					dimension: "20 x 9.5 x 10.5 inches",
+					fittings: "Antique Brass",
+					weight: "1420 Gms",
+					strap: "Reinforced leather handles & shoulder strap."
+				}
+			},
+			{
+				id: 8486,
+				slug: "real-leather-women-tote-bag",
+				name: "Real Leather Women Tote Bag",
+				sku: "ZB-LB-607",
+				category: "Ladies Bags",
+				short_description: "Spacious real leather shoulder tote bag for daily shopping, office, and travel.",
+				images: [
+					"https://www.zakarabags.com/wp-content/uploads/2020/05/IMG_2962-copy.jpg"
+				],
+				attributes: {
+					leather: "Genuine Buff Leather",
+					dimension: "14 x 4.5 x 12.5 inches",
+					fittings: "Brass Buckles",
+					weight: "850 Gms",
+					strap: "Fixed shoulder drop handles (26cm drop)."
+				}
+			}
+		];
+
+		let activeProduct = LIVE_PRODUCT_INDEX[0];
+
+		// DOM Elements
+		const mainImage = document.getElementById("mainImage");
+		const thumbsColumn = document.getElementById("thumbsColumn");
+		const productTitle = document.getElementById("productTitle");
+		const shortDesc = document.getElementById("shortDesc");
+		const productCodeDisplay = document.getElementById("productCodeDisplay");
+		const badgeSku = document.getElementById("badgeSku");
+		const specLeather = document.getElementById("specLeather");
+		const specDimension = document.getElementById("specDimension");
+		const specFittings = document.getElementById("specFittings");
+		const specWeight = document.getElementById("specWeight");
+		const specStrap = document.getElementById("specStrap");
+		const categoryLabel = document.getElementById("categoryLabel");
+		const modalProductName = document.getElementById("modalProductName");
+		const fullDescText = document.getElementById("fullDescText");
+		const pageTitle = document.getElementById("pageTitle");
+
+		/* Parse URL parameters */
+		function getTargetProductIdentifier() {
+			const params = new URLSearchParams(window.location.search);
+			const idParam = params.get("id") || params.get("product_id");
+			const slugParam = params.get("slug") || params.get("product");
+			
+			if (idParam) return { type: "id", val: idParam.trim() };
+			if (slugParam) return { type: "slug", val: decodeURIComponent(slugParam).trim().toLowerCase() };
+			
+			if (window.location.hash) {
+				const hashVal = window.location.hash.replace("#", "").trim().toLowerCase();
+				if (hashVal) return { type: "slug", val: hashVal };
+			}
+			
+			return { type: "slug", val: "ladies-soft-leather-handbag" };
+		}
+
+		/* Live API & Local Fallback Fetcher */
+		async function fetchProductDetails() {
+			const target = getTargetProductIdentifier();
+
+			// 1. Try local synced products from Admin Panel or LIVE_PRODUCT_INDEX for instant speed
+			let localSyncedList = [];
+			try {
+				const raw = localStorage.getItem("zakara_synced_products");
+				if (raw) localSyncedList = JSON.parse(raw);
+			} catch (e) {}
+
+			let match = localSyncedList.find(p => String(p.id) === target.val || p.slug === target.val || (p.slug && p.slug.includes(target.val)) || (target.val && target.val.includes(p.slug)));
+			if (!match) {
+				match = LIVE_PRODUCT_INDEX.find(p => String(p.id) === target.val || p.slug === target.val || p.slug.includes(target.val) || target.val.includes(p.slug));
+			}
+			
+			if (match) {
+				activeProduct = match;
+				renderProductDetails(match);
+				loadRelatedProducts();
+			}
+
+			// 2. Query Live WooCommerce API background sync
+			try {
+				const WC_CONSUMER_KEY = "ck_84109e5d48a5a5c104116f05c878b2ea2c34193d";
+				const WC_CONSUMER_SECRET = "cs_23a5f306edfcb5dec50e30f3b9f80fa3b1b6e7f5";
+				let apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products?consumer_key=${WC_CONSUMER_KEY}&consumer_secret=${WC_CONSUMER_SECRET}&per_page=50`;
+				const isLocalServer = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && (window.location.port === "5501" || window.location.port === "3000");
+
+				if (isLocalServer) {
+					apiUrl = target.type === "id" ? `/api/products/${target.val}` : `/api/products?slug=${target.val}`;
+				} else if (target.type === "id") {
+					apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products/${target.val}?consumer_key=${WC_CONSUMER_KEY}&consumer_secret=${WC_CONSUMER_SECRET}`;
+				} else if (target.type === "slug") {
+					apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products?slug=${target.val}&consumer_key=${WC_CONSUMER_KEY}&consumer_secret=${WC_CONSUMER_SECRET}`;
+				}
+
+				const res = await fetch(apiUrl);
+				if (res.ok) {
+					const data = await res.json();
+					const item = Array.isArray(data) ? (data[0] || match) : data;
+					if (item && item.name) {
+						const apiProduct = {
+							id: item.id,
+							name: item.name,
+							sku: item.sku || 'ZB-SERIES',
+							slug: item.slug,
+							category: item.categories && item.categories[0] ? item.categories[0].name : "Leather Goods",
+							short_description: item.short_description ? stripHtml(item.short_description) : (item.description ? stripHtml(item.description) : (match ? match.short_description : "")),
+							description: item.description || item.short_description || (match ? (match.description || match.short_description) : ""),
+							images: item.images && item.images.length ? item.images.map(i => typeof i === 'string' ? i : i.src) : (match ? match.images : ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"]),
+							attributes: (item.attributes && item.attributes.length) ? parseWpAttributes(item.attributes, match ? match.attributes : null) : (match ? match.attributes : { leather: "Genuine Leather", dimension: "Standard Size", fittings: "Brass Fittings", weight: "850 Gms", strap: "Detachable Strap" })
+						};
+						activeProduct = apiProduct;
+						renderProductDetails(apiProduct);
+						loadRelatedProducts();
+					}
+				}
+			} catch (err) {
+				console.log("Loaded product from catalog index.");
+			}
+		}
+
+		function parseWpAttributes(attrs, fallback) {
+			const res = Object.assign({}, fallback || {
+				leather: "Genuine Leather",
+				dimension: "Standard Dimensions",
+				fittings: "Antique Brass",
+				weight: "850 Gms",
+				strap: "Detachable Leather Strap"
+			});
+			if (!Array.isArray(attrs)) return res;
+			attrs.forEach(a => {
+				const name = (a.name || '').toLowerCase();
+				const val = (a.options && a.options[0]) ? a.options[0] : '';
+				if (name.includes('leather')) res.leather = val;
+				if (name.includes('dimension') || name.includes('size')) res.dimension = val;
+				if (name.includes('fitting') || name.includes('hardware')) res.fittings = val;
+				if (name.includes('weight')) res.weight = val;
+				if (name.includes('strap') || name.includes('handle')) res.strap = val;
+			});
+			return res;
+		}
+
+		function stripHtml(html) {
+			const tmp = document.createElement("DIV");
+			tmp.innerHTML = html;
+			return tmp.textContent || tmp.innerText || "";
+		}
+
+		function renderProductDetails(prod) {
+			if (pageTitle) pageTitle.textContent = `${prod.name} | Zakara International`;
+			if (productTitle) productTitle.textContent = prod.name;
+			if (shortDesc) shortDesc.textContent = prod.short_description || "Handcrafted genuine leather product manufactured by Zakara International.";
+			
+			// Render Full HTML Description (allowing headings, lists, tables & paragraphs)
+			if (fullDescText) {
+				if (prod.description) {
+					fullDescText.innerHTML = prod.description;
+				} else {
+					fullDescText.innerHTML = `<p>${prod.short_description || "Handcrafted genuine leather product manufactured by Zakara International."}</p>`;
+				}
+			}
+
+			if (productCodeDisplay) productCodeDisplay.textContent = `Product Code: ${prod.sku || 'ZB-SERIES'}`;
+			if (badgeSku) badgeSku.textContent = prod.sku || 'ZB-SERIES';
+			if (modalProductName) modalProductName.textContent = `${prod.name} (${prod.sku || 'ZB-SERIES'})`;
+
+			if (categoryLabel) categoryLabel.textContent = prod.category || "Leather Goods";
+
+			if (prod.attributes) {
+				if (specLeather) specLeather.textContent = prod.attributes.leather || "Genuine Leather";
+				if (specDimension) specDimension.textContent = prod.attributes.dimension || "Standard Dimensions";
+				if (specFittings) specFittings.textContent = prod.attributes.fittings || "Brass Fittings";
+				if (specWeight) specWeight.textContent = prod.attributes.weight || "850 Gms";
+				if (specStrap) specStrap.textContent = prod.attributes.strap || "Detachable Leather Strap";
+			}
+
+			// Gallery Images
+			const images = (prod.images && prod.images.length) ? prod.images : ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"];
+			mainImage.src = images[0];
+
+			thumbsColumn.innerHTML = images.map((imgSrc, idx) => `
+				<div class="thumb-item ${idx === 0 ? 'active' : ''}" data-src="${imgSrc}">
+					<img src="${imgSrc}" alt="${prod.name} view ${idx + 1}" loading="lazy" />
+				</div>
+			`).join("");
+
+			attachThumbListeners();
+
+			// WhatsApp button prefill
+			const waBtn = document.getElementById("whatsappBtn");
+			if (waBtn) {
+				waBtn.href = `https://api.whatsapp.com/send?phone=919838031301&text=${encodeURIComponent('Hello Zakara, I am interested in a B2B bulk enquiry for ' + prod.name + ' (SKU: ' + (prod.sku || 'ZB-SERIES') + ')')}`;
+			}
+		}
+
+		function attachThumbListeners() {
+			document.querySelectorAll(".thumb-item").forEach(thumb => {
+				thumb.addEventListener("click", () => {
+					document.querySelectorAll(".thumb-item").forEach(t => t.classList.remove("active"));
+					thumb.classList.add("active");
+					const newSrc = thumb.getAttribute("data-src");
+					mainImage.style.opacity = "0.3";
+					setTimeout(() => {
+						mainImage.src = newSrc;
+						mainImage.style.opacity = "1";
+					}, 150);
+				});
+			});
+		}
+
+		function attachProductNavClickListeners() {
+			document.querySelectorAll(".nav-product-link").forEach(link => {
+				link.onclick = (e) => {
+					e.preventDefault();
+					const slug = link.getAttribute("data-slug");
+					const id = link.getAttribute("data-id");
+
+					if (slug) {
+						const newUrl = new URL(window.location.href);
+						newUrl.searchParams.set("slug", slug);
+						if (id) newUrl.searchParams.set("id", id);
+						window.history.pushState({}, "", newUrl.toString());
+						fetchProductDetails();
+						window.scrollTo({ top: 0, behavior: "smooth" });
+					}
+				};
+			});
+		}
+
+		function loadRelatedProducts() {
+			const relatedGrid = document.getElementById("relatedProductsGrid");
+			const relatedItems = LIVE_PRODUCT_INDEX.filter(p => p.id !== activeProduct.id).slice(0, 4);
+
+			if (relatedGrid) {
+				relatedGrid.innerHTML = relatedItems.map(p => {
+					const linkUrl = `product-detail.html?slug=${p.slug}&id=${p.id}`;
+					return `
+						<article class="product-card">
+							<a href="${linkUrl}" class="product-media nav-product-link" data-slug="${p.slug}" data-id="${p.id}">
+								<span class="product-badge">Zakara</span>
+								<img src="${p.images[0]}" alt="${p.name}" class="product-image" loading="lazy" />
+							</a>
+							<div class="product-info">
+								<span class="product-category">${p.category}</span>
+								<h3 class="product-name">
+									<a href="${linkUrl}" class="nav-product-link" data-slug="${p.slug}" data-id="${p.id}">${p.name}</a>
+								</h3>
+								<div class="product-bottom">
+									<span class="view-product">${p.sku || 'ZB-SERIES'}</span>
+									<a href="${linkUrl}" class="view-product nav-product-link" data-slug="${p.slug}" data-id="${p.id}">View piece &rsaquo;</a>
+								</div>
+							</div>
+						</article>
+					`;
+				}).join("");
+				attachProductNavClickListeners();
+			}
+		}
+
+		/* Listen to browser back/forward buttons */
+		window.addEventListener("popstate", () => {
+			fetchProductDetails();
+		});
+
+		/* Interactive Color Swatches */
+		document.querySelectorAll(".swatch-btn").forEach(btn => {
+			btn.addEventListener("click", () => {
+				document.querySelectorAll(".swatch-btn").forEach(b => b.classList.remove("active"));
+				btn.classList.add("active");
+				const color = btn.getAttribute("data-color");
+				document.getElementById("colorName").textContent = color;
+			});
+		});
+
+		/* Quantity Controls */
+		const qtyInput = document.getElementById("qtyInput");
+		const modalQtyVal = document.getElementById("modalQtyVal");
+
+		document.getElementById("qtyMinus").addEventListener("click", () => {
+			let val = parseInt(qtyInput.value) || 10;
+			if (val > 1) {
+				val--;
+				qtyInput.value = val;
+				if (modalQtyVal) modalQtyVal.value = val;
+			}
+		});
+
+		document.getElementById("qtyPlus").addEventListener("click", () => {
+			let val = parseInt(qtyInput.value) || 10;
+			val++;
+			qtyInput.value = val;
+			if (modalQtyVal) modalQtyVal.value = val;
+		});
+
+		/* Tabs Switcher */
+		document.querySelectorAll(".tab-button").forEach(btn => {
+			btn.addEventListener("click", () => {
+				document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
+				document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+				btn.classList.add("active");
+				const targetTab = btn.getAttribute("data-tab");
+				document.getElementById(targetTab).classList.add("active");
+			});
+		});
+
+		/* Modal Handlers */
+		const enquiryModal = document.getElementById("enquiryModal");
+		const openModalInquiry = document.getElementById("openModalInquiry");
+		const closeModal = document.getElementById("closeModal");
+
+		openModalInquiry.addEventListener("click", () => {
+			if (modalQtyVal) modalQtyVal.value = qtyInput.value;
+			enquiryModal.classList.add("active");
+		});
+
+		closeModal.addEventListener("click", () => enquiryModal.classList.remove("active"));
+		enquiryModal.addEventListener("click", (e) => { if (e.target === enquiryModal) enquiryModal.classList.remove("active"); });
+
+		/* Modal Form Submission Handler */
+		async function handleModalFormSubmit() {
+			const name = document.getElementById("modalName").value;
+			const email = document.getElementById("modalEmail").value;
+			const company = document.getElementById("modalCompany").value || "N/A";
+			const phone = document.getElementById("modalPhone").value;
+			const qty = document.getElementById("modalQtyVal").value;
+			const custom = document.getElementById("modalCustomization").value;
+			const country = document.getElementById("modalCountry").value || "N/A";
+			const msg = document.getElementById("modalMsg").value;
+			const btn = document.getElementById("modalSubmitBtn");
+
+			btn.disabled = true;
+			btn.textContent = "Transmitting Inquiry...";
+
+			const formData = new FormData();
+			formData.append("action", "wqoecf_submit_enquiry");
+			formData.append("product_id", activeProduct.id || "9435");
+			formData.append("product_title", activeProduct.name);
+			formData.append("product_sku", activeProduct.sku || "ZB-SERIES");
+			formData.append("customer_name", name);
+			formData.append("customer_email", email);
+			formData.append("company_name", company);
+			formData.append("phone", phone);
+			formData.append("quantity", qty);
+			formData.append("customization", custom);
+			formData.append("destination", country);
+			formData.append("message", msg);
+
+			try {
+				await Promise.all([
+					fetch("https://www.zakarabags.com/wp-admin/admin-ajax.php", { method: "POST", body: formData, mode: "no-cors" }),
+					fetch("https://www.zakarabags.com/contact-us/", { method: "POST", body: formData, mode: "no-cors" })
+				]);
+			} catch (err) {}
+
+			alert(`Thank you ${name}!\n\nYour Bulk Inquiry for ${activeProduct.name} (${activeProduct.sku || 'ZB-SERIES'}) has been transmitted.\nQuantity: ${qty} units\n\nOur export sales manager will reply to ${email} within 24 hours.`);
+
+			btn.disabled = false;
+			btn.textContent = "Submit Bulk Enquiry";
+			enquiryModal.classList.remove("active");
+		}
+
+		/* Lightbox Handlers */
+		const zoomBtn = document.getElementById("zoomBtn");
+		const lightbox = document.getElementById("lightbox");
+		const lightboxImage = document.getElementById("lightboxImage");
+		const closeLightbox = document.getElementById("closeLightbox");
+
+		zoomBtn.addEventListener("click", () => {
+			lightboxImage.src = mainImage.src;
+			lightbox.classList.add("active");
+		});
+
+		mainImage.addEventListener("click", () => {
+			lightboxImage.src = mainImage.src;
+			lightbox.classList.add("active");
+		});
+
+		closeLightbox.addEventListener("click", () => lightbox.classList.remove("active"));
+		lightbox.addEventListener("click", (e) => { if (e.target === lightbox) lightbox.classList.remove("active"); });
+
+		// Initialize Page Load
+		fetchProductDetails();
+	</script>
+
+</body>
+</html>

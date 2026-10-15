@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: zakara-bags-admin
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WP_SITE
+        value: https://www.zakarabags.com
+      - key: CONSUMER_KEY
+        value: ck_84109e5d48a5a5c104116f05c878b2ea2c34193d
+      - key: CONSUMER_SECRET
+        value: cs_23a5f306edfcb5dec50e30f3b9f80fa3b1b6e7f5

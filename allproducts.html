@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>All Products | Zakara International</title>
+	
+	<!-- Google Fonts matching About Us & Luxury Theme -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+	<style>
+		/* Luxury Pantone & Leather Design Tokens */
+		:root {
+			--pantone-cocoa: #6b4537;
+			--pantone-gold: #c28a5a;
+			--pantone-gold-light: #d49866;
+			--pantone-ivory: #f5f0ea;
+			--pantone-cream: #eadcc8;
+			--pantone-asphalt: #292525;
+			--pantone-mocha: #a47864;
+			
+			--ink-dark: #1c1917;
+			--text-body: #4a423a;
+			--text-muted: #756d66;
+			--border-line: #e6ded6;
+			--bg-page: #fbf9f6;
+			--bg-card: #ffffff;
+			--bg-card-subtle: #f8f4ef;
+			
+			--radius-sm: 8px;
+			--radius-md: 14px;
+			--radius-lg: 20px;
+			--radius-full: 9999px;
+			
+			--shadow-card: 0 10px 30px rgba(41, 37, 37, 0.06);
+			--shadow-hover: 0 16px 36px rgba(107, 69, 55, 0.14);
+			--transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+			
+			--font-heading: 'Poppins', sans-serif;
+			--font-body: 'Roboto', sans-serif;
+		}
+
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		
+		body {
+			margin: 0;
+			color: var(--text-body);
+			background-color: var(--bg-page);
+			font-family: var(--font-body);
+			line-height: 1.6;
+			-webkit-font-smoothing: antialiased;
+		}
+
+		a { color: inherit; text-decoration: none !important; transition: var(--transition); }
+		button, input, select { font-family: inherit; }
+		button { cursor: pointer; border: none; outline: none; }
+
+		/* Full Viewport Shell Breakout for WordPress / Elementor */
+		.shop-shell {
+			width: 100vw;
+			max-width: none;
+			margin: 0 0 0 calc(50% - 50vw);
+			padding: 40px 4vw 100px;
+			overflow: visible !important;
+			background-color: var(--bg-page);
+		}
+
+		/* Force overflow visible on parent WordPress & Elementor containers */
+		.shop-shell,
+		.elementor-widget-container,
+		.elementor-widget,
+		.elementor-widget-wrap,
+		.elementor-column,
+		.elementor-container,
+		.elementor-section,
+		.elementor-section-wrap,
+		.elementor,
+		.entry-content,
+		.site-main,
+		#primary,
+		#content,
+		article.page,
+		.post-inner {
+			overflow: visible !important;
+			height: auto !important;
+		}
+
+		.catalog-layout {
+			display: grid;
+			grid-template-columns: 280px minmax(0, 1fr);
+			gap: 36px;
+			align-items: start !important;
+			position: relative !important;
+			overflow: visible !important;
+			max-width: 1400px;
+			margin: 0 auto;
+		}
+
+		/* ==========================================================================
+		   STATIONARY SIDEBAR FILTER PANEL
+		   ========================================================================== */
+		.filter-panel {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 32px;
+			align-self: start;
+			z-index: 10;
+			padding: 22px 18px;
+			border: 1px solid var(--border-line);
+			background: var(--bg-card);
+			border-radius: var(--radius-md);
+			box-shadow: var(--shadow-card);
+		}
+
+		/* Custom scrollbar inside sidebar if content overflows */
+		.filter-panel::-webkit-scrollbar {
+			width: 5px;
+		}
+		.filter-panel::-webkit-scrollbar-thumb {
+			background: var(--pantone-cream);
+			border-radius: var(--radius-full);
+		}
+
+		.filter-heading-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 8px;
+			margin-bottom: 20px;
+			padding-bottom: 12px;
+			border-bottom: 1px solid var(--border-line);
+		}
+
+		.filter-heading {
+			margin: 0;
+			font-family: var(--font-heading);
+			font-size: 13.5px;
+			font-weight: 600;
+			color: var(--ink-dark);
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			white-space: nowrap;
+			flex-shrink: 0;
+		}
+
+		.filter-heading::before {
+			content: '';
+			display: inline-block;
+			width: 4px;
+			height: 14px;
+			background: var(--pantone-gold);
+			border-radius: var(--radius-full);
+			flex-shrink: 0;
+		}
+
+		.clear-filters {
+			padding: 4px 9px;
+			border-radius: var(--radius-sm);
+			color: var(--pantone-cocoa);
+			background: var(--pantone-ivory);
+			border: 1px solid rgba(194, 138, 90, 0.3);
+			font-size: 11px;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			white-space: nowrap;
+			flex-shrink: 0;
+			transition: var(--transition);
+		}
+
+		.clear-filters:hover {
+			color: #ffffff;
+			background: var(--pantone-cocoa);
+			border-color: var(--pantone-cocoa);
+		}
+
+		.category-select {
+			display: none;
+			width: 100%;
+			margin-bottom: 16px;
+			padding: 12px 14px;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: var(--bg-card);
+			color: var(--ink-dark);
+			font-size: 13px;
+			outline: none;
+		}
+
+		.category-list {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.category-button {
+			width: 100%;
+			padding: 10px 14px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border: 1px solid transparent;
+			border-radius: var(--radius-sm);
+			color: var(--text-body);
+			background: transparent;
+			text-align: left;
+			font-size: 13.5px;
+			font-weight: 500;
+			line-height: 1.3;
+			transition: var(--transition);
+		}
+
+		.category-button:hover {
+			color: var(--pantone-cocoa);
+			background: var(--pantone-ivory);
+			border-color: rgba(194, 138, 90, 0.3);
+			transform: translateX(3px);
+		}
+
+		.category-button.active {
+			border-color: var(--pantone-gold);
+			color: #ffffff;
+			background: var(--pantone-cocoa);
+			box-shadow: 0 4px 12px rgba(107, 69, 55, 0.2);
+		}
+
+		.category-count {
+			padding: 2px 8px;
+			border-radius: var(--radius-full);
+			background: rgba(194, 138, 90, 0.15);
+			color: var(--pantone-cocoa);
+			font-size: 11px;
+			font-weight: 700;
+			transition: var(--transition);
+		}
+
+		.category-button.active .category-count {
+			background: rgba(255, 255, 255, 0.25);
+			color: #ffffff;
+		}
+
+		/* Custom B2B Manufacturing Card inside Sticky Sidebar */
+		.filter-tip {
+			margin-top: 24px;
+			padding: 18px;
+			background: var(--pantone-ivory);
+			border: 1px solid var(--pantone-gold);
+			border-radius: var(--radius-sm);
+			color: var(--text-body);
+			font-size: 12.5px;
+			line-height: 1.6;
+			position: relative;
+		}
+
+		.filter-tip strong {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			margin-bottom: 6px;
+			color: var(--pantone-cocoa);
+			font-family: var(--font-heading);
+			font-size: 13.5px;
+			font-weight: 600;
+		}
+
+		/* ==========================================================================
+		   CATALOG TOOLBAR & PRODUCTS GRID
+		   ========================================================================== */
+		.catalog-toolbar {
+			min-height: 52px;
+			margin-bottom: 30px;
+			padding-bottom: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			border-bottom: 1px solid var(--border-line);
+		}
+
+		.result-count {
+			color: var(--text-muted);
+			font-size: 14px;
+			font-weight: 500;
+		}
+
+		.toolbar-actions {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.search-input-wrapper {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+		}
+
+		.search-input-wrapper .search-icon {
+			position: absolute;
+			left: 12px;
+			color: var(--text-muted);
+			pointer-events: none;
+			transition: var(--transition);
+			z-index: 2;
+		}
+
+		.search-box {
+			width: 220px;
+			height: 42px;
+			padding: 0 14px 0 38px;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			outline: none;
+			background: var(--bg-card);
+			color: var(--ink-dark);
+			font-size: 13px;
+			transition: var(--transition);
+		}
+
+		.search-input-wrapper:focus-within .search-icon {
+			color: var(--pantone-cocoa);
+		}
+
+		.search-box:focus {
+			border-color: var(--pantone-gold);
+			box-shadow: 0 0 0 3px rgba(194, 138, 90, 0.18);
+		}
+
+		.sort-select {
+			height: 42px;
+			padding: 0 32px 0 14px;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: var(--bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%3C756D66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center;
+			color: var(--ink-dark);
+			font-size: 13px;
+			outline: none;
+			cursor: pointer;
+			appearance: none;
+			transition: var(--transition);
+		}
+
+		.sort-select:focus {
+			border-color: var(--pantone-gold);
+		}
+
+		/* Scrollable Product Grid Container */
+		.products-grid-scroll {
+			max-height: calc(100vh - 170px);
+			min-height: 480px;
+			overflow-y: auto;
+			padding-right: 10px;
+			padding-bottom: 24px;
+			overscroll-behavior: contain;
+		}
+
+		.products-grid-scroll::-webkit-scrollbar {
+			width: 6px;
+		}
+		.products-grid-scroll::-webkit-scrollbar-track {
+			background: var(--bg-card-subtle);
+			border-radius: var(--radius-full);
+		}
+		.products-grid-scroll::-webkit-scrollbar-thumb {
+			background: var(--pantone-gold);
+			border-radius: var(--radius-full);
+		}
+		.products-grid-scroll::-webkit-scrollbar-thumb:hover {
+			background: var(--pantone-cocoa);
+		}
+
+		.products-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 32px 24px;
+		}
+
+		/* Product Card */
+		.product-card {
+			min-width: 0;
+			background: var(--bg-card);
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 12px;
+			transition: var(--transition);
+			box-shadow: var(--shadow-card);
+			animation: rise-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.product-card:hover {
+			transform: translateY(-5px);
+			border-color: var(--pantone-gold);
+			box-shadow: var(--shadow-hover);
+		}
+
+		.product-media {
+			position: relative;
+			display: block;
+			aspect-ratio: 1 / 1.05;
+			overflow: hidden;
+			border-radius: var(--radius-sm);
+			background: #ffffff;
+		}
+
+		.product-image {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+			mix-blend-mode: multiply;
+			transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.product-card:hover .product-image {
+			transform: scale(1.06);
+		}
+
+		.product-badge {
+			position: absolute;
+			z-index: 1;
+			top: 10px;
+			left: 10px;
+			padding: 4px 8px;
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border: 1px solid var(--pantone-gold);
+			border-radius: 4px;
+			font-size: 9.5px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 0.8px;
+			text-transform: uppercase;
+		}
+
+		.product-info {
+			padding: 14px 4px 4px;
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+		}
+
+		.product-category {
+			color: var(--pantone-gold);
+			font-size: 10.5px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+			margin-bottom: 4px;
+		}
+
+		.product-name {
+			margin: 4px 0 12px;
+			font-family: var(--font-heading);
+			font-size: 17px;
+			font-weight: 600;
+			line-height: 1.35;
+			color: var(--ink-dark);
+			flex-grow: 1;
+		}
+
+		.product-name a:hover {
+			color: var(--pantone-cocoa);
+		}
+
+		.product-bottom {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			padding-top: 10px;
+			border-top: 1px dashed var(--border-line);
+		}
+
+		.product-sku-tag {
+			color: var(--text-muted);
+			font-size: 11px;
+			font-family: var(--font-heading);
+			font-weight: 600;
+			letter-spacing: 0.6px;
+			text-transform: uppercase;
+		}
+
+		.view-product {
+			color: var(--pantone-cocoa);
+			font-family: var(--font-heading);
+			font-size: 11.5px;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.view-product::after {
+			content: '→';
+			font-size: 14px;
+			transition: transform 0.25s ease;
+		}
+
+		.product-card:hover .view-product::after {
+			transform: translateX(4px);
+		}
+
+		/* Loading & Empty States */
+		.loading-state, .empty-state {
+			grid-column: 1 / -1;
+			padding: 65px 20px;
+			background: var(--bg-card);
+			border: 1px dashed var(--pantone-gold);
+			border-radius: var(--radius-md);
+			color: var(--text-muted);
+			text-align: center;
+			font-size: 14px;
+		}
+
+		.loading-state { animation: pulse 1.2s ease-in-out infinite alternate; }
+
+		/* Pagination Buttons */
+		.pagination {
+			margin-top: 48px;
+			display: flex;
+			justify-content: center;
+			gap: 8px;
+		}
+
+		.page-button {
+			min-width: 38px;
+			height: 38px;
+			border: 1px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			background: var(--bg-card);
+			color: var(--text-body);
+			font-size: 13px;
+			font-weight: 600;
+			transition: var(--transition);
+		}
+
+		.page-button.active, .page-button:hover {
+			border-color: var(--pantone-cocoa);
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			box-shadow: 0 4px 12px rgba(107, 69, 55, 0.2);
+		}
+
+		@keyframes rise-in {
+			from { opacity: 0; transform: translateY(16px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@keyframes pulse { from { opacity: .5; } to { opacity: 1; } }
+
+		/* RESPONSIVE DESIGN */
+		@media (max-width: 1024px) {
+			.products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; }
+		}
+
+		@media (max-width: 850px) {
+			.shop-shell { width: 100%; margin-left: 0; padding-left: 20px; padding-right: 20px; }
+			.catalog-layout { grid-template-columns: 1fr; gap: 24px; }
+			.filter-panel { position: static; max-height: none; padding: 18px; }
+			.category-select { display: block; }
+			.category-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+			.filter-tip { display: none; }
+		}
+
+		@media (max-width: 640px) {
+			.shop-shell { padding-top: 24px; padding-left: 14px; padding-right: 14px; }
+			.catalog-toolbar { flex-direction: column; align-items: stretch; gap: 12px; }
+			.toolbar-actions { width: 100%; }
+			.search-box { flex: 1; width: auto; }
+			.products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+			.product-card { padding: 8px; }
+			.product-name { font-size: 14.5px; }
+			.product-price { font-size: 11.5px; }
+			.category-list { grid-template-columns: 1fr; }
+		}
+	</style>
+</head>
+<body>
+
+	<main class="shop-shell">
+		<section class="catalog-layout" aria-label="Product catalogue">
+			
+			<!-- STICKY FILTER SIDEBAR PANEL -->
+			<aside class="filter-panel" id="filterSidebar">
+				<div class="filter-heading-row">
+					<h2 class="filter-heading">Filter Products</h2>
+					<button class="clear-filters" id="clearFilters" type="button">Clear All</button>
+				</div>
+
+				<!-- Mobile Category Select Dropdown -->
+				<select class="category-select" id="categorySelect" aria-label="Filter products by category">
+					<option value="all">All products</option>
+				</select>
+
+				<!-- Desktop Category Button List -->
+				<div class="category-list" id="categoryList">
+					<button class="category-button active" data-category="all">
+						<span>All Products</span>
+						<span class="category-count" id="allCount">--</span>
+					</button>
+				</div>
+
+				<!-- Custom B2B Manufacturing Information Badge -->
+				<div class="filter-tip">
+					<strong>
+						<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+						Need a Custom Run?
+					</strong>
+					Our Kanpur factory team supports custom branding, OEM hardware, private labeling & flexible MOQs.
+				</div>
+			</aside>
+
+			<!-- MAIN CATALOG CONTENT GRID -->
+			<div class="catalog-content">
+				<div class="catalog-toolbar">
+					<span class="result-count" id="resultCount">Opening collection...</span>
+					<div class="toolbar-actions">
+						<div class="search-input-wrapper">
+							<svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+							<input class="search-box" id="searchInput" type="search" placeholder="Search products..." aria-label="Search products" />
+						</div>
+						<select class="sort-select" id="sortSelect" aria-label="Sort products">
+							<option value="date">Latest Arrivals</option>
+							<option value="title">Name: A to Z</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="products-grid-scroll" id="productsGridScroll">
+					<div class="products-grid" id="productsGrid">
+						<div class="loading-state">Opening the collection...</div>
+					</div>
+				</div>
+
+				<nav class="pagination" id="pagination" aria-label="Product pages"></nav>
+			</div>
+
+		</section>
+	</main>
+
+	<script>
+		/* Public WooCommerce Store API: products published in WP appear here automatically. */
+		const API_ROOT = (window.location.origin && window.location.origin.includes("zakarabags.com"))
+			? "/wp-json/wc/store/v1"
+			: "https://www.zakarabags.com/wp-json/wc/store/v1";
+		const PRODUCTS_PER_PAGE = 12;
+		const FALLBACK_PRODUCTS = [
+			{ id: 9435, name: "Ladies Soft Leather Handbag", permalink: "https://www.zakarabags.com/product/ladies-soft-leather-handbag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg" }], categories: [{ id: "62", name: "Ladies Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 9414, name: "Multi Colour Leather Women Sling Bags", permalink: "https://www.zakarabags.com/product/multi-colour-leather-women-sling-bags/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2023/09/IMG_4394-copy.jpg" }], categories: [{ id: "62", name: "Ladies Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 9355, name: "Hunter Leather Female Laptop Bag", permalink: "https://www.zakarabags.com/product/leather-laptop-bag-3/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2023/09/IMG_2596.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 9278, name: "Tan Leather Backpack for Women", permalink: "https://www.zakarabags.com/product/tan-leather-backpack-for-women/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2023/05/IMG_7849-copy.jpg" }], categories: [{ id: "62", name: "Ladies Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8881, name: "Light Weight Leather Mens Laptop Bag", permalink: "https://www.zakarabags.com/product/leather-laptop-bag-2/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2021/01/Leather-Laptop-Bag-ZB-PB-501-1.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8858, name: "Cow Hide Leather Laptop Bag for Men", permalink: "https://www.zakarabags.com/product/cow-hide-leather-laptop-bag-for-men/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/08/Leather-Laptop-Bag-ZB-PB-313-2.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8489, name: "Leather Laptop CrossBody Sling Bag", permalink: "https://www.zakarabags.com/product/leather-laptop-crossbody-sling-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/IMG_4772.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8480, name: "Leather Backpack for Laptop Carrier", permalink: "https://www.zakarabags.com/product/leather-backpack-for-laptop-carrier/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2021/04/Leather-Backpack-ZB-BP-249-1.jpg" }], categories: [{ id: "65", name: "Leather Backpack" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8469, name: "Buffalo Leather Duffle Bag for Men", permalink: "https://www.zakarabags.com/product/buffalo-leather-duffle-bag-for-men/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/IMG_7022-1.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8468, name: "Glossy Leather Camera bags for Women", permalink: "https://www.zakarabags.com/product/glossy-leather-camera-bags-for-women/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2021/01/Leather-Camera-Bag-ZB-CB-220-2.jpg" }], categories: [{ id: "61", name: "Camera Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8471, name: "Light Weight Leather Canvas Crossbody Bag", permalink: "https://www.zakarabags.com/product/light-weight-leather-canvas-crossbody-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Green-Canvas-Laptop-Bag-ZB-PB-210-6.jpg" }], categories: [{ id: "60", name: "Canvas Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8465, name: "Full Grain Calf Leather Gym Bag", permalink: "https://www.zakarabags.com/product/full-grain-calf-leather-gym-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Gym-Bag-ZB-TB-228-3.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8483, name: "Small Leather College Backpack", permalink: "https://www.zakarabags.com/product/small-leather-college-backpack/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Backpack-ZB-BP-262-6.jpg" }], categories: [{ id: "65", name: "Leather Backpack" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8491, name: "Soft Leather Laptop Case", permalink: "https://www.zakarabags.com/product/soft-leather-laptop-case/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Messenger-Bag-ZB-MB-33-B-1.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8492, name: "Leather Laptop Sleeve Macbook Air Case", permalink: "https://www.zakarabags.com/product/leather-laptop-sleeve-macbook-air-case/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Messenger-Bag-ZB-MB-33-A-1.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8486, name: "Real Leather Women Tote Bag", permalink: "https://www.zakarabags.com/product/real-leather-women-tote-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/IMG_2962-copy.jpg" }], categories: [{ id: "62", name: "Ladies Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8484, name: "Genuine Rustic Brown Large Leather Chest Bag", permalink: "https://www.zakarabags.com/product/genuine-rustic-brown-large-leather-chest-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Chest-Bag-ZB-CH-307-A-3.jpg" }], categories: [{ id: "65", name: "Leather Backpack" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8482, name: "Large Size Leather Backpack", permalink: "https://www.zakarabags.com/product/large-size-leather-backpack/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/IMG_2499.jpg" }], categories: [{ id: "65", name: "Leather Backpack" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8359, name: "Soft Leather Backpack for Men", permalink: "https://www.zakarabags.com/product/soft-leather-backpack-for-men/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Backpack-ZB-BP-223-A-2.jpg" }], categories: [{ id: "65", name: "Leather Backpack" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8357, name: "Multi Color Leather Mens Sling Bag", permalink: "https://www.zakarabags.com/product/multi-color-leather-mens-sling-bag-2/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2020/05/Leather-Messenger-Sling-ZB-MB-127-D-3.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 8360, name: "Genuine Leather DSLR SLR Camera Bag", permalink: "https://www.zakarabags.com/product/genuine-leather-dslr-slr-camera-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2021/01/Leather-Camera-Bag-ZB-CB-266-1.jpg" }], categories: [{ id: "61", name: "Camera Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1581, name: "Full Grain Leather Overnight Bag Mens", permalink: "https://www.zakarabags.com/product/full-grain-leather-overnight-bag-mens/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/07/IMG_7093.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1870, name: "Vintage Leather Bag for Office", permalink: "https://www.zakarabags.com/product/vintage-leather-bag-for-office/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/07/IMG_8670.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1868, name: "Marcellus Soft Leather Briefcase Bag", permalink: "https://www.zakarabags.com/product/marcellus-soft-leather-briefcase-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/07/IMG_7585-copy-scaled.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1491, name: "Dark Brown Mens Leather Courier Bag", permalink: "https://www.zakarabags.com/product/dark-brown-mens-leather-courier-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/Leather-Messenger-Bag-ZB-MB-155-4-1.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1460, name: "Hunter Brown Leather Laptop Tote Bag", permalink: "https://www.zakarabags.com/product/hunter-brown-leather-laptop-tote-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_6659.jpg" }], categories: [{ id: "59", name: "Messenger / Laptop Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1187, name: "Medium Brown Mens Leather Duffle", permalink: "https://www.zakarabags.com/product/medium-brown-mens-leather-duffle/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2022/04/Leather-Travel-Bag-ZB-TB-201-A-4.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1162, name: "Crazy Horse Leather Travel Bag Women", permalink: "https://www.zakarabags.com/product/crazy-horse-leather-travel-bag-women/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/Leather-Gym-Bag-12.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1098, name: "Extra Large Mens Leather Duffle Bag", permalink: "https://www.zakarabags.com/product/extra-large-mens-leather-duffle-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/Leather-Weekend-Bag-ZB-WB-212-A-3-1.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1088, name: "Dark Brown leather Travel Bags For Men", permalink: "https://www.zakarabags.com/product/dark-brown-leather-travel-bags-for-men/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_5592.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1068, name: "Hard Wax Mens Leather Weekend Bag", permalink: "https://www.zakarabags.com/product/hard-wax-mens-leather-weekend-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_0505-2.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1060, name: "Hunter Brown Leather Weekender Bag", permalink: "https://www.zakarabags.com/product/hunter-brown-leather-weekender-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_0506-2-1.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 1044, name: "Cabin Luggage Leather Bag Weekender", permalink: "https://www.zakarabags.com/product/cabin-luggage-leather-bag-weekender/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_1962-1.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 947, name: "Hunter Leather Shoe Bag for Travel", permalink: "https://www.zakarabags.com/product/hunter-leather-shoe-bag-for-travel/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_7482-copy.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" },
+			{ id: 899, name: "Personalised Ladies Leather Weekend Bag", permalink: "https://www.zakarabags.com/product/personalised-ladies-leather-weekend-bag/", images: [{ src: "https://www.zakarabags.com/wp-content/uploads/2019/06/IMG_0500-2-1.jpg" }], categories: [{ id: "58", name: "Duffle / Travel Bags" }], prices: { price: "0" }, price_html: "", is_on_sale: false, short_description: "", date_modified: "2026-09-19" }
+		];
+			const state = { products: [], filtered: [], categories: [], category: "all", page: 1 };
+		const grid = document.getElementById("productsGrid");
+		const resultCount = document.getElementById("resultCount");
+		const pagination = document.getElementById("pagination");
+		const searchInput = document.getElementById("searchInput");
+		const sortSelect = document.getElementById("sortSelect");
+		const categorySelect = document.getElementById("categorySelect");
+		const clearFilters = document.getElementById("clearFilters");
+		const shopShell = document.querySelector(".shop-shell");
+		const productsGridScroll = document.getElementById("productsGridScroll");
+
+		const stripHtml = (value) => { const node = document.createElement("div"); node.innerHTML = value || ""; return node.textContent.trim(); };
+		const money = (product) => {
+			if (product.price_html) return stripHtml(product.price_html);
+			if (product.regular_price) return `$${product.regular_price}`;
+			if (product.prices && product.prices.price) return `$${(product.prices.price / 100).toFixed(0)}`;
+			return "";
+		};
+		const fetchJson = async (url) => {
+			const controller = new AbortController();
+			const timeout = setTimeout(() => controller.abort(), 6000);
+			try {
+				const response = await fetch(url, { signal: controller.signal, credentials: "same-origin" });
+				if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+				return response.json();
+			} finally {
+				clearTimeout(timeout);
+			}
+		};
+
+		/* Detect Category from URL Query Parameters or Hash (e.g. ?category=duffle or ?cat=58 or #backpack) */
+		function detectUrlCategory(categories) {
+			if (!categories || !categories.length) return "all";
+			const urlParams = new URLSearchParams(window.location.search);
+			let param = urlParams.get("category") || urlParams.get("cat") || urlParams.get("category_id") || urlParams.get("type") || urlParams.get("filter");
+			
+			if (!param && window.location.hash) {
+				param = window.location.hash.replace("#", "").trim();
+			}
+
+			if (!param) return "all";
+
+			const cleanParam = decodeURIComponent(param).toLowerCase().trim().replace(/[-_]/g, " ");
+
+			// 1. Try matching by exact category ID
+			const matchById = categories.find((cat) => String(cat.id) === param.trim());
+			if (matchById) return String(matchById.id);
+
+			// 2. Try matching by slug or name (exact or partial keywords)
+			const matchByName = categories.find((cat) => {
+				const catName = cat.name.toLowerCase().replace(/[-_]/g, " ");
+				const catSlug = (cat.slug || "").toLowerCase().replace(/[-_]/g, " ");
+				
+				return catName === cleanParam || 
+				       catSlug === cleanParam || 
+				       catName.includes(cleanParam) || 
+				       cleanParam.includes(catName) ||
+				       (cleanParam.includes("duffle") && (catName.includes("duffle") || catName.includes("travel"))) ||
+				       (cleanParam.includes("travel") && (catName.includes("travel") || catName.includes("duffle"))) ||
+				       (cleanParam.includes("messenger") && catName.includes("messenger")) ||
+				       (cleanParam.includes("laptop") && (catName.includes("laptop") || catName.includes("messenger"))) ||
+				       (cleanParam.includes("backpack") && catName.includes("backpack")) ||
+				       (cleanParam.includes("canvas") && catName.includes("canvas")) ||
+				       (cleanParam.includes("ladies") && (catName.includes("ladies") || catName.includes("handbag"))) ||
+				       (cleanParam.includes("handbag") && (catName.includes("ladies") || catName.includes("handbag"))) ||
+				       (cleanParam.includes("camera") && catName.includes("camera")) ||
+				       (cleanParam.includes("wallet") && catName.includes("wallet")) ||
+				       (cleanParam.includes("accessory") && catName.includes("accessori"));
+			});
+
+			return matchByName ? String(matchByName.id) : "all";
+		}
+
+		function renderProducts() {
+			const start = (state.page - 1) * PRODUCTS_PER_PAGE;
+			const visible = state.filtered.slice(start, start + PRODUCTS_PER_PAGE);
+			resultCount.textContent = state.filtered.length ? `${start + 1}-${Math.min(start + PRODUCTS_PER_PAGE, state.filtered.length)} of ${state.filtered.length} products` : "No products found";
+			if (!visible.length) { grid.innerHTML = '<div class="empty-state">No products match this selection. Try another category or search term.</div>'; pagination.innerHTML = ""; return; }
+			grid.innerHTML = visible.map((product, index) => {
+				const image = (product.images && product.images[0])
+					? (typeof product.images[0] === 'string' ? product.images[0] : (product.images[0].src || 'https://www.zakarabags.com/wp-content/uploads/2021/04/Leather-Camera-Bag-ZB-CB-265-1-1.jpg'))
+					: "https://www.zakarabags.com/wp-content/uploads/2021/04/Leather-Camera-Bag-ZB-CB-265-1-1.jpg";
+				const category = product.categories && product.categories[0] ? product.categories[0].name : "Leather Goods";
+				const isLocalEnv = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+				const detailUrl = isLocalEnv 
+					? `product-detail.html?slug=${product.slug || ''}&id=${product.id || ''}`
+					: (product.permalink || `https://www.zakarabags.com/product/${product.slug || ''}/`);
+				return `
+					<article class="product-card" style="animation-delay:${index * 40}ms">
+						<a href="${detailUrl}" class="product-media" title="${product.name}">
+							<span class="product-badge">${product.is_on_sale ? "Offer" : "Zakara"}</span>
+							<img class="product-image" src="${image}" alt="${product.name}" loading="lazy">
+						</a>
+						<div class="product-info">
+							<span class="product-category">${category}</span>
+							<h2 class="product-name"><a href="${detailUrl}">${product.name}</a></h2>
+							<div class="product-bottom">
+								<span class="product-sku-tag">${product.sku || ('ID: #' + product.id)}</span>
+								<a class="view-product" href="${detailUrl}">View piece</a>
+							</div>
+						</div>
+					</article>
+				`;
+			}).join("");
+			renderPagination();
+		}
+
+		function renderPagination() {
+			const pageCount = Math.ceil(state.filtered.length / PRODUCTS_PER_PAGE);
+			pagination.innerHTML = pageCount < 2 ? "" : Array.from({ length: pageCount }, (_, index) => `<button class="page-button ${index + 1 === state.page ? "active" : ""}" data-page="${index + 1}">${index + 1}</button>`).join("");
+			pagination.querySelectorAll("[data-page]").forEach((button) => button.addEventListener("click", () => {
+				state.page = Number(button.dataset.page);
+				renderProducts();
+				if (productsGridScroll) {
+					productsGridScroll.scrollTo({ top: 0, behavior: "smooth" });
+				}
+			}));
+		}
+
+		function applyFilters() {
+			const query = searchInput.value.toLowerCase().trim();
+			state.filtered = state.products.filter((product) => {
+				const inCategory = state.category === "all" || product.categories.some((category) => String(category.id) === state.category);
+				return inCategory && (!query || `${product.name} ${stripHtml(product.short_description)}`.toLowerCase().includes(query));
+			});
+			const sort = sortSelect.value;
+			state.filtered.sort((first, second) => sort === "title" ? first.name.localeCompare(second.name) : new Date(second.date_modified) - new Date(first.date_modified));
+			state.page = 1;
+			renderProducts();
+		}
+
+		function renderCategories(categories) {
+			state.categories = categories;
+			const list = document.getElementById("categoryList");
+			document.getElementById("allCount").textContent = state.products.length;
+			const availableCategories = categories.filter((category) => category.count);
+			list.innerHTML = `<button class="category-button ${state.category === "all" ? "active" : ""}" data-category="all"><span>All Products</span><span class="category-count">${state.products.length}</span></button>` + availableCategories.map((category) => `<button class="category-button ${String(category.id) === state.category ? "active" : ""}" data-category="${category.id}"><span>${category.name}</span><span class="category-count">${category.count}</span></button>`).join("");
+			categorySelect.innerHTML = `<option value="all">All Products (${state.products.length})</option>` + availableCategories.map((category) => `<option value="${category.id}">${category.name} (${category.count})</option>`).join("");
+			list.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => setCategory(button.dataset.category, true)));
+		}
+
+		function setCategory(category, updateUrl = false) {
+			state.category = String(category);
+			categorySelect.value = String(category);
+			document.querySelectorAll(".category-button").forEach((button) => button.classList.toggle("active", button.dataset.category === String(category)));
+			
+			if (updateUrl && history.replaceState) {
+				const newUrl = new URL(window.location.href);
+				if (category === "all") {
+					newUrl.searchParams.delete("category");
+					newUrl.searchParams.delete("cat");
+				} else {
+					newUrl.searchParams.set("category", category);
+				}
+				history.replaceState(null, "", newUrl.toString());
+			}
+
+			applyFilters();
+		}
+
+		async function loadCatalogue() {
+			let fetchedProducts = [];
+			let fetchedCategories = [];
+			try {
+				const [products, categories] = await Promise.all([
+					fetchJson(`${API_ROOT}/products?per_page=100&status=publish`),
+					fetchJson(`${API_ROOT}/products/categories?per_page=100&hide_empty=true`)
+				]);
+				if (Array.isArray(products)) fetchedProducts = products;
+				if (Array.isArray(categories)) fetchedCategories = categories;
+			} catch (error) {
+				// API fetch fallback
+			}
+
+			// Load any products added or edited via Admin Console
+			let localAdminProducts = [];
+			try {
+				const localData = localStorage.getItem("zakara_synced_products");
+				if (localData) {
+					localAdminProducts = JSON.parse(localData);
+				}
+			} catch (e) {}
+
+			// Merge: Priority 1 = Admin Console Products, Priority 2 = WordPress Live Store API, Priority 3 = Fallback Products
+			const combinedMap = new Map();
+
+			localAdminProducts.forEach((product) => {
+				if (product.status === "publish" || !product.status) {
+					const key = (product.name || '').toLowerCase().trim();
+					combinedMap.set(key, product);
+				}
+			});
+
+			fetchedProducts.forEach((product) => {
+				const key = (product.name || '').toLowerCase().trim();
+				if (!combinedMap.has(key)) {
+					combinedMap.set(key, product);
+				}
+			});
+
+			FALLBACK_PRODUCTS.forEach((product) => {
+				const key = (product.name || '').toLowerCase().trim();
+				if (!combinedMap.has(key)) {
+					combinedMap.set(key, product);
+				}
+			});
+
+			state.products = Array.from(combinedMap.values());
+
+			const categoriesToUse = fetchedCategories.length 
+				? fetchedCategories 
+				: [...new Map(FALLBACK_PRODUCTS.flatMap((product) => product.categories).map((category) => [category.id, category])).values()].map((category) => ({ ...category, count: state.products.filter((product) => product.categories && product.categories.some((item) => item.id === category.id)).length }));
+
+			renderCategories(categoriesToUse);
+			const initialCategory = detectUrlCategory(categoriesToUse);
+			setCategory(initialCategory);
+		}
+
+		searchInput.addEventListener("input", applyFilters);
+		sortSelect.addEventListener("change", applyFilters);
+		categorySelect.addEventListener("change", () => setCategory(categorySelect.value, true));
+		clearFilters.addEventListener("click", () => { searchInput.value = ""; sortSelect.value = "date"; setCategory("all", true); });
+
+		// Handle back/forward and hash changes in browser navigation
+		window.addEventListener("popstate", () => {
+			if (state.categories.length) {
+				const cat = detectUrlCategory(state.categories);
+				setCategory(cat);
+			}
+		});
+
+		window.addEventListener("hashchange", () => {
+			if (state.categories.length) {
+				const cat = detectUrlCategory(state.categories);
+				setCategory(cat);
+			}
+		});
+
+		loadCatalogue();
+	</script>
+
+</body>
+</html>

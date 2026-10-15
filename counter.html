@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Zakara Company Statistics</title>
+	<style>
+		.zk-counter,
+		.zk-counter * {
+			box-sizing: border-box;
+		}
+
+		.zk-counter {
+			--counter-ink: #ffffff;
+			--counter-muted: rgba(255, 255, 255, 0.86);
+			--counter-accent: #c27d48;
+			width: 100%;
+			padding: clamp(34px, 5vw, 58px) clamp(16px, 4vw, 48px);
+			overflow: hidden;
+			color: var(--counter-ink);
+			font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			background-color: #252622;
+			background-image:
+				radial-gradient(circle at 50% -80%, rgba(194, 125, 72, 0.24), transparent 58%),
+				linear-gradient(rgba(27, 28, 25, 0.82), rgba(27, 28, 25, 0.92)),
+				repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 4px),
+				repeating-linear-gradient(25deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 5px);
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+		}
+
+		.zk-counter::before {
+			display: block;
+			width: min(180px, 35vw);
+			height: 3px;
+			margin: 0 auto 34px;
+			content: "";
+			background: linear-gradient(90deg, transparent, var(--counter-accent), #e5a962, transparent);
+			box-shadow: 0 0 18px rgba(229, 169, 98, 0.45);
+		}
+
+		.zk-counter__grid {
+			width: min(1180px, 100%);
+			margin: 0 auto;
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+
+		.zk-counter__item {
+			position: relative;
+			min-width: 0;
+			padding: 0 28px;
+			text-align: center;
+			border-right: 1px solid rgba(255, 255, 255, 0.15);
+			animation: zkCounterReveal 0.8s both;
+			transition: transform 0.35s ease, filter 0.35s ease;
+		}
+
+		.zk-counter__item:nth-child(2) {
+			animation-delay: 0.08s;
+		}
+
+		.zk-counter__item:nth-child(3) {
+			animation-delay: 0.16s;
+		}
+
+		.zk-counter__item:nth-child(4) {
+			animation-delay: 0.24s;
+		}
+
+		.zk-counter__item:hover {
+			transform: translateY(-5px);
+			filter: drop-shadow(0 8px 14px rgba(194, 125, 72, 0.18));
+		}
+
+		@keyframes zkCounterReveal {
+			from {
+				opacity: 0;
+				transform: translateY(14px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.zk-counter__item:first-child {
+			padding-left: 0;
+		}
+
+		.zk-counter__item:last-child {
+			padding-right: 0;
+			border-right: 0;
+		}
+
+		.zk-counter__number {
+			display: block;
+			color: var(--counter-ink);
+			font-size: clamp(2rem, 4.2vw, 3.5rem);
+			font-weight: 500;
+			line-height: 1;
+			letter-spacing: -1.5px;
+			font-variant-numeric: tabular-nums;
+			text-shadow: 0 4px 24px rgba(255, 255, 255, 0.12);
+		}
+
+		.zk-counter__label {
+			display: block;
+			margin-top: 12px;
+			color: var(--counter-muted);
+			max-width: 220px;
+			margin-right: auto;
+			margin-left: auto;
+			font-size: clamp(0.875rem, 1.5vw, 1.2rem);
+			font-weight: 400;
+			line-height: 1.35;
+			letter-spacing: 0.1px;
+			overflow-wrap: anywhere;
+		}
+
+		.zk-counter__item::after {
+			position: absolute;
+			bottom: -13px;
+			left: 50%;
+			width: 28px;
+			height: 2px;
+			content: "";
+			background: var(--counter-accent);
+			opacity: 0.75;
+			transform: translateX(-50%);
+			transition: width 0.35s ease, opacity 0.35s ease;
+		}
+
+		.zk-counter__item:hover::after {
+			width: 58px;
+			opacity: 1;
+		}
+
+		@media (max-width: 700px) {
+			.zk-counter {
+				padding: 36px 14px;
+			}
+
+			.zk-counter__grid {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				row-gap: 30px;
+			}
+
+			.zk-counter__item,
+			.zk-counter__item:first-child,
+			.zk-counter__item:last-child {
+				padding: 0 12px;
+				border-right: 0;
+			}
+
+			.zk-counter__item:nth-child(odd) {
+				border-right: 1px solid rgba(255, 255, 255, 0.15);
+			}
+
+			.zk-counter__item::after {
+				bottom: -10px;
+			}
+
+			.zk-counter__number {
+				font-size: clamp(2rem, 10vw, 3rem);
+			}
+
+			.zk-counter__label {
+				margin-top: 8px;
+				max-width: 150px;
+				font-size: clamp(0.8rem, 3.4vw, 0.95rem);
+			}
+		}
+
+		@media (max-width: 420px) {
+			.zk-counter {
+				padding-right: 8px;
+				padding-left: 8px;
+			}
+
+			.zk-counter__grid {
+				row-gap: 26px;
+			}
+
+			.zk-counter__item,
+			.zk-counter__item:first-child,
+			.zk-counter__item:last-child {
+				padding-right: 8px;
+				padding-left: 8px;
+			}
+
+			.zk-counter__number {
+				font-size: clamp(1.8rem, 11vw, 2.5rem);
+				letter-spacing: -1px;
+			}
+
+			.zk-counter__label {
+				max-width: 125px;
+				font-size: 0.78rem;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.zk-counter__number {
+				transition: none;
+			}
+		}
+	</style>
+</head>
+<body>
+	<section class="zk-counter" aria-label="Zakara company statistics">
+		<div class="zk-counter__grid">
+			<div class="zk-counter__item">
+				<span class="zk-counter__number" data-target="12" data-suffix="+">0</span>
+				<span class="zk-counter__label">Years of Experience</span>
+			</div>
+			<div class="zk-counter__item">
+				<span class="zk-counter__number" data-target="2500" data-suffix="+">0</span>
+				<span class="zk-counter__label">Units Production / Month</span>
+			</div>
+			<div class="zk-counter__item">
+				<span class="zk-counter__number" data-target="15" data-suffix="+">0</span>
+				<span class="zk-counter__label">Exporting Countries</span>
+			</div>
+			<div class="zk-counter__item">
+				<span class="zk-counter__number" data-target="100" data-suffix="%">0</span>
+				<span class="zk-counter__label">Real Leather Goods</span>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		(function () {
+			const counters = document.querySelectorAll('.zk-counter__number');
+			const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			function showFinalValue(counter) {
+				const target = Number(counter.dataset.target);
+				counter.textContent = target.toLocaleString() + (counter.dataset.suffix || '');
+			}
+
+			function animateCounter(counter) {
+				const target = Number(counter.dataset.target);
+				const duration = 1400;
+				const startTime = performance.now();
+
+				function step(currentTime) {
+					const progress = Math.min((currentTime - startTime) / duration, 1);
+					const easedProgress = 1 - Math.pow(1 - progress, 3);
+					const value = Math.floor(target * easedProgress);
+					counter.textContent = value.toLocaleString() + (counter.dataset.suffix || '');
+
+					if (progress < 1) {
+						window.requestAnimationFrame(step);
+					}
+				}
+
+				window.requestAnimationFrame(step);
+			}
+
+			if (reducedMotion || !('IntersectionObserver' in window)) {
+				counters.forEach(showFinalValue);
+				return;
+			}
+
+			const observer = new IntersectionObserver(function (entries, currentObserver) {
+				entries.forEach(function (entry) {
+					if (!entry.isIntersecting) return;
+					animateCounter(entry.target);
+					currentObserver.unobserve(entry.target);
+				});
+			}, { threshold: 0.35 });
+
+			counters.forEach(function (counter) {
+				observer.observe(counter);
+			});
+		})();
+	</script>
+</body>
+</html>

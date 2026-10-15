@@ -473,7 +473,7 @@
 
 		.product-bottom {
 			display: flex;
-			justify-content: space-between;
+			justify-content: flex-end;
 			align-items: center;
 			gap: 10px;
 			padding-top: 10px;
@@ -487,6 +487,7 @@
 			font-weight: 600;
 			letter-spacing: 0.6px;
 			text-transform: uppercase;
+			margin-right: auto;
 		}
 
 		.view-product {
@@ -581,7 +582,7 @@
 			.products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
 			.product-card { padding: 8px; }
 			.product-name { font-size: 14.5px; }
-			.product-price { font-size: 11.5px; }
+			.product-sku-tag { font-size: 10px; }
 			.category-list { grid-template-columns: 1fr; }
 		}
 	</style>
@@ -704,12 +705,6 @@
 		const productsGridScroll = document.getElementById("productsGridScroll");
 
 		const stripHtml = (value) => { const node = document.createElement("div"); node.innerHTML = value || ""; return node.textContent.trim(); };
-		const money = (product) => {
-			if (product.price_html) return stripHtml(product.price_html);
-			if (product.regular_price) return `$${product.regular_price}`;
-			if (product.prices && product.prices.price) return `$${(product.prices.price / 100).toFixed(0)}`;
-			return "";
-		};
 		const fetchJson = async (url) => {
 			const controller = new AbortController();
 			const timeout = setTimeout(() => controller.abort(), 6000);
@@ -789,7 +784,7 @@
 							<span class="product-category">${category}</span>
 							<h2 class="product-name"><a href="${detailUrl}">${product.name}</a></h2>
 							<div class="product-bottom">
-								<span class="product-sku-tag">${product.sku || ('ID: #' + product.id)}</span>
+								${product.sku ? `<span class="product-sku-tag">${product.sku}</span>` : ''}
 								<a class="view-product" href="${detailUrl}">View piece</a>
 							</div>
 						</div>

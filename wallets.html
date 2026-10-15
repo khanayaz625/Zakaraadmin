@@ -1043,7 +1043,6 @@
         }
 
         grid.innerHTML = visible.map((product, index) => {
-          const actionText = product.priceDisplay && product.priceDisplay !== "Enquire Now" ? `Shop • ${product.priceDisplay}` : "Enquire Now";
           return `
             <article class="product-card" style="animation-delay:${index * 35}ms">
               <a href="${product.permalink}" class="product-media" title="${product.name}">
@@ -1056,7 +1055,7 @@
                 <h2 class="product-name"><a href="${product.permalink}">${product.name}</a></h2>
                 <div class="leather-spec">${product.spec}</div>
                 <div class="product-bottom">
-                  <a class="view-product" href="${product.permalink}">${actionText}</a>
+                  <a class="view-product" href="${product.permalink}">View piece</a>
                 </div>
               </div>
             </article>

@@ -2388,7 +2388,7 @@
 				categories = existing.categories;
 			}
 
-			const regular_price = wpItem.regular_price || existing.regular_price || (wpItem.prices ? (wpItem.prices.price / 100) : "149");
+			const regular_price = wpItem.regular_price || existing.regular_price || (wpItem.prices && wpItem.prices.price && wpItem.prices.price !== "0" ? String(wpItem.prices.price / 100) : "");
 			const sale_price = wpItem.sale_price || existing.sale_price || "";
 			const status = wpItem.status || existing.status || "publish";
 			const stock_status = wpItem.stock_status || (wpItem.is_in_stock ? "instock" : "instock");
@@ -2452,7 +2452,7 @@
 				stock_quantity: wpItem.stock_quantity || existing.stock_quantity || 100,
 				regular_price,
 				sale_price,
-				price_html: wpItem.price_html || `$${regular_price}`,
+				price_html: wpItem.price_html || (regular_price ? `$${regular_price}` : ""),
 				images,
 				categories,
 				description,
@@ -2648,6 +2648,7 @@
 				heading.textContent = "Create New Zakara Product";
 				subHeading.textContent = "Publish a new leather bag to WooCommerce, /shop-3/, and single product page";
 				document.getElementById("editProductId").value = "";
+				document.getElementById("editSku").value = `ZB-LB-${Math.floor(100 + Math.random() * 900)}`;
 				document.getElementById("editStatus").value = "publish";
 				document.getElementById("editStockStatus").value = "instock";
 				document.getElementById("editStockQty").value = "100";
@@ -2917,7 +2918,7 @@
 				const name = document.getElementById("editName").value.trim();
 				const slug = document.getElementById("editSlug").value.trim() || name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 				const sku = document.getElementById("editSku").value.trim() || `ZB-${productId}`;
-				const regularPrice = (STATE.activeEditingProduct && STATE.activeEditingProduct.regular_price) ? STATE.activeEditingProduct.regular_price : "0";
+				const regularPrice = (STATE.activeEditingProduct && STATE.activeEditingProduct.regular_price) ? STATE.activeEditingProduct.regular_price : "";
 				const salePrice = (STATE.activeEditingProduct && STATE.activeEditingProduct.sale_price) ? STATE.activeEditingProduct.sale_price : "";
 				const status = document.getElementById("editStatus").value;
 				const stockStatus = document.getElementById("editStockStatus").value;
@@ -3015,8 +3016,6 @@
 					slug,
 					sku,
 					status,
-					regular_price: regularPrice,
-					sale_price: salePrice,
 					description: fullDesc,
 					short_description: shortDesc,
 					categories: selectedCatObjs.map(c => ({ id: c.id })),
@@ -3024,6 +3023,8 @@
 					attributes: mergedWcAttrs,
 					meta_data: wcMetaData
 				};
+				if (regularPrice) wcPayload.regular_price = regularPrice;
+				if (salePrice) wcPayload.sale_price = salePrice;
 
 				let saveSuccess = false;
 				let wpResult = null;
@@ -3087,7 +3088,11 @@
 					closeProductModal();
 					showToast(`Product #${productPayload.id} (${productPayload.name}) uploaded live to WordPress!`, "success");
 				} else {
-					alert(`⚠️ WordPress Upload Notice:\n\n${errorMessage}\n\nHow to fix:\n1. Make sure "node server.js" is running in your terminal on port 5501 (it proxies all requests without CORS blocks), OR\n2. In WordPress Admin → WooCommerce → Settings → Advanced → REST API, ensure your key has "Read/Write" permissions.`);
+					let friendlyHelp = `How to fix:\n1. Make sure "node server.js" is running in your terminal on port 5501 (it proxies all requests without CORS blocks), OR\n2. In WordPress Admin → WooCommerce → Settings → Advanced → REST API, ensure your key has "Read/Write" permissions.`;
+					if (errorMessage.toLowerCase().includes("sku") || errorMessage.toLowerCase().includes("lookup table")) {
+						friendlyHelp = `How to fix:\nThe SKU "${sku}" is already in use by another product or an item in your WordPress Trash.\n\nSolutions:\n1. Change the SKU field in Tab 1 (Basic Info & SKU) to a unique code (e.g. ZB-LB-${Math.floor(100 + Math.random() * 900)}),\n2. OR in WP Admin → Products → Trash, permanently delete the item or click "Empty Trash".`;
+					}
+					alert(`⚠️ WordPress Upload Notice:\n\n${errorMessage}\n\n${friendlyHelp}`);
 					showToast(`Upload failed: ${errorMessage}`, "error");
 				}
 

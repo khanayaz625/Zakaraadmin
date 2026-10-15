@@ -275,8 +275,13 @@ class Zakara_Product_Manager_Plugin {
         }
 
         // Update WooCommerce Meta Data
-        update_post_meta($product_id, '_regular_price', $regular_price);
-        update_post_meta($product_id, '_price', !empty($sale_price) ? $sale_price : $regular_price);
+        if (!empty($regular_price) && $regular_price !== '0') {
+            update_post_meta($product_id, '_regular_price', $regular_price);
+            update_post_meta($product_id, '_price', !empty($sale_price) ? $sale_price : $regular_price);
+        } else {
+            delete_post_meta($product_id, '_regular_price');
+            delete_post_meta($product_id, '_price');
+        }
         if (!empty($sale_price)) {
             update_post_meta($product_id, '_sale_price', $sale_price);
         } else {
@@ -413,7 +418,7 @@ class Zakara_Product_Manager_Plugin {
             'stock_status'      => $stock_status,
             'regular_price'     => $regular_price,
             'sale_price'        => $sale_price,
-            'price_html'        => '$' . $regular_price,
+            'price_html'        => (!empty($regular_price) && $regular_price !== '0') ? ('$' . $regular_price) : '',
             'description'       => $post->post_content, // FULL HTML description
             'short_description' => $post->post_excerpt,
             'categories'        => $categories,

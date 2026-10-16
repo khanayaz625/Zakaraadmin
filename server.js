@@ -12,11 +12,48 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const crypto = require('crypto');
 
 const PORT = process.env.PORT || 5501;
 const WP_SITE = process.env.WP_SITE || 'https://www.zakarabags.com';
 const CONSUMER_KEY = process.env.CONSUMER_KEY || 'ck_84109e5d48a5a5c104116f05c878b2ea2c34193d';
 const CONSUMER_SECRET = process.env.CONSUMER_SECRET || 'cs_23a5f306edfcb5dec50e30f3b9f80fa3b1b6e7f5';
+const CREDENTIALS_FILE = path.join(__dirname, 'admin-credentials.json');
+
+/**
+ * Read or initialize private admin credentials
+ */
+function getAdminCredentials() {
+    try {
+        if (fs.existsSync(CREDENTIALS_FILE)) {
+            const data = fs.readFileSync(CREDENTIALS_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+    } catch (e) {
+        console.error('[Auth] Error reading credentials file:', e.message);
+    }
+    const defaultCreds = {
+        username: 'admin',
+        passwordHash: crypto.createHash('sha256').update('zakara2026').digest('hex'),
+        updatedAt: new Date().toISOString()
+    };
+    try {
+        fs.writeFileSync(CREDENTIALS_FILE, JSON.stringify(defaultCreds, null, 2), 'utf8');
+    } catch (e) {
+        console.error('[Auth] Error initializing credentials file:', e.message);
+    }
+    return defaultCreds;
+}
+
+function updateAdminCredentials(newUsername, newPassword) {
+    const creds = {
+        username: (newUsername || 'admin').trim(),
+        passwordHash: crypto.createHash('sha256').update(newPassword).digest('hex'),
+        updatedAt: new Date().toISOString()
+    };
+    fs.writeFileSync(CREDENTIALS_FILE, JSON.stringify(creds, null, 2), 'utf8');
+    return creds;
+}
 
 const MIME_TYPES = {
     '.html': 'text/html; charset=UTF-8',
@@ -45,6 +82,108 @@ const server = http.createServer(async (req, res) => {
 
     const parsedUrl = url.parse(req.url, true);
     const pathname = parsedUrl.pathname;
+
+    // =========================================================================
+    // 0. PRIVATE AUTHENTICATION API ROUTES (/api/auth/*)
+    // =========================================================================
+    if (pathname.startsWith('/api/auth/')) {
+        if (pathname === '/api/auth/status') {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ status: 'ok', serverAuth: true }));
+            return;
+        }
+
+        if (pathname === '/api/auth/login' && req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => { body += chunk; });
+            req.on('end', () => {
+                try {
+                    const data = JSON.parse(body || '{}');
+                    const inputUser = (data.username || '').trim();
+                    const inputPass = data.password || '';
+                    const creds = getAdminCredentials();
+
+                    const inputHash = crypto.createHash('sha256').update(inputPass).digest('hex');
+
+                    if (inputUser.toLowerCase() === creds.username.toLowerCase() && inputHash === creds.passwordHash) {
+                        const token = crypto.randomBytes(32).toString('hex');
+                        console.log(`[Auth] Successful login for user: ${creds.username}`);
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({
+                            success: true,
+                            token,
+                            user: {
+                                username: creds.username,
+                                role: 'Administrator'
+                            }
+                        }));
+                    } else {
+                        console.warn(`[Auth] Failed login attempt for user: ${inputUser}`);
+                        res.writeHead(401, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({
+                            success: false,
+                            message: 'Invalid Admin ID or Master Password. Access denied.'
+                        }));
+                    }
+                } catch (err) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, message: 'Malformed JSON payload.' }));
+                }
+            });
+            return;
+        }
+
+        if (pathname === '/api/auth/change-credentials' && req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => { body += chunk; });
+            req.on('end', () => {
+                try {
+                    const data = JSON.parse(body || '{}');
+                    const currentPass = data.currentPassword || '';
+                    const newUsername = (data.newUsername || '').trim();
+                    const newPass = data.newPassword || '';
+
+                    if (!currentPass || !newPass) {
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: false, message: 'Current password and new password are required.' }));
+                        return;
+                    }
+
+                    if (newPass.length < 6) {
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: false, message: 'New password must be at least 6 characters long.' }));
+                        return;
+                    }
+
+                    const creds = getAdminCredentials();
+                    const currentHash = crypto.createHash('sha256').update(currentPass).digest('hex');
+
+                    if (currentHash !== creds.passwordHash) {
+                        res.writeHead(401, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: false, message: 'Current password is incorrect.' }));
+                        return;
+                    }
+
+                    const updated = updateAdminCredentials(newUsername || creds.username, newPass);
+                    console.log(`[Auth] Credentials updated successfully for user: ${updated.username}`);
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        success: true,
+                        message: 'Admin credentials updated successfully.',
+                        username: updated.username
+                    }));
+                } catch (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, message: err.message }));
+                }
+            });
+            return;
+        }
+
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: true, message: 'Auth endpoint not found.' }));
+        return;
+    }
 
     // =========================================================================
     // 1. API PROXY ROUTE: /api/products and /api/categories

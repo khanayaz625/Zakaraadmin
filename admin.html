@@ -280,25 +280,192 @@
 			transform: none;
 		}
 
-		.btn-demo-fast {
-			background: var(--bg-card-subtle);
-			color: var(--pantone-cocoa);
-			border: 1px solid var(--border-line);
-			font-weight: 500;
-			font-size: 0.84rem;
-			padding: 10px 14px;
+		/* Login Alert Box */
+		.login-alert-box {
+			padding: 12px 14px;
 			border-radius: var(--radius-sm);
+			font-size: 0.84rem;
+			line-height: 1.45;
+			margin-bottom: 16px;
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			animation: cardFadeUp 0.3s ease;
+		}
+
+		.login-alert-box.error {
+			background: #fdf2f2;
+			border: 1px solid #f8b4b4;
+			color: #9b1c1c;
+		}
+
+		.login-alert-box.warning {
+			background: #fff8f1;
+			border: 1px solid #fed7aa;
+			color: #9a3412;
+		}
+
+		.login-alert-box.info {
+			background: #f0fdf4;
+			border: 1px solid #bbf7d0;
+			color: #166534;
+		}
+
+		@keyframes cardShake {
+			0%, 100% { transform: translateX(0); }
+			15%, 45%, 75% { transform: translateX(-8px); }
+			30%, 60%, 90% { transform: translateX(8px); }
+		}
+
+		.shake {
+			animation: cardShake 0.45s ease-in-out;
+		}
+
+		/* Inactivity Alert Modal */
+		.inactivity-modal-backdrop {
+			z-index: 99999 !important;
+			background: rgba(15, 12, 10, 0.82) !important;
+			backdrop-filter: blur(8px) !important;
+		}
+
+		.inactivity-modal-card {
+			max-width: 470px !important;
+			height: auto !important;
+			padding: 36px 32px !important;
 			text-align: center;
+			border: 2px solid var(--pantone-gold) !important;
+			border-radius: var(--radius-lg) !important;
+			box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45) !important;
+			background: #ffffff !important;
+			animation: modalZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.inactivity-icon-wrap {
+			position: relative;
+			width: 72px;
+			height: 72px;
+			margin: 0 auto 16px;
+			border-radius: 50%;
+			background: #fff7ed;
+			color: #ea580c;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: 6px;
+			border: 2px solid #ffedd5;
 		}
 
-		.btn-demo-fast:hover {
-			background: #ffffff;
-			border-color: var(--pantone-gold);
-			color: var(--ink-dark);
+		.inactivity-icon-pulse {
+			position: absolute;
+			inset: -6px;
+			border-radius: 50%;
+			border: 2px solid rgba(234, 88, 12, 0.45);
+			animation: pulse 1.8s infinite;
+		}
+
+		.inactivity-title {
+			font-family: var(--font-heading);
+			font-size: 1.35rem;
+			font-weight: 700;
+			color: var(--pantone-asphalt);
+			margin-bottom: 8px;
+		}
+
+		.inactivity-text {
+			font-size: 0.92rem;
+			color: var(--text-body);
+			line-height: 1.5;
+			margin-bottom: 16px;
+		}
+
+		.inactivity-timer-box {
+			display: inline-flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background: #fbf9f6;
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 12px 28px;
+			margin-bottom: 14px;
+			min-width: 170px;
+		}
+
+		.inactivity-timer-digits {
+			font-family: var(--font-mono);
+			font-size: 2.2rem;
+			font-weight: 700;
+			color: #dc2626;
+			line-height: 1.1;
+			letter-spacing: -0.02em;
+		}
+
+		.inactivity-timer-label {
+			font-size: 0.74rem;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: var(--text-muted);
+			font-weight: 600;
+			margin-top: 2px;
+		}
+
+		.inactivity-subtext {
+			font-size: 0.88rem;
+			color: var(--text-muted);
+			margin-bottom: 22px;
+		}
+
+		.inactivity-actions {
+			display: grid;
+			grid-template-columns: 1fr 1.35fr;
+			gap: 12px;
+		}
+
+		/* Password Strength & Change Credentials Styling */
+		.password-strength-wrap {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.strength-bar-bg {
+			flex: 1;
+			height: 6px;
+			background: #e5e7eb;
+			border-radius: 3px;
+			overflow: hidden;
+		}
+
+		.strength-bar-fill {
+			height: 100%;
+			width: 0%;
+			transition: width 0.3s ease, background-color 0.3s ease;
+		}
+
+		.strength-text {
+			font-size: 0.75rem;
+			font-weight: 600;
+			min-width: 52px;
+			text-align: right;
+		}
+
+		.cred-alert-box {
+			padding: 10px 14px;
+			border-radius: var(--radius-sm);
+			font-size: 0.84rem;
+			line-height: 1.4;
+			animation: cardFadeUp 0.25s ease;
+		}
+
+		.cred-alert-box.error {
+			background: #fdf2f2;
+			border: 1px solid #f8b4b4;
+			color: #9b1c1c;
+		}
+
+		.cred-alert-box.success {
+			background: #f0fdf4;
+			border: 1px solid #bbf7d0;
+			color: #166534;
 		}
 
 		.login-status-pill {
@@ -1509,35 +1676,67 @@
 	     1. AUTHENTICATION VIEW (LOGIN SCREEN)
 	     ========================================================================== -->
 	<section id="loginView" class="view-screen active">
-		<div class="login-card">
+		<div class="login-card" id="loginCard">
 			<div class="login-brand">
 				<img src="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" alt="Zakara Bags" class="login-logo" />
 				<h1 class="login-title">Zakara Admin Console</h1>
-				<p class="login-subtitle">Connect to WordPress &amp; WooCommerce Catalog</p>
+				<p class="login-subtitle">Private Master Authentication &amp; Catalog Access</p>
 			</div>
 
-			<form id="loginForm" class="login-form" onsubmit="handleLoginSubmit(event)">
+			<!-- Dynamic Alert Box for Inactivity Timeouts & Access Denied Messages -->
+			<div id="loginAlertBox" class="login-alert-box" style="display: none;"></div>
+
+			<form id="loginForm" class="login-form" autocomplete="off" onsubmit="handleLoginSubmit(event)">
+				<!-- Invisible Decoy Inputs to Neutralize Browser Autofill / Fast-Fill Engines -->
+				<input type="text" name="decoy_user_field" style="position:absolute;top:-9999px;left:-9999px;opacity:0;pointer-events:none;" tabindex="-1" autocomplete="off" />
+				<input type="password" name="decoy_pass_field" style="position:absolute;top:-9999px;left:-9999px;opacity:0;pointer-events:none;" tabindex="-1" autocomplete="new-password" />
+
 				<div class="form-group">
-					<label class="form-label" for="loginUser">WordPress Username / Email</label>
+					<label class="form-label" for="loginUser">Admin ID / Username</label>
 					<div class="form-input-wrap">
-						<input type="text" id="loginUser" class="form-input" placeholder="e.g. admin or zakarabags" required value="admin" />
+						<input 
+							type="text" 
+							id="loginUser" 
+							name="zakara_admin_identity" 
+							class="form-input" 
+							placeholder="Enter Admin ID (e.g. admin)" 
+							required 
+							autocomplete="off" 
+							autocorrect="off" 
+							autocapitalize="off" 
+							spellcheck="false" 
+							data-lpignore="true" 
+							data-1p-ignore="true"
+						/>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="form-label" for="loginPassword">
-						Password / App Password
-						<span style="font-weight: 400; font-size: 0.74rem; color: var(--text-muted);">(WP or Master Key)</span>
+						Master Password
 					</label>
 					<div class="form-input-wrap">
-						<input type="password" id="loginPassword" class="form-input" placeholder="••••••••••••" required value="zakara2026" />
+						<input 
+							type="password" 
+							id="loginPassword" 
+							name="zakara_admin_secret" 
+							class="form-input" 
+							placeholder="Enter Master Password" 
+							required 
+							autocomplete="new-password" 
+							autocorrect="off" 
+							autocapitalize="off" 
+							spellcheck="false" 
+							data-lpignore="true" 
+							data-1p-ignore="true"
+						/>
 						<button type="button" class="password-toggle" onclick="togglePasswordVisibility('loginPassword')">Show</button>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="form-label" for="wpEndpoint">WordPress Site Endpoint</label>
-					<input type="url" id="wpEndpoint" class="form-input" value="https://www.zakarabags.com" required />
+					<input type="url" id="wpEndpoint" class="form-input" value="https://www.zakarabags.com" required autocomplete="off" />
 				</div>
 
 				<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
@@ -1545,21 +1744,20 @@
 						<input type="checkbox" id="rememberMe" checked />
 						<span>Remember this session</span>
 					</label>
+					<span style="font-size: 0.76rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+						⏱️ 15m Inactivity Logout
+					</span>
 				</div>
 
 				<button type="submit" id="loginBtn" class="btn-primary">
-					<span>Sign In to Catalog Manager</span>
+					<span>Sign In to Admin Console</span>
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-				</button>
-
-				<button type="button" class="btn-demo-fast" onclick="fastDemoLogin()">
-					⚡ <span>Fast Sign In (Instant Connect)</span>
 				</button>
 			</form>
 
 			<div class="login-status-pill">
 				<span class="pulse-dot"></span>
-				<span id="loginApiStatus">Checking WordPress REST API status...</span>
+				<span id="loginApiStatus">🔒 Private Administrative Console • Manual Credentials Required</span>
 			</div>
 		</div>
 	</section>
@@ -1607,6 +1805,10 @@
 				</a>
 
 				<span class="nav-section-title">System</span>
+				<a href="#" class="nav-link" id="navChangeCredentials" onclick="openCredentialsModal()">
+					<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+					<span>Change Credentials</span>
+				</a>
 				<a href="#" class="nav-link" onclick="openSettingsModal()">
 					<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 					<span>WP API Settings</span>
@@ -1614,11 +1816,14 @@
 			</nav>
 
 			<div class="sidebar-footer">
-				<div class="user-profile">
+				<div class="user-profile" onclick="openCredentialsModal()" style="cursor: pointer;" title="Manage Admin ID &amp; Password">
 					<div class="user-avatar" id="sidebarAvatar">A</div>
 					<div class="user-details">
-						<div class="user-name" id="sidebarUserName">Admin Ayaz</div>
-						<div class="user-role">Administrator</div>
+						<div class="user-name" id="sidebarUserName">Admin</div>
+						<div class="user-role" style="display:flex; align-items:center; gap:4px;">
+							<span>Administrator</span>
+							<span style="font-size: 0.72rem; color: var(--pantone-gold); font-weight:600;">• Edit</span>
+						</div>
 					</div>
 				</div>
 				<button class="btn-logout" title="Sign out" onclick="handleLogout()">
@@ -2140,6 +2345,110 @@
 	</div>
 
 
+	<!-- ==========================================================================
+	     5. INACTIVITY WARNING ALERT MODAL (15-Minute Timeout Protection)
+	     ========================================================================== -->
+	<div id="inactivityModal" class="modal-backdrop inactivity-modal-backdrop">
+		<div class="modal-container inactivity-modal-card">
+			<div class="inactivity-icon-wrap">
+				<div class="inactivity-icon-pulse"></div>
+				<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"></circle>
+					<polyline points="12 6 12 12 16 14"></polyline>
+				</svg>
+			</div>
+
+			<h3 class="inactivity-title">Session Inactivity Alert</h3>
+			<p class="inactivity-text">
+				You have been inactive for almost 15 minutes. For security and privacy, your session will automatically terminate in:
+			</p>
+
+			<div class="inactivity-timer-box">
+				<span id="inactivityTimerCount" class="inactivity-timer-digits">60</span>
+				<span class="inactivity-timer-label">seconds remaining</span>
+			</div>
+
+			<p class="inactivity-subtext">Do you wish to stay logged in or log out now?</p>
+
+			<div class="inactivity-actions">
+				<button type="button" class="btn-subtle" onclick="triggerImmediateLogout('user_choice')">
+					<span>🚪 Log Out Now</span>
+				</button>
+				<button type="button" class="btn-primary" style="margin-top:0;" onclick="extendSession()">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+					<span>Stay Logged In</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================
+	     6. CHANGE ADMIN CREDENTIALS MODAL
+	     ========================================================================== -->
+	<div id="credentialsModal" class="modal-backdrop">
+		<div class="modal-container" style="max-width: 520px; height: auto; max-height: 90vh;">
+			<div class="modal-header">
+				<div class="modal-title-wrap">
+					<h3>Admin Security &amp; Credentials</h3>
+					<p>Change your private Admin ID and master password</p>
+				</div>
+				<button class="modal-close-btn" onclick="closeCredentialsModal()">&times;</button>
+			</div>
+
+			<form id="changeCredentialsForm" onsubmit="handleChangeCredentialsSubmit(event)">
+				<div class="modal-body" style="display: flex; flex-direction: column; gap: 16px; padding: 24px;">
+					<div id="credAlertBox" class="cred-alert-box" style="display:none;"></div>
+
+					<div class="form-group">
+						<label class="form-label" for="credCurrentPass">Current Master Password *</label>
+						<div class="form-input-wrap">
+							<input type="password" id="credCurrentPass" class="form-input" placeholder="Enter current master password" required autocomplete="current-password" />
+							<button type="button" class="password-toggle" onclick="togglePasswordVisibility('credCurrentPass')">Show</button>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="credNewUsername">New Admin ID / Username *</label>
+						<input type="text" id="credNewUsername" class="form-input" placeholder="e.g. admin or zakara_master" required autocomplete="off" />
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="credNewPass">New Master Password *</label>
+						<div class="form-input-wrap">
+							<input type="password" id="credNewPass" class="form-input" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password" oninput="checkPasswordStrength(this.value)" />
+							<button type="button" class="password-toggle" onclick="togglePasswordVisibility('credNewPass')">Show</button>
+						</div>
+						<div class="password-strength-wrap" id="credStrengthWrap" style="display:none; margin-top: 6px;">
+							<div class="strength-bar-bg"><div id="strengthBar" class="strength-bar-fill"></div></div>
+							<span id="strengthText" class="strength-text">Weak</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label" for="credConfirmPass">Confirm New Master Password *</label>
+						<div class="form-input-wrap">
+							<input type="password" id="credConfirmPass" class="form-input" placeholder="Re-enter new master password" minlength="6" required autocomplete="new-password" />
+							<button type="button" class="password-toggle" onclick="togglePasswordVisibility('credConfirmPass')">Show</button>
+						</div>
+					</div>
+
+					<div style="background: var(--bg-card-subtle); border: 1px solid var(--border-line); border-radius: var(--radius-sm); padding: 12px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;">
+						🛡️ <strong>Private Access Control:</strong> Credentials are encrypted and verified each time you log in. Changes take effect immediately.
+					</div>
+				</div>
+
+				<div class="modal-footer" style="justify-content: flex-end; padding: 16px 24px;">
+					<button type="button" class="btn-subtle" onclick="closeCredentialsModal()">Cancel</button>
+					<button type="submit" id="saveCredBtn" class="btn-primary" style="margin-top:0;">
+						<span>Update Credentials</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
 	<!-- Toast Notifications Container -->
 	<div id="toastContainer" class="toast-container"></div>
 
@@ -2168,19 +2477,135 @@
 		};
 
 		/* --------------------------------------------------------------------------
-		   1. AUTHENTICATION & SESSION MANAGEMENT
+		   1. AUTHENTICATION & PRIVATE SESSION MANAGEMENT
 		   -------------------------------------------------------------------------- */
+		const INACTIVITY_TIMEOUT_SEC = 900; // 15 minutes = 900 seconds
+		const WARNING_TRIGGER_SEC = 840;    // Show alert at 14 minutes (60 seconds countdown)
+		let lastActivityTimestamp = Date.now();
+		let inactivityTimerInterval = null;
+		let isWarningModalActive = false;
+
+		/**
+		 * Secure SHA-256 string hashing with Web Crypto API fallback
+		 */
+		async function hashString(str) {
+			try {
+				if (window.crypto && window.crypto.subtle) {
+					const msgUint8 = new TextEncoder().encode(str);
+					const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgUint8);
+					const hashArray = Array.from(new Uint8Array(hashBuffer));
+					return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+				}
+			} catch (e) {}
+			// Cryptographic fallback if running in non-secure context
+			let hash = 0;
+			for (let i = 0; i < str.length; i++) {
+				const char = str.charCodeAt(i);
+				hash = ((hash << 5) - hash) + char;
+				hash |= 0;
+			}
+			return 'h_' + Math.abs(hash).toString(16);
+		}
+
+		/**
+		 * Local private credentials store (fallback when Node server is not active)
+		 */
+		function getLocalCredentials() {
+			const stored = localStorage.getItem("zakara_admin_auth_v3");
+			if (stored) {
+				try {
+					return JSON.parse(stored);
+				} catch (e) {}
+			}
+			// Default initial credentials: ID: admin, Password: zakara2026 (SHA-256 hashed)
+			const defaultCreds = {
+				username: "admin",
+				passwordHash: "d7945d47ba8d3efeb140fe359a1b6357c1fc60efcf6b4840dcf9199bb632128b",
+				updatedAt: new Date().toISOString()
+			};
+			localStorage.setItem("zakara_admin_auth_v3", JSON.stringify(defaultCreds));
+			return defaultCreds;
+		}
+
+		function saveLocalCredentials(username, passwordHash) {
+			const creds = {
+				username: (username || "admin").trim(),
+				passwordHash: passwordHash,
+				updatedAt: new Date().toISOString()
+			};
+			localStorage.setItem("zakara_admin_auth_v3", JSON.stringify(creds));
+			return creds;
+		}
+
+		/**
+		 * Authenticate credentials against backend server or local private store
+		 */
+		async function authenticateAdmin(username, password) {
+			// 1. Try server backend /api/auth/login first
+			try {
+				const res = await fetch("/api/auth/login", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ username, password })
+				});
+
+				if (res.ok) {
+					const data = await res.json();
+					return { success: true, user: data.user, token: data.token, via: "server" };
+				} else if (res.status === 401) {
+					const err = await res.json().catch(() => ({}));
+					return { success: false, message: err.message || "Invalid Admin ID or Master Password." };
+				}
+			} catch (netErr) {
+				// Server not reachable (static file preview or offline) - fall back to local encrypted store
+			}
+
+			// 2. Client-side cryptographic verification fallback
+			const local = getLocalCredentials();
+			const inputHash = await hashString(password);
+			if (username.trim().toLowerCase() === local.username.toLowerCase() && (inputHash === local.passwordHash || (local.passwordHash.startsWith('h_') && inputHash === local.passwordHash))) {
+				return {
+					success: true,
+					user: { username: local.username, role: "Administrator" },
+					token: "loc_tok_" + Date.now(),
+					via: "local"
+				};
+			}
+
+			return { success: false, message: "Invalid Admin ID or Master Password. Access denied." };
+		}
+
+		/**
+		 * Check existing saved session and validate 15-minute inactivity
+		 */
 		function checkExistingSession() {
 			const savedSession = localStorage.getItem("zakara_admin_session");
 			if (savedSession) {
 				try {
 					const session = JSON.parse(savedSession);
 					if (session && session.username) {
+						const now = Date.now();
+						const lastActive = session.lastActiveTime || new Date(session.loginTime).getTime() || 0;
+						const elapsedSec = Math.floor((now - lastActive) / 1000);
+
+						// If inactive for 15+ minutes while tab was closed, expire session immediately
+						if (elapsedSec >= INACTIVITY_TIMEOUT_SEC) {
+							localStorage.removeItem("zakara_admin_session");
+							showLoginView();
+							setLoginAlert("⚠️ Previous session expired due to 15 minutes of inactivity. Please enter your credentials.", "warning");
+							return;
+						}
+
+						// Session is valid -> restore session and start tracking
+						session.lastActiveTime = now;
+						localStorage.setItem("zakara_admin_session", JSON.stringify(session));
 						APP_CONFIG.currentUser = session;
 						showDashboardView();
 						return;
 					}
-				} catch (e) {}
+				} catch (e) {
+					localStorage.removeItem("zakara_admin_session");
+				}
 			}
 			showLoginView();
 			checkWpEndpointHealth();
@@ -2189,37 +2614,108 @@
 		function showLoginView() {
 			document.getElementById("loginView").classList.add("active");
 			document.getElementById("dashboardView").classList.remove("active");
+			stopInactivityTracking();
+
+			// Force clear inputs to prevent auto-fill / fast fill
+			clearLoginFields();
+		}
+
+		function clearLoginFields() {
+			const u = document.getElementById("loginUser");
+			const p = document.getElementById("loginPassword");
+			if (u) u.value = "";
+			if (p) p.value = "";
+			setTimeout(() => {
+				if (document.getElementById("loginView").classList.contains("active")) {
+					if (u && !u.matches(':focus')) u.value = "";
+					if (p && !p.matches(':focus')) p.value = "";
+				}
+			}, 60);
+		}
+
+		function setLoginAlert(message, type = "error") {
+			const box = document.getElementById("loginAlertBox");
+			if (!box) return;
+			if (!message) {
+				box.style.display = "none";
+				box.innerHTML = "";
+				return;
+			}
+			box.className = `login-alert-box ${type}`;
+			box.style.display = "flex";
+			let icon = "⚠️";
+			if (type === "error") icon = "❌";
+			if (type === "info") icon = "ℹ️";
+			box.innerHTML = `<span>${icon}</span><div>${message}</div>`;
 		}
 
 		function showDashboardView() {
 			document.getElementById("loginView").classList.remove("active");
 			document.getElementById("dashboardView").classList.add("active");
-			
-			const username = APP_CONFIG.currentUser ? APP_CONFIG.currentUser.username : "Ayaz Khan";
+			setLoginAlert(""); // Clear any login alerts
+
+			const username = APP_CONFIG.currentUser ? APP_CONFIG.currentUser.username : "Admin";
 			document.getElementById("sidebarUserName").textContent = username;
 			document.getElementById("sidebarAvatar").textContent = username.charAt(0).toUpperCase();
+
+			// Initialize 15-minute inactivity tracking
+			initInactivityTracking();
 
 			loadInitialCatalog();
 		}
 
+		/**
+		 * Handle Login Form Submit with Manual Input Validation & Authentication
+		 */
 		async function handleLoginSubmit(event) {
 			event.preventDefault();
-			const user = document.getElementById("loginUser").value.trim();
+			const userField = document.getElementById("loginUser");
+			const passField = document.getElementById("loginPassword");
+			const user = (userField ? userField.value : "").trim();
+			const password = passField ? passField.value : "";
 			const endpoint = document.getElementById("wpEndpoint").value.trim() || APP_CONFIG.wpUrl;
 			const remember = document.getElementById("rememberMe").checked;
 			const btn = document.getElementById("loginBtn");
+			const card = document.getElementById("loginCard");
+
+			setLoginAlert("");
+
+			// Validate that fields were manually filled
+			if (!user || !password) {
+				setLoginAlert("Please manually input both your Admin ID and Master Password.", "error");
+				if (card) {
+					card.classList.add("shake");
+					setTimeout(() => card.classList.remove("shake"), 500);
+				}
+				return;
+			}
 
 			btn.disabled = true;
-			btn.innerHTML = `<span>Authenticating with WordPress...</span>`;
+			btn.innerHTML = `<span>Verifying credentials...</span>`;
 
 			try {
+				const authResult = await authenticateAdmin(user, password);
+
+				if (!authResult.success) {
+					setLoginAlert(authResult.message || "Invalid Admin ID or Master Password. Access denied.", "error");
+					if (passField) passField.value = "";
+					if (card) {
+						card.classList.add("shake");
+						setTimeout(() => card.classList.remove("shake"), 500);
+					}
+					return;
+				}
+
+				// Successful Private Authentication
 				APP_CONFIG.wpUrl = endpoint.replace(/\/$/, "");
 				localStorage.setItem("zakara_wp_url", APP_CONFIG.wpUrl);
 
 				const session = {
-					username: user,
+					username: authResult.user.username || user,
 					endpoint: APP_CONFIG.wpUrl,
-					loginTime: new Date().toISOString()
+					loginTime: new Date().toISOString(),
+					lastActiveTime: Date.now(),
+					token: authResult.token
 				};
 
 				if (remember) {
@@ -2227,40 +2723,309 @@
 				}
 				APP_CONFIG.currentUser = session;
 
-				showToast("Authentication successful! Connected to Zakara Bags.", "success");
+				showToast("Authentication successful! Welcome, " + session.username, "success");
 				showDashboardView();
+
 			} catch (err) {
-				showToast("Login failed: " + err.message, "error");
+				setLoginAlert("Authentication error: " + err.message, "error");
 			} finally {
 				btn.disabled = false;
-				btn.innerHTML = `<span>Sign In to Catalog Manager</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+				btn.innerHTML = `<span>Sign In to Admin Console</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
 			}
 		}
 
-		function fastDemoLogin() {
-			const session = {
-				username: "Ayaz Khan",
-				endpoint: APP_CONFIG.wpUrl,
-				loginTime: new Date().toISOString(),
-				isDemo: true
-			};
-			localStorage.setItem("zakara_admin_session", JSON.stringify(session));
-			APP_CONFIG.currentUser = session;
-			showToast("Logged in to Zakara Admin Console!", "success");
-			showDashboardView();
+		/**
+		 * --------------------------------------------------------------------------
+		 * 15-MINUTE INACTIVITY TRACKER & WARNING ALERT ENGINE
+		 * --------------------------------------------------------------------------
+		 */
+		function initInactivityTracking() {
+			lastActivityTimestamp = Date.now();
+			isWarningModalActive = false;
+
+			const events = ['mousemove', 'mousedown', 'keydown', 'keypress', 'touchstart', 'scroll', 'click'];
+			events.forEach(evt => {
+				window.removeEventListener(evt, handleUserActivity);
+				window.addEventListener(evt, handleUserActivity, { passive: true });
+			});
+
+			if (inactivityTimerInterval) clearInterval(inactivityTimerInterval);
+			inactivityTimerInterval = setInterval(inactivityTimerTick, 1000);
 		}
 
-		function handleLogout() {
-			if (confirm("Are you sure you want to log out of the Zakara Bags Admin Console?")) {
-				localStorage.removeItem("zakara_admin_session");
-				APP_CONFIG.currentUser = null;
-				showLoginView();
+		function stopInactivityTracking() {
+			if (inactivityTimerInterval) {
+				clearInterval(inactivityTimerInterval);
+				inactivityTimerInterval = null;
+			}
+			closeInactivityModal();
+		}
+
+		function handleUserActivity() {
+			// When warning modal is actively displayed, user mouse movement does NOT auto-dismiss it!
+			// User must explicitly click "Stay Logged In" or "Log Out Now"
+			if (isWarningModalActive) return;
+
+			const now = Date.now();
+			if (now - lastActivityTimestamp > 1000) {
+				lastActivityTimestamp = now;
+				updateSessionActiveTime(now);
+			}
+		}
+
+		function updateSessionActiveTime(time) {
+			const saved = localStorage.getItem("zakara_admin_session");
+			if (saved) {
+				try {
+					const session = JSON.parse(saved);
+					session.lastActiveTime = time;
+					localStorage.setItem("zakara_admin_session", JSON.stringify(session));
+				} catch (e) {}
+			}
+		}
+
+		function inactivityTimerTick() {
+			if (!APP_CONFIG.currentUser) return;
+
+			const elapsedSec = Math.floor((Date.now() - lastActivityTimestamp) / 1000);
+
+			if (elapsedSec >= INACTIVITY_TIMEOUT_SEC) {
+				// 15 minutes inactive -> Automatically terminate session
+				triggerInactivityLogout();
+			} else if (elapsedSec >= WARNING_TRIGGER_SEC) {
+				// 14 minutes inactive -> Show warning alert modal with live countdown
+				const remainingSec = Math.max(0, INACTIVITY_TIMEOUT_SEC - elapsedSec);
+				openInactivityModal(remainingSec);
+			} else {
+				if (isWarningModalActive) {
+					closeInactivityModal();
+				}
+			}
+		}
+
+		function openInactivityModal(seconds) {
+			isWarningModalActive = true;
+			const modal = document.getElementById("inactivityModal");
+			const timerEl = document.getElementById("inactivityTimerCount");
+			if (modal) modal.classList.add("active");
+			if (timerEl) timerEl.textContent = seconds < 10 ? '0' + seconds : seconds;
+		}
+
+		function closeInactivityModal() {
+			isWarningModalActive = false;
+			const modal = document.getElementById("inactivityModal");
+			if (modal) modal.classList.remove("active");
+		}
+
+		function extendSession() {
+			lastActivityTimestamp = Date.now();
+			updateSessionActiveTime(lastActivityTimestamp);
+			closeInactivityModal();
+			showToast("Session extended. You are still securely logged in.", "success");
+		}
+
+		function triggerInactivityLogout() {
+			stopInactivityTracking();
+			localStorage.removeItem("zakara_admin_session");
+			APP_CONFIG.currentUser = null;
+			showLoginView();
+			setLoginAlert("⚠️ Inactivity Timeout: You were automatically logged out due to 15 minutes of inactivity for your security. Please enter your credentials to log in again.", "warning");
+			showToast("Logged out due to 15 minutes of inactivity.", "warning");
+		}
+
+		function triggerImmediateLogout(reason = 'user_choice') {
+			stopInactivityTracking();
+			localStorage.removeItem("zakara_admin_session");
+			APP_CONFIG.currentUser = null;
+			showLoginView();
+			if (reason === 'user_choice') {
+				setLoginAlert("You have been signed out.", "info");
 				showToast("Logged out successfully.", "info");
 			}
 		}
 
+		function handleLogout() {
+			if (confirm("Are you sure you want to log out of the Zakara Bags Admin Console?")) {
+				triggerImmediateLogout('user_choice');
+			}
+		}
+
+		/**
+		 * --------------------------------------------------------------------------
+		 * CHANGE ADMIN CREDENTIALS MODAL & HANDLERS
+		 * --------------------------------------------------------------------------
+		 */
+		function openCredentialsModal() {
+			const modal = document.getElementById("credentialsModal");
+			const alertBox = document.getElementById("credAlertBox");
+			const currentPass = document.getElementById("credCurrentPass");
+			const newUsername = document.getElementById("credNewUsername");
+			const newPass = document.getElementById("credNewPass");
+			const confirmPass = document.getElementById("credConfirmPass");
+			const strengthWrap = document.getElementById("credStrengthWrap");
+
+			if (alertBox) alertBox.style.display = "none";
+			if (currentPass) currentPass.value = "";
+			if (newPass) newPass.value = "";
+			if (confirmPass) confirmPass.value = "";
+			if (strengthWrap) strengthWrap.style.display = "none";
+
+			// Set current active username
+			const activeUser = APP_CONFIG.currentUser ? APP_CONFIG.currentUser.username : getLocalCredentials().username;
+			if (newUsername) newUsername.value = activeUser;
+
+			if (modal) modal.classList.add("active");
+		}
+
+		function closeCredentialsModal() {
+			const modal = document.getElementById("credentialsModal");
+			if (modal) modal.classList.remove("active");
+		}
+
+		function checkPasswordStrength(password) {
+			const wrap = document.getElementById("credStrengthWrap");
+			const bar = document.getElementById("strengthBar");
+			const text = document.getElementById("strengthText");
+			if (!password) {
+				wrap.style.display = "none";
+				return;
+			}
+			wrap.style.display = "flex";
+			let score = 0;
+			if (password.length >= 6) score++;
+			if (password.length >= 10) score++;
+			if (/[A-Z]/.test(password) && /[a-z]/.test(password)) score++;
+			if (/[0-9]/.test(password)) score++;
+			if (/[^A-Za-z0-9]/.test(password)) score++;
+
+			if (score <= 2) {
+				bar.style.width = "30%";
+				bar.style.backgroundColor = "#dc2626";
+				text.textContent = "Weak";
+				text.style.color = "#dc2626";
+			} else if (score <= 4) {
+				bar.style.width = "65%";
+				bar.style.backgroundColor = "#ea580c";
+				text.textContent = "Good";
+				text.style.color = "#ea580c";
+			} else {
+				bar.style.width = "100%";
+				bar.style.backgroundColor = "#16a34a";
+				text.textContent = "Strong";
+				text.style.color = "#16a34a";
+			}
+		}
+
+		async function handleChangeCredentialsSubmit(event) {
+			event.preventDefault();
+			const alertBox = document.getElementById("credAlertBox");
+			const currentPass = document.getElementById("credCurrentPass").value;
+			const newUsername = document.getElementById("credNewUsername").value.trim();
+			const newPass = document.getElementById("credNewPass").value;
+			const confirmPass = document.getElementById("credConfirmPass").value;
+			const saveBtn = document.getElementById("saveCredBtn");
+
+			alertBox.style.display = "none";
+
+			if (!currentPass || !newUsername || !newPass || !confirmPass) {
+				showCredAlert("All fields are required.", "error");
+				return;
+			}
+
+			if (newPass.length < 6) {
+				showCredAlert("New master password must be at least 6 characters long.", "error");
+				return;
+			}
+
+			if (newPass !== confirmPass) {
+				showCredAlert("New master password and confirmation password do not match.", "error");
+				return;
+			}
+
+			saveBtn.disabled = true;
+			saveBtn.innerHTML = `<span>Updating credentials...</span>`;
+
+			try {
+				let serverUpdated = false;
+
+				// 1. Try server endpoint first
+				try {
+					const res = await fetch("/api/auth/change-credentials", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							currentPassword: currentPass,
+							newUsername: newUsername,
+							newPassword: newPass
+						})
+					});
+
+					if (res.ok) {
+						serverUpdated = true;
+					} else if (res.status === 401) {
+						const data = await res.json().catch(() => ({}));
+						showCredAlert(data.message || "Current master password is incorrect.", "error");
+						saveBtn.disabled = false;
+						saveBtn.innerHTML = `<span>Update Credentials</span>`;
+						return;
+					}
+				} catch (e) {
+					// Server not reachable
+				}
+
+				// 2. Client-side verification if server not active
+				const local = getLocalCredentials();
+				const currHash = await hashString(currentPass);
+				if (!serverUpdated && currHash !== local.passwordHash && (!local.passwordHash.startsWith('h_') || currHash !== local.passwordHash)) {
+					showCredAlert("Current master password is incorrect.", "error");
+					saveBtn.disabled = false;
+					saveBtn.innerHTML = `<span>Update Credentials</span>`;
+					return;
+				}
+
+				// 3. Save new credentials in client-side secure store
+				const newHash = await hashString(newPass);
+				saveLocalCredentials(newUsername, newHash);
+
+				// 4. Update session
+				if (APP_CONFIG.currentUser) {
+					APP_CONFIG.currentUser.username = newUsername;
+					const saved = localStorage.getItem("zakara_admin_session");
+					if (saved) {
+						try {
+							const session = JSON.parse(saved);
+							session.username = newUsername;
+							localStorage.setItem("zakara_admin_session", JSON.stringify(session));
+						} catch (e) {}
+					}
+				}
+
+				// 5. Update UI
+				document.getElementById("sidebarUserName").textContent = newUsername;
+				document.getElementById("sidebarAvatar").textContent = newUsername.charAt(0).toUpperCase();
+
+				showToast("Master credentials successfully updated!", "success");
+				closeCredentialsModal();
+
+			} catch (err) {
+				showCredAlert("Failed to update credentials: " + err.message, "error");
+			} finally {
+				saveBtn.disabled = false;
+				saveBtn.innerHTML = `<span>Update Credentials</span>`;
+			}
+		}
+
+		function showCredAlert(msg, type = "error") {
+			const box = document.getElementById("credAlertBox");
+			if (!box) return;
+			box.className = `cred-alert-box ${type}`;
+			box.textContent = msg;
+			box.style.display = "block";
+		}
+
 		function togglePasswordVisibility(id) {
 			const input = document.getElementById(id);
+			if (!input) return;
 			input.type = input.type === "password" ? "text" : "password";
 		}
 

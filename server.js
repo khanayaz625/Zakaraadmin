@@ -409,15 +409,51 @@ const server = http.createServer(async (req, res) => {
                     const safeName = `${Date.now()}_${filename}`;
                     const targetFile = path.join(uploadsDir, safeName);
                     fs.writeFileSync(targetFile, buffer);
-                    const localUrl = `/images/uploads/${safeName}`;
+                    const localRelativeUrl = `/images/uploads/${safeName}`;
 
-                    console.log(`[Upload] Saved locally: ${localUrl}`);
+                    const host = req.headers.host || `localhost:${PORT}`;
+                    const proto = (req.headers['x-forwarded-proto'] || (req.connection && req.connection.encrypted ? 'https' : 'http'));
+                    const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
+
+                    // If running locally, mirror file to Render cloud so WooCommerce can download it over public internet
+                    if (isLocal) {
+                        try {
+                            const rRes = await fetch('https://zakaraadmin.onrender.com/api/upload', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ filename, contentType, data: base64Data })
+                            });
+                            if (rRes.ok) {
+                                const rJson = await rRes.json();
+                                if (rJson && rJson.url && /^https?:\/\//i.test(rJson.url)) {
+                                    console.log(`[Upload] Mirrored to Render: ${rJson.url}`);
+                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                    res.end(JSON.stringify({
+                                        success: true,
+                                        url: rJson.url,
+                                        relativeUrl: localRelativeUrl,
+                                        filename: safeName,
+                                        source: 'cloud_mirror'
+                                    }));
+                                    return;
+                                }
+                            }
+                        } catch (mErr) {
+                            console.warn('[Upload Mirror Warning]:', mErr.message);
+                        }
+                    }
+
+                    const publicBase = isLocal ? 'https://zakaraadmin.onrender.com' : `${proto}://${host}`;
+                    const publicUrl = `${publicBase}/images/uploads/${safeName}`;
+
+                    console.log(`[Upload] Saved locally & public URL generated: ${publicUrl}`);
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({
                         success: true,
-                        url: localUrl,
+                        url: publicUrl,
+                        relativeUrl: localRelativeUrl,
                         filename: safeName,
-                        source: 'local'
+                        source: isLocal ? 'local_fallback' : 'render'
                     }));
                 } catch (err) {
                     console.error('[Upload Error]', err);
@@ -443,6 +479,38 @@ const server = http.createServer(async (req, res) => {
             req.on('data', chunk => { bodyData += chunk; });
             req.on('end', async () => {
                 try {
+                    // Sanitize image URLs in product payloads so WooCommerce NEVER gets relative URLs
+                    if (bodyData && (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH')) {
+                        try {
+                            const payload = JSON.parse(bodyData);
+                            if (payload && Array.isArray(payload.images) && payload.images.length) {
+                                const host = req.headers.host || 'zakaraadmin.onrender.com';
+                                const proto = (req.headers['x-forwarded-proto'] || (req.connection && req.connection.encrypted ? 'https' : 'http'));
+                                const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
+                                const publicBase = isLocal ? 'https://zakaraadmin.onrender.com' : `${proto}://${host}`;
+
+                                payload.images = payload.images.map(img => {
+                                    if (typeof img === 'string') img = { src: img };
+                                    if (img && typeof img.src === 'string') {
+                                        let s = img.src.trim();
+                                        if (s.startsWith('/')) {
+                                            s = `${publicBase}${s}`;
+                                        } else if (!/^https?:\/\//i.test(s) && !s.startsWith('data:')) {
+                                            s = `${publicBase}/${s}`;
+                                        } else if (s.includes('localhost:') || s.includes('127.0.0.1:')) {
+                                            const pathPart = s.replace(/^https?:\/\/[^/]+/i, '');
+                                            s = `https://zakaraadmin.onrender.com${pathPart.startsWith('/') ? '' : '/'}${pathPart}`;
+                                        }
+                                        img.src = s;
+                                    }
+                                    return img;
+                                });
+                                bodyData = JSON.stringify(payload);
+                                console.log('[Proxy] Sanitized product image URLs for WooCommerce: ' + payload.images.map(i => i.src).join(', '));
+                            }
+                        } catch (parseErr) {}
+                    }
+
                     const fetchOptions = {
                         method: req.method,
                         headers: {
@@ -451,21 +519,11 @@ const server = http.createServer(async (req, res) => {
                         }
                     };
 
-                    if (cfg.consumerKey && cfg.consumerSecret) {
-                        fetchOptions.headers['Authorization'] = 'Basic ' + Buffer.from(`${cfg.consumerKey}:${cfg.consumerSecret}`).toString('base64');
-                    }
-
                     if (['POST', 'PUT', 'PATCH'].includes(req.method) && bodyData) {
                         fetchOptions.body = bodyData;
                     }
 
-                    // Log clean path without exposing credentials in server logs
-                    const displayParams = new URLSearchParams(parsedUrl.query);
-                    displayParams.delete('consumer_key');
-                    displayParams.delete('consumer_secret');
-                    const queryStr = displayParams.toString() ? `?${displayParams.toString()}` : '';
-                    console.log(`[Proxy] ${req.method} ${wpApiPath}${queryStr}`);
-
+                    console.log(`[Proxy] ${req.method} ${targetUrl}`);
                     const response = await fetch(targetUrl, fetchOptions);
                     const responseData = await response.text();
 
@@ -486,12 +544,39 @@ const server = http.createServer(async (req, res) => {
     }
 
     // =========================================================================
-    // 2. STATIC FILE SERVER (admin.html, allproducts.html, etc.)
+    // 2. STATIC FILE SERVER (admin.html, Toiletary.html, wallets.html, etc.)
     // =========================================================================
     let filePath = path.join(__dirname, pathname === '/' ? 'admin.html' : pathname);
 
+    // Friendly URL and alias routing
+    const cleanPath = pathname.toLowerCase().replace(/^\/+/, '').split('?')[0];
+    if (cleanPath === 'toiletry' || cleanPath === 'toiletry.html' || cleanPath === 'toiletary' || cleanPath === 'toiletary.html') {
+        filePath = path.join(__dirname, 'Toiletary.html');
+    } else if (cleanPath === 'wallets' || cleanPath === 'wallet' || cleanPath === 'wallets.html') {
+        filePath = path.join(__dirname, 'wallets.html');
+    } else if (cleanPath === 'admin' || cleanPath === 'admin.html') {
+        filePath = path.join(__dirname, 'admin.html');
+    } else if (cleanPath === 'allproducts' || cleanPath === 'all-products' || cleanPath === 'products') {
+        filePath = path.join(__dirname, 'allproducts.html');
+    }
+
     if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
         filePath = path.join(filePath, 'admin.html');
+    }
+
+    // Case-insensitive file fallback (vital for Linux / Render deployments)
+    if (!fs.existsSync(filePath)) {
+        try {
+            const reqBasename = path.basename(filePath).toLowerCase();
+            const reqDir = path.dirname(filePath);
+            if (fs.existsSync(reqDir)) {
+                const files = fs.readdirSync(reqDir);
+                const matchedFile = files.find(f => f.toLowerCase() === reqBasename);
+                if (matchedFile) {
+                    filePath = path.join(reqDir, matchedFile);
+                }
+            }
+        } catch (e) {}
     }
 
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {

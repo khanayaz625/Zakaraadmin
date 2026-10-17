@@ -931,40 +931,44 @@
     (function() {
       'use strict';
 
+      /* Public WooCommerce Store API: products published in WP appear here automatically. */
+      const API_ROOT = "/wp-json/wc/store/v1";
+      const API_FALLBACK_ROOT = "https://www.zakarabags.com/wp-json/wc/store/v1";
       const PRODUCTS_PER_PAGE = 12;
-      const TOILETRY_PRODUCTS = [
+
+      const FALLBACK_TOILETRY_PRODUCTS = [
         // Classic Dopp Kits (ZB-TOB-208 Series)
-        { id: "ZB-TOB-208-01", name: "Yellow Soft Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-7-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Soft Nubuck Full-Grain Leather", badge: "Classic Dopp" },
-        { id: "ZB-TOB-208-02", name: "Dark Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-6-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Full-Grain Oil Pull-Up Leather", badge: "Best Seller" },
-        { id: "ZB-TOB-208-03", name: "Coffee Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-3-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Rich Hunter Top-Grain Leather", badge: "Dopp Kit" },
-        { id: "ZB-TOB-208-04", name: "Tan Classic Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-1-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Classic Vegetable Tanned Finish", badge: "Signature Classic" },
-        { id: "ZB-TOB-208-05", name: "Suede Blue Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-12-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Velvet Suede Cow Leather", badge: "Velvet Suede" },
-        { id: "ZB-TOB-208-06", name: "Dark Green Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-13-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Vintage Matte Hunter Leather", badge: "Vintage Finish" },
-        { id: "ZB-TOB-208-07", name: "Black Matte Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-11-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Matte Black Semi-Aniline Leather", badge: "Dopp Kit" },
-        { id: "ZB-TOB-208-08", name: "Light Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-10-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Supple Buff Pull-Up Leather", badge: "Dopp Kit" },
-        { id: "ZB-TOB-208-09", name: "Dark Brown Plain Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-8-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Smooth Aniline Full Grain", badge: "Dopp Kit" },
-        { id: "ZB-TOB-208-10", name: "Brown Plain Leather Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-9-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Burnished Saddle Cow Leather", badge: "Dopp Kit" },
-        { id: "ZB-TOB-208-11", name: "Dark Brown Crunch Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-4-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Distressed Crunch Grain Finish", badge: "Distressed" },
-        { id: "ZB-TOB-208-12", name: "Hunter Brown Leather Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-2-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Authentic Rugged Hunter Leather", badge: "Hunter Leather" },
-        { id: "ZB-TOB-208-13", name: "Matte Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-5-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Velvety Matte Nubuck Touch", badge: "Dopp Kit" },
+        { id: "ZB-TOB-208-01", name: "Yellow Soft Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-7-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Soft Nubuck Full-Grain Leather", badge: "Classic Dopp", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-02", name: "Dark Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-6-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Full-Grain Oil Pull-Up Leather", badge: "Best Seller", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-03", name: "Coffee Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-3-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Rich Hunter Top-Grain Leather", badge: "Dopp Kit", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-04", name: "Tan Classic Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-1-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Classic Vegetable Tanned Finish", badge: "Signature Classic", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-05", name: "Suede Blue Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-12-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Velvet Suede Cow Leather", badge: "Velvet Suede", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-06", name: "Dark Green Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-13-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Vintage Matte Hunter Leather", badge: "Vintage Finish", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-07", name: "Black Matte Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-11-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Matte Black Semi-Aniline Leather", badge: "Dopp Kit", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-08", name: "Light Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-10-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Supple Buff Pull-Up Leather", badge: "Dopp Kit", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-09", name: "Dark Brown Plain Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-8-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Smooth Aniline Full Grain", badge: "Dopp Kit", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-10", name: "Brown Plain Leather Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-9-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Burnished Saddle Cow Leather", badge: "Dopp Kit", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-11", name: "Dark Brown Crunch Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-4-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Distressed Crunch Grain Finish", badge: "Distressed", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-12", name: "Hunter Brown Leather Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-2-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Authentic Rugged Hunter Leather", badge: "Hunter Leather", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-208-13", name: "Matte Brown Leather Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-5-768x768.jpg", category: "classic", categoryName: "Classic Dopp Kit", spec: "Velvety Matte Nubuck Touch", badge: "Dopp Kit", date_modified: "2026-09-19" },
 
         // Front-Pocket Structured Series (ZB-TOB-320 Series)
-        { id: "ZB-TOB-320-01", name: "Black Front-Pocket Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-8-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Front Zipper Pocket • Full Grain", badge: "Structured" },
-        { id: "ZB-TOB-320-02", name: "Burgundy Front-Pocket Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-7-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Deep Wine Pull-Up Leather", badge: "Structured" },
-        { id: "ZB-TOB-320-03", name: "Tan Pebbled Front-Pocket Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-6-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Textured Pebble-Grain Cowhide", badge: "Pebble Grain" },
-        { id: "ZB-TOB-320-04", name: "Light Soft Brown Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-5-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Smooth Glazed Aniline Finish", badge: "Structured" },
-        { id: "ZB-TOB-320-05", name: "Plain Tan Front-Pocket Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-4-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Warm Cognac Top-Grain Leather", badge: "Cognac Tan" },
-        { id: "ZB-TOB-320-06", name: "Soft Reddish Brown Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-3-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Amber Red Tone Pull-Up", badge: "Structured" },
-        { id: "ZB-TOB-320-07", name: "Matte Hunter Brown Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-2-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Rugged Matte Vintage Texture", badge: "Rugged Matte" },
-        { id: "ZB-TOB-320-08", name: "Glossy Brown Front-Pocket Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-1-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Semi-Gloss Oil Wax Leather", badge: "Oil Wax" },
+        { id: "ZB-TOB-320-01", name: "Black Front-Pocket Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-8-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Front Zipper Pocket • Full Grain", badge: "Structured", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-02", name: "Burgundy Front-Pocket Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-7-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Deep Wine Pull-Up Leather", badge: "Structured", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-03", name: "Tan Pebbled Front-Pocket Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-6-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Textured Pebble-Grain Cowhide", badge: "Pebble Grain", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-04", name: "Light Soft Brown Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-5-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Smooth Glazed Aniline Finish", badge: "Structured", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-05", name: "Plain Tan Front-Pocket Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-4-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Warm Cognac Top-Grain Leather", badge: "Cognac Tan", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-06", name: "Soft Reddish Brown Toiletry Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-3-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Amber Red Tone Pull-Up", badge: "Structured", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-07", name: "Matte Hunter Brown Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-2-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Rugged Matte Vintage Texture", badge: "Rugged Matte", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-320-08", name: "Glossy Brown Front-Pocket Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-320-1-768x768.jpg", category: "front-pocket", categoryName: "Front-Pocket Structured", spec: "Semi-Gloss Oil Wax Leather", badge: "Oil Wax", date_modified: "2026-09-19" },
 
         // Dual Compartment Executive Series
-        { id: "ZB-TOB-501", name: "Double Zipper Light Brown Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-3-768x768.jpg", category: "double-zip", categoryName: "Dual Compartment", spec: "Dual Chamber Design • Full Grain", badge: "Dual Zip" },
-        { id: "ZB-TOB-502", name: "Double Zipper Dark Brown Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-2-768x768.jpg", category: "double-zip", categoryName: "Dual Compartment", spec: "Heavy-Duty Hardware • Pull-Up", badge: "Executive" },
-        { id: "ZB-TOB-503", name: "Double Zip Tan Executive Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-1-768x768.jpg", category: "double-zip", categoryName: "Dual Compartment", spec: "Classic Honey Tan • Water-Resistant", badge: "Dual Zip" }
+        { id: "ZB-TOB-501", name: "Double Zipper Light Brown Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-3-768x768.jpg", category: "double-zip", categoryName: "Dual Compartment", spec: "Dual Chamber Design • Full Grain", badge: "Dual Zip", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-502", name: "Double Zipper Dark Brown Dopp Kit", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-2-768x768.jpg", category: "double-zip", categoryName: "Dual Compartment", spec: "Heavy-Duty Hardware • Pull-Up", badge: "Executive", date_modified: "2026-09-19" },
+        { id: "ZB-TOB-503", name: "Double Zip Tan Executive Wash Bag", permalink: "https://www.zakarabags.com/contact-us/", image: "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-1-768x768.jpg", category: "double-zip", categoryName: "Dual Compartment", spec: "Classic Honey Tan • Water-Resistant", badge: "Dual Zip", date_modified: "2026-09-19" }
       ];
 
-      const state = { products: TOILETRY_PRODUCTS, filtered: TOILETRY_PRODUCTS, category: "all", page: 1 };
+      const state = { products: FALLBACK_TOILETRY_PRODUCTS, filtered: FALLBACK_TOILETRY_PRODUCTS, category: "all", page: 1 };
       const grid = document.getElementById("productsGrid");
       const resultCount = document.getElementById("resultCount");
       const pagination = document.getElementById("pagination");
@@ -973,6 +977,140 @@
       const categorySelect = document.getElementById("categorySelect");
       const clearFilters = document.getElementById("clearFilters");
       const productsGridScroll = document.getElementById("productsGridScroll");
+
+      const stripHtml = (html) => {
+        if (!html) return "";
+        const tmp = document.createElement("DIV");
+        tmp.innerHTML = html;
+        return (tmp.textContent || tmp.innerText || "").trim();
+      };
+
+      const fetchJson = async (url) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 6000);
+        try {
+          const response = await fetch(url, { signal: controller.signal });
+          if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+          return response.json();
+        } finally {
+          clearTimeout(timeout);
+        }
+      };
+
+      function isToiletryProduct(product) {
+        if (!product) return false;
+        
+        // 1. Direct check on product categories (ID 938 is Toiletry Bags on WordPress)
+        if (Array.isArray(product.categories)) {
+          const hasCategoryMatch = product.categories.some(c => {
+            if (typeof c === "object" && c !== null) {
+              const idNum = Number(c.id);
+              const nameStr = String(c.name || "").toLowerCase();
+              const slugStr = String(c.slug || "").toLowerCase();
+              return idNum === 938 || nameStr.includes("toilet") || nameStr.includes("dopp") || slugStr.includes("toilet") || slugStr.includes("dopp");
+            }
+            const rawStr = String(c).toLowerCase();
+            return rawStr.includes("toilet") || rawStr.includes("dopp") || rawStr === "938";
+          });
+          if (hasCategoryMatch) return true;
+        }
+
+        // 2. Keyword check on name, slug, sku, description, and specs
+        const text = `${product.name || ''} ${product.slug || ''} ${product.sku || ''} ${(product.categories || []).map(c => (typeof c === 'string' ? c : (c.name || c.slug || ''))).join(' ')} ${stripHtml(product.short_description || '')} ${stripHtml(product.description || '')}`.toLowerCase();
+        return text.includes("toiletry") || 
+               text.includes("toiletary") || 
+               text.includes("dopp") || 
+               text.includes("wash bag") || 
+               text.includes("washbag") || 
+               text.includes("shaving") || 
+               text.includes("shave") || 
+               text.includes("cosmetic") || 
+               text.includes("grooming") || 
+               text.includes("tob-");
+      }
+
+      function categorizeToiletry(product) {
+        const text = `${product.name || ''} ${product.slug || ''} ${(product.categories || []).map(c => (typeof c === 'string' ? c : (c.name || c.slug || ''))).join(' ')} ${stripHtml(product.short_description || '')}`.toLowerCase();
+        if (text.includes("double") || text.includes("dual") || text.includes("two zip") || text.includes("chamber") || text.includes("executive")) {
+          return { category: "double-zip", categoryName: "Dual-Compartment Executive" };
+        }
+        if (text.includes("front") || text.includes("pocket") || text.includes("structured") || text.includes("320")) {
+          return { category: "front-pocket", categoryName: "Front-Pocket Structured" };
+        }
+        return { category: "classic", categoryName: "Classic Dopp Kit" };
+      }
+
+      function formatApiProduct(product, index) {
+        let img = "https://www.zakarabags.com/wp-content/uploads/2025/11/Leather-Toiletry-Bag-ZB-TOB-208-7-768x768.jpg";
+        if (product.images && product.images.length) {
+          img = typeof product.images[0] === 'string' ? product.images[0] : (product.images[0].src || img);
+        } else if (product.image) {
+          img = product.image;
+        }
+
+        const catInfo = categorizeToiletry(product);
+        const code = product.sku || (product.id ? `ZB-TOB-${product.id}` : `ZB-TOB-${String(index + 1).padStart(3, '0')}`);
+        
+        // Extract leather / spec description
+        let cleanSpec = "";
+        if (product.attributes && typeof product.attributes === 'object') {
+          cleanSpec = product.attributes.leather || product.attributes.spec || "";
+        }
+        if (!cleanSpec && product.meta_data && Array.isArray(product.meta_data)) {
+          const lMeta = product.meta_data.find(m => m.key === 'specs_leather' || m.key === 'leather');
+          if (lMeta && lMeta.value) cleanSpec = lMeta.value;
+        }
+        if (!cleanSpec) {
+          cleanSpec = stripHtml(product.short_description || product.description || "100% Handcrafted Full-Grain Genuine Leather");
+        }
+
+        const permalink = product.permalink || `https://www.zakarabags.com/product/${product.slug || ''}/`;
+
+        return {
+          id: code,
+          numericId: product.id,
+          name: product.name,
+          permalink: permalink,
+          image: img,
+          category: catInfo.category,
+          categoryName: catInfo.categoryName,
+          spec: cleanSpec.length > 55 ? cleanSpec.substring(0, 52) + '...' : cleanSpec,
+          badge: product.is_on_sale ? "Special Offer" : (product.featured ? "Best Seller" : "Zakara Luxury"),
+          date_modified: product.date_modified || new Date().toISOString()
+        };
+      }
+
+      function updateCategoryCounts() {
+        const total = state.products.length;
+        const classicCount = state.products.filter(p => p.category === "classic").length;
+        const frontCount = state.products.filter(p => p.category === "front-pocket").length;
+        const doubleCount = state.products.filter(p => p.category === "double-zip").length;
+
+        const allCountEl = document.querySelector('#categoryList [data-category="all"] .category-count');
+        if (allCountEl) allCountEl.textContent = total;
+
+        const classicCountEl = document.querySelector('#categoryList [data-category="classic"] .category-count');
+        if (classicCountEl) classicCountEl.textContent = classicCount;
+
+        const frontCountEl = document.querySelector('#categoryList [data-category="front-pocket"] .category-count');
+        if (frontCountEl) frontCountEl.textContent = frontCount;
+
+        const doubleCountEl = document.querySelector('#categoryList [data-category="double-zip"] .category-count');
+        if (doubleCountEl) doubleCountEl.textContent = doubleCount;
+
+        // Update mobile select options
+        const optAll = document.querySelector('#categorySelect option[value="all"]');
+        if (optAll) optAll.textContent = `All Toiletry Bags (${total})`;
+
+        const optClassic = document.querySelector('#categorySelect option[value="classic"]');
+        if (optClassic) optClassic.textContent = `Classic Dopp Kits (${classicCount})`;
+
+        const optFront = document.querySelector('#categorySelect option[value="front-pocket"]');
+        if (optFront) optFront.textContent = `Front-Pocket Structured (${frontCount})`;
+
+        const optDouble = document.querySelector('#categorySelect option[value="double-zip"]');
+        if (optDouble) optDouble.textContent = `Dual-Compartment Executive (${doubleCount})`;
+      }
 
       function detectUrlCategory() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -1011,7 +1149,7 @@
                 <h2 class="product-name"><a href="${product.permalink}">${product.name}</a></h2>
                 <div class="leather-spec">${product.spec}</div>
                 <div class="product-bottom">
-                  <a class="view-product" href="${product.permalink}">Enquire Now</a>
+                  <a class="view-product" href="${product.permalink}">View details</a>
                 </div>
               </div>
             </article>
@@ -1037,11 +1175,15 @@
         const query = searchInput.value.toLowerCase().trim();
         state.filtered = state.products.filter((product) => {
           const inCategory = state.category === "all" || product.category === state.category;
-          return inCategory && (!query || `${product.name} ${product.spec} ${product.id}`.toLowerCase().includes(query));
+          return inCategory && (!query || `${product.name} ${product.spec} ${product.id} ${product.categoryName}`.toLowerCase().includes(query));
         });
 
         const sort = sortSelect.value;
-        state.filtered.sort((a, b) => sort === "title" ? a.name.localeCompare(b.name) : a.id.localeCompare(b.id));
+        state.filtered.sort((a, b) => {
+          if (sort === "title") return a.name.localeCompare(b.name);
+          return new Date(b.date_modified || 0) - new Date(a.date_modified || 0);
+        });
+
         state.page = 1;
         renderProducts();
       }
@@ -1065,6 +1207,86 @@
         applyFilters();
       }
 
+      async function loadCatalogue() {
+        grid.innerHTML = '<div class="loading-state" style="grid-column: 1/-1; text-align: center; padding: 60px 20px; font-size: 1rem; color: #8c8279;">Connecting to Zakara backend & loading toiletry bags...</div>';
+        
+        let fetchedToiletry = [];
+
+        try {
+          // 1. Check local storage synced products first (instant sync when admin saves in admin.html!)
+          try {
+            const localRaw = localStorage.getItem("zakara_synced_products");
+            if (localRaw) {
+              const localList = JSON.parse(localRaw);
+              if (Array.isArray(localList)) {
+                const matched = localList.filter(isToiletryProduct).map(formatApiProduct);
+                if (matched.length) {
+                  fetchedToiletry = matched;
+                }
+              }
+            }
+          } catch (e) {}
+
+          // 2. Fetch live products from backend API / proxy
+          let rawProducts = null;
+          const candidateEndpoints = [
+            "/api/products?per_page=100&status=publish",
+            "http://localhost:5502/api/products?per_page=100&status=publish",
+            "/wp-json/wc/store/v1/products?per_page=100",
+            "https://www.zakarabags.com/wp-json/wc/store/v1/products?per_page=100"
+          ];
+
+          for (const ep of candidateEndpoints) {
+            try {
+              const resData = await fetchJson(ep);
+              if (resData && Array.isArray(resData) && resData.length) {
+                rawProducts = resData;
+                break;
+              }
+            } catch (err) {}
+          }
+
+          if (rawProducts && Array.isArray(rawProducts) && rawProducts.length) {
+            const apiToiletry = rawProducts.filter(isToiletryProduct).map(formatApiProduct);
+            if (apiToiletry.length) {
+              const apiMap = new Map();
+              apiToiletry.forEach(p => apiMap.set((p.name || '').toLowerCase().trim(), p));
+              fetchedToiletry.forEach(p => {
+                const k = (p.name || '').toLowerCase().trim();
+                if (!apiMap.has(k)) apiMap.set(k, p);
+              });
+              fetchedToiletry = Array.from(apiMap.values());
+            }
+          }
+        } catch (err) {
+          console.warn("Catalog fetch completed with fallback:", err);
+        }
+
+        // 3. MERGE backend products with FALLBACK_TOILETRY_PRODUCTS (new products added from backend appear first!)
+        const combinedMap = new Map();
+
+        // New API products first (at top of grid)
+        fetchedToiletry.forEach(product => {
+          const key = (product.name || '').toLowerCase().trim();
+          combinedMap.set(key, product);
+        });
+
+        // Add base fallback toiletry bags if not already present
+        FALLBACK_TOILETRY_PRODUCTS.forEach(product => {
+          const key = (product.name || '').toLowerCase().trim();
+          if (!combinedMap.has(key)) {
+            combinedMap.set(key, product);
+          }
+        });
+
+        state.products = Array.from(combinedMap.values());
+        state.filtered = state.products;
+
+        updateCategoryCounts();
+        const initialCat = detectUrlCategory();
+        setCategory(initialCat);
+      }
+
       // Event Listeners
       document.querySelectorAll("#categoryList [data-category]").forEach((button) => button.addEventListener("click", () => setCategory(button.dataset.category, true)));
       categorySelect.addEventListener("change", () => setCategory(categorySelect.value, true));
@@ -1075,9 +1297,15 @@
       window.addEventListener("popstate", () => setCategory(detectUrlCategory()));
       window.addEventListener("hashchange", () => setCategory(detectUrlCategory()));
 
-      // Initialize
-      const initialCat = detectUrlCategory();
-      setCategory(initialCat);
+      // Realtime cross-tab sync when admin saves product in backend
+      window.addEventListener("storage", (e) => {
+        if (e.key === "zakara_synced_products") {
+          loadCatalogue();
+        }
+      });
+
+      // Initial Load
+      loadCatalogue();
 
     })();
   </script>

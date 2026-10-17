@@ -2247,6 +2247,14 @@
 				</a>
 
 				<span class="nav-section-title">Live Website Pages</span>
+				<a href="Toiletary.html" target="_blank" class="nav-link" data-tooltip="Toiletry Bags Page ↗" title="Open Toiletry Bags live catalogue">
+					<svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+					<span>Toiletry Bags Page ↗</span>
+				</a>
+				<a href="wallets.html" target="_blank" class="nav-link" data-tooltip="Wallets Page ↗" title="Open Wallets live catalogue">
+					<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M16 12h4"></path></svg>
+					<span>Wallets Page ↗</span>
+				</a>
 				<a href="https://www.zakarabags.com/shop-3/" target="_blank" class="nav-link" data-tooltip="Live Shop (/shop-3/) ↗" title="Open real live /shop-3/ page">
 					<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
 					<span>Live Shop (/shop-3/) ↗</span>
@@ -3720,10 +3728,30 @@
 				}
 			}
 
-			if (fetchedCategories.length) {
-				STATE.categories = fetchedCategories;
-				populateCategoryFilters(STATE.categories);
+			const standardStoreCategories = [
+				{ id: 938, name: "Toiletry Bags", slug: "toiletry-bags", count: 0 },
+				{ id: 937, name: "Leather Wallets", slug: "wallets", count: 0 },
+				{ id: 62, name: "Ladies Bags", slug: "ladies-bags", count: 0 },
+				{ id: 276, name: "New Arrivals", slug: "new-arrivals", count: 0 },
+				{ id: 58, name: "Duffle / Travel Bags", slug: "duffle-travel-bags", count: 0 },
+				{ id: 59, name: "Messenger / Laptop Bags", slug: "messenger-laptop-bags", count: 0 },
+				{ id: 65, name: "Leather Backpack", slug: "leather-backpack", count: 0 },
+				{ id: 61, name: "Camera Bags", slug: "camera-bags", count: 0 },
+				{ id: 60, name: "Canvas Bags", slug: "canvas-bags", count: 0 },
+				{ id: 763, name: "Leather Accessories", slug: "leather-accessories", count: 0 },
+				{ id: 766, name: "Other Accessories", slug: "other-accessories", count: 0 }
+			];
+
+			const catMap = new Map();
+			standardStoreCategories.forEach(c => catMap.set(String(c.id), c));
+			if (fetchedCategories && fetchedCategories.length) {
+				fetchedCategories.forEach(c => {
+					const existing = catMap.get(String(c.id));
+					catMap.set(String(c.id), existing ? { ...existing, ...c } : c);
+				});
 			}
+			STATE.categories = Array.from(catMap.values());
+			populateCategoryFilters(STATE.categories);
 
 			if (fetchedProducts.length) {
 				const localMap = new Map();
@@ -4231,14 +4259,28 @@
 
 				// Categories
 				if (prod.categories && Array.isArray(prod.categories)) {
-					prod.categories.forEach(c => STATE.selectedCategories.add(String(c.id)));
+					prod.categories.forEach(c => {
+						if (typeof c === "object" && c !== null) {
+							if (c.id) {
+								STATE.selectedCategories.add(String(c.id));
+							} else if (c.name || c.slug) {
+								const match = STATE.categories.find(sc => 
+									sc.name.toLowerCase() === String(c.name || "").toLowerCase() ||
+									sc.slug.toLowerCase() === String(c.slug || "").toLowerCase()
+								);
+								if (match) STATE.selectedCategories.add(String(match.id));
+							}
+						} else {
+							STATE.selectedCategories.add(String(c));
+						}
+					});
 				}
 
 				// Images
 				if (prod.images && prod.images.length) {
-					STATE.productImages = [...prod.images];
-					setMainImagePreview(prod.images[0]);
-					STATE.galleryImages = prod.images.slice(1);
+					STATE.productImages = prod.images.map(img => formatPublicImageUrl(img));
+					setMainImagePreview(STATE.productImages[0]);
+					STATE.galleryImages = STATE.productImages.slice(1);
 				} else {
 					STATE.productImages = ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"];
 					setMainImagePreview(STATE.productImages[0]);
@@ -4372,16 +4414,32 @@
 
 		function renderCategoryCheckboxes() {
 			const container = document.getElementById("modalCategoryList");
-			const cats = STATE.categories.length ? STATE.categories : [
-				{ id: 62, name: "Ladies Bags" },
-				{ id: 23, name: "New Arrivals" },
-				{ id: 58, name: "Duffle / Travel Bags" },
-				{ id: 59, name: "Messenger / Laptop Bags" },
-				{ id: 65, name: "Leather Backpack" },
-				{ id: 61, name: "Camera Bags" },
-				{ id: 60, name: "Canvas Bags" },
-				{ id: 75, name: "Leather Accessories" }
+			if (!container) return;
+
+			const standardStoreCategories = [
+				{ id: 938, name: "Toiletry Bags", slug: "toiletry-bags" },
+				{ id: 937, name: "Leather Wallets", slug: "wallets" },
+				{ id: 62, name: "Ladies Bags", slug: "ladies-bags" },
+				{ id: 276, name: "New Arrivals", slug: "new-arrivals" },
+				{ id: 58, name: "Duffle / Travel Bags", slug: "duffle-travel-bags" },
+				{ id: 59, name: "Messenger / Laptop Bags", slug: "messenger-laptop-bags" },
+				{ id: 65, name: "Leather Backpack", slug: "leather-backpack" },
+				{ id: 61, name: "Camera Bags", slug: "camera-bags" },
+				{ id: 60, name: "Canvas Bags", slug: "canvas-bags" },
+				{ id: 763, name: "Leather Accessories", slug: "leather-accessories" },
+				{ id: 766, name: "Other Accessories", slug: "other-accessories" }
 			];
+
+			const catMap = new Map();
+			standardStoreCategories.forEach(c => catMap.set(String(c.id), c));
+			if (Array.isArray(STATE.categories)) {
+				STATE.categories.forEach(c => {
+					const existing = catMap.get(String(c.id));
+					catMap.set(String(c.id), existing ? { ...existing, ...c } : c);
+				});
+			}
+
+			const cats = Array.from(catMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 
 			container.innerHTML = cats.map(cat => `
 				<label class="cat-checkbox-item">
@@ -4459,7 +4517,7 @@
 						</span>
 
 						<div class="image-card-thumb-wrap">
-							<img src="${src}" alt="Product Photo ${idx + 1}" loading="lazy" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
+							<img src="${formatPublicImageUrl(src)}" alt="Product Photo ${idx + 1}" loading="lazy" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
 							<div class="image-card-drag-handle" title="Drag to reorder position">⋮⋮ Drag</div>
 						</div>
 
@@ -4582,6 +4640,63 @@
 			}
 		}
 
+		/* Image URL Normalization & Storage Engine */
+		function formatPublicImageUrl(url) {
+			if (!url) return "";
+			url = String(url).trim();
+			// If already a full public HTTP/HTTPS URL
+			if (/^https?:\/\//i.test(url)) {
+				// If pointing to localhost, convert to public Render URL so WooCommerce can download it!
+				if (url.includes("localhost:") || url.includes("127.0.0.1:")) {
+					const pathPart = url.replace(/^https?:\/\/[^/]+/i, "");
+					return `https://zakaraadmin.onrender.com${pathPart.startsWith("/") ? "" : "/"}${pathPart}`;
+				}
+				return url;
+			}
+			// If relative path (e.g. /images/uploads/...)
+			const isLocalOrigin = !window.location.origin || window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1") || !window.location.origin.startsWith("http");
+			const base = isLocalOrigin ? "https://zakaraadmin.onrender.com" : window.location.origin;
+			return `${base}${url.startsWith("/") ? "" : "/"}${url}`;
+		}
+
+		async function uploadBase64Direct(base64Data, filename) {
+			const fname = filename || `upload_${Date.now()}.jpg`;
+			const payload = {
+				filename: fname,
+				contentType: "image/jpeg",
+				data: base64Data
+			};
+
+			// 1. Try local/configured proxy
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const res = await fetch(`${proxyBase}/api/upload`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload)
+				});
+				if (res.ok) {
+					const data = await res.json();
+					if (data && data.url) return formatPublicImageUrl(data.url);
+				}
+			} catch (e) {}
+
+			// 2. Direct cloud upload to Render
+			try {
+				const cloudRes = await fetch("https://zakaraadmin.onrender.com/api/upload", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload)
+				});
+				if (cloudRes.ok) {
+					const data = await cloudRes.json();
+					if (data && data.url) return formatPublicImageUrl(data.url);
+				}
+			} catch (e) {}
+
+			return null;
+		}
+
 		/* System Image File Upload & WP Storage Engine */
 		async function handleSystemImageFiles(fileList) {
 			if (!fileList || !fileList.length) return;
@@ -4594,7 +4709,8 @@
 					const uploadedUrl = await uploadFileToSystemOrWp(file);
 					if (uploadedUrl) {
 						// Store at the end ("store last" as requested)
-						STATE.productImages.push(uploadedUrl);
+						const formattedUrl = formatPublicImageUrl(uploadedUrl);
+						STATE.productImages.push(formattedUrl);
 						renderProductImageManager();
 						showToast(`Uploaded ${file.name} to WordPress panel!`, "success");
 					}
@@ -4622,7 +4738,8 @@
 			try {
 				const uploadedUrl = await uploadFileToSystemOrWp(file);
 				if (uploadedUrl) {
-					STATE.productImages[replacingSlotIndex] = uploadedUrl;
+					const formattedUrl = formatPublicImageUrl(uploadedUrl);
+					STATE.productImages[replacingSlotIndex] = formattedUrl;
 					renderProductImageManager();
 					showToast(`Image #${replacingSlotIndex + 1} updated with ${file.name}!`, "success");
 				}
@@ -4644,7 +4761,7 @@
 				reader.readAsDataURL(file);
 			});
 
-			// 1. Try local server endpoint /api/upload (which proxies directly to WP Media or saves locally)
+			// 1. Try local or Render proxy server endpoint /api/upload
 			try {
 				const proxyBase = await getProxyBaseUrl();
 				const res = await fetch(`${proxyBase}/api/upload`, {
@@ -4659,21 +4776,42 @@
 				if (res.ok) {
 					const data = await res.json();
 					if (data && data.url) {
-						return data.url;
+						return formatPublicImageUrl(data.url);
 					}
 				}
 			} catch (e) {
-				console.warn("Local server upload not active, falling back to direct WP or base64...");
+				console.warn("Proxy server upload attempt failed, trying cloud fallback...");
 			}
 
-			// 2. Direct WP media REST API upload fallback
+			// 2. Direct cloud fallback to zakaraadmin.onrender.com/api/upload if running elsewhere
 			try {
-				const wpEndpoint = `${APP_CONFIG.wpUrl}/wp-json/wp/v2/media`;
-				const auth = "Basic " + btoa(`${APP_CONFIG.consumerKey}:${APP_CONFIG.consumerSecret}`);
+				if (!window.location.origin.includes("zakaraadmin.onrender.com")) {
+					const cloudRes = await fetch("https://zakaraadmin.onrender.com/api/upload", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							filename: file.name,
+							contentType: file.type || "image/jpeg",
+							data: base64Data
+						})
+					});
+					if (cloudRes.ok) {
+						const cloudData = await cloudRes.json();
+						if (cloudData && cloudData.url) {
+							return formatPublicImageUrl(cloudData.url);
+						}
+					}
+				}
+			} catch (cloudErr) {
+				console.warn("Direct cloud upload fallback failed:", cloudErr);
+			}
+
+			// 3. Direct WP media REST API upload fallback
+			try {
+				const wpEndpoint = `${APP_CONFIG.wpUrl}/wp-json/wp/v2/media?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}`;
 				const res = await fetch(wpEndpoint, {
 					method: "POST",
 					headers: {
-						"Authorization": auth,
 						"Content-Disposition": `attachment; filename="${file.name}"`,
 						"Content-Type": file.type || "image/jpeg"
 					},
@@ -4686,14 +4824,15 @@
 				}
 			} catch (e) {}
 
-			// 3. Fallback: Base64 Data URL (ensures immediate local visibility and zero disruption)
+			// 4. Return formatted temporary Base64 (will be uploaded to cloud before product save if needed)
 			return base64Data;
 		}
 
 		function addGalleryImageUrl() {
 			const input = document.getElementById("newGalleryImgUrl");
-			const val = input.value.trim();
+			let val = input.value.trim();
 			if (!val) return;
+			val = formatPublicImageUrl(val);
 
 			STATE.productImages.push(val);
 			renderProductImageManager();
@@ -4703,12 +4842,12 @@
 
 		function setMainImagePreview(url) {
 			const input = document.getElementById("editMainImage");
-			if (input) input.value = url;
+			if (input) input.value = formatPublicImageUrl(url);
 		}
 
 		function updateMainImagePreview(url) {
 			if (url && STATE.productImages && STATE.productImages.length) {
-				STATE.productImages[0] = url;
+				STATE.productImages[0] = formatPublicImageUrl(url);
 				renderProductImageManager();
 			}
 		}
@@ -4844,13 +4983,48 @@
 				const selectedCatObjs = [];
 				STATE.selectedCategories.forEach(catId => {
 					const found = STATE.categories.find(c => String(c.id) === String(catId));
-					selectedCatObjs.push(found || { id: catId, name: "Leather Goods" });
+					if (found) {
+						selectedCatObjs.push(found);
+					} else if (String(catId) === "938" || String(catId).toLowerCase().includes("toil")) {
+						selectedCatObjs.push({ id: 938, name: "Toiletry Bags", slug: "toiletry-bags" });
+					} else if (String(catId) === "937" || String(catId).toLowerCase().includes("wall")) {
+						selectedCatObjs.push({ id: 937, name: "Leather Wallets", slug: "wallets" });
+					} else {
+						selectedCatObjs.push({ id: catId, name: "Leather Goods" });
+					}
 				});
 
 				// All Images in exact reordered sequence
-				const allImages = (STATE.productImages && STATE.productImages.length) 
-					? STATE.productImages 
+				let allImages = (STATE.productImages && STATE.productImages.length) 
+					? [...STATE.productImages] 
 					: ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"];
+
+				// Ensure every image is converted to a valid, public HTTP/HTTPS URL
+				const preparedWcImages = [];
+				for (let i = 0; i < allImages.length; i++) {
+					let src = allImages[i];
+					if (!src) continue;
+					src = String(src).trim();
+
+					// If base64 data URL, upload it now to get a permanent public URL
+					if (src.startsWith("data:image/")) {
+						try {
+							saveBtn.innerHTML = `<span>Uploading Image #${i + 1} to Cloud...</span>`;
+							const upUrl = await uploadBase64Direct(src, `product_${productId}_${i + 1}.jpg`);
+							if (upUrl) {
+								src = upUrl;
+								allImages[i] = upUrl;
+								STATE.productImages[i] = upUrl;
+							}
+						} catch (upErr) {
+							console.warn("Base64 upload attempt failed:", upErr);
+						}
+					}
+
+					const publicSrc = formatPublicImageUrl(src);
+					allImages[i] = publicSrc;
+					preparedWcImages.push({ src: publicSrc });
+				}
 
 				// Specifications
 				const attributes = {
@@ -4980,8 +5154,14 @@
 					status,
 					description: fullDesc,
 					short_description: shortDesc,
-					categories: selectedCatObjs.map(c => ({ id: c.id })),
-					images: allImages.map(src => ({ src })),
+					categories: selectedCatObjs.map(c => {
+						const numId = Number(c.id);
+						if (Number.isInteger(numId) && numId > 0 && numId < 1000000000) {
+							return { id: numId };
+						}
+						return { name: c.name || String(c.id) };
+					}),
+					images: preparedWcImages,
 					attributes: mergedWcAttrs,
 					meta_data: wcMetaData
 				};
@@ -5040,6 +5220,14 @@
 				}
 
 				if (saveSuccess) {
+					// Update with actual WordPress media URLs returned by WooCommerce
+					if (wpResult && Array.isArray(wpResult.images) && wpResult.images.length) {
+						const wpImageUrls = wpResult.images.map(img => img.src || img);
+						productPayload.images = wpImageUrls;
+						STATE.productImages = [...wpImageUrls];
+						setMainImagePreview(wpImageUrls[0]);
+					}
+
 					if (isNew) {
 						STATE.products.unshift(productPayload);
 					} else {
@@ -5055,6 +5243,8 @@
 					let friendlyHelp = `How to fix:\n1. Make sure "node server.js" is running in your terminal on port 5501 (it proxies all requests without CORS blocks), OR\n2. In WordPress Admin → WooCommerce → Settings → Advanced → REST API, ensure your key has "Read/Write" permissions.`;
 					if (errorMessage.toLowerCase().includes("sku") || errorMessage.toLowerCase().includes("lookup table")) {
 						friendlyHelp = `How to fix:\nThe SKU "${sku}" is already in use by another product or an item in your WordPress Trash.\n\nSolutions:\n1. Change the SKU field in Tab 1 (Basic Info & SKU) to a unique code (e.g. ZB-LB-${Math.floor(100 + Math.random() * 900)}),\n2. OR in WP Admin → Products → Trash, permanently delete the item or click "Empty Trash".`;
+					} else if (errorMessage.toLowerCase().includes("remote image") || errorMessage.toLowerCase().includes("valid url")) {
+						friendlyHelp = `Image Notice:\nWooCommerce was unable to download one of the product images.\nPlease verify the image URLs in Tab 5 (Product Images) or upload your photos directly.`;
 					}
 					alert(`⚠️ WordPress Upload Notice:\n\n${errorMessage}\n\n${friendlyHelp}`);
 					showToast(`Upload failed: ${errorMessage}`, "error");

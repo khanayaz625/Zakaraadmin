@@ -923,27 +923,49 @@
 				}
 			} catch (e) {}
 
+			// Tombstone check for deleted products
+			let deletedKeys = new Set();
+			try {
+				const rawDel = localStorage.getItem("zakara_deleted_products");
+				if (rawDel) {
+					const arr = JSON.parse(rawDel);
+					if (Array.isArray(arr)) arr.forEach(k => deletedKeys.add(String(k).toLowerCase().trim()));
+				}
+			} catch (e) {}
+
+			const isDeleted = (p) => {
+				if (!p) return false;
+				if (p.id && deletedKeys.has(String(p.id).toLowerCase().trim())) return true;
+				if (p.name && deletedKeys.has(String(p.name).toLowerCase().trim())) return true;
+				if (p.slug && deletedKeys.has(String(p.slug).toLowerCase().trim())) return true;
+				return false;
+			};
+
 			// Merge: Priority 1 = Admin Console Products, Priority 2 = WordPress Live Store API, Priority 3 = Fallback Products
 			const combinedMap = new Map();
 
 			localAdminProducts.forEach((product) => {
-				if (product.status === "publish" || !product.status) {
+				if (!isDeleted(product) && (product.status === "publish" || !product.status)) {
 					const key = (product.name || '').toLowerCase().trim();
 					combinedMap.set(key, product);
 				}
 			});
 
 			fetchedProducts.forEach((product) => {
-				const key = (product.name || '').toLowerCase().trim();
-				if (!combinedMap.has(key)) {
-					combinedMap.set(key, product);
+				if (!isDeleted(product)) {
+					const key = (product.name || '').toLowerCase().trim();
+					if (!combinedMap.has(key)) {
+						combinedMap.set(key, product);
+					}
 				}
 			});
 
 			FALLBACK_PRODUCTS.forEach((product) => {
-				const key = (product.name || '').toLowerCase().trim();
-				if (!combinedMap.has(key)) {
-					combinedMap.set(key, product);
+				if (!isDeleted(product)) {
+					const key = (product.name || '').toLowerCase().trim();
+					if (!combinedMap.has(key)) {
+						combinedMap.set(key, product);
+					}
 				}
 			});
 
@@ -975,6 +997,13 @@
 			if (state.categories.length) {
 				const cat = detectUrlCategory(state.categories);
 				setCategory(cat);
+			}
+		});
+
+		// Realtime cross-tab sync when admin saves or deletes products in backend
+		window.addEventListener("storage", (e) => {
+			if (e.key === "zakara_synced_products" || e.key === "zakara_deleted_products") {
+				loadCatalogue();
 			}
 		});
 

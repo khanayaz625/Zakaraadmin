@@ -1602,6 +1602,22 @@
 		async function fetchProductDetails() {
 			const target = getTargetProductIdentifier();
 
+			// 0. Check if product was deleted
+			let deletedKeys = new Set();
+			try {
+				const rawDel = localStorage.getItem("zakara_deleted_products");
+				if (rawDel) {
+					const arr = JSON.parse(rawDel);
+					if (Array.isArray(arr)) arr.forEach(k => deletedKeys.add(String(k).toLowerCase().trim()));
+				}
+			} catch (e) {}
+
+			if (target.val && deletedKeys.has(String(target.val).toLowerCase().trim())) {
+				const container = document.getElementById("productMainContainer") || document.body;
+				container.innerHTML = `<div style="text-align: center; padding: 100px 20px; max-width: 600px; margin: 0 auto;"><h2 style="font-family: 'Poppins', sans-serif; color: #6b4537;">Product Unavailable</h2><p style="color: #756d66; margin: 12px 0 24px;">This product has been removed from the catalog.</p><a href="allproducts.html" style="display:inline-block; padding:12px 28px; background:#6b4537; color:#fff; border-radius:8px; text-decoration:none; font-weight:600;">Browse All Products &rarr;</a></div>`;
+				return;
+			}
+
 			// 1. Try local synced products from Admin Panel or LIVE_PRODUCT_INDEX for instant speed
 			let localSyncedList = [];
 			try {
@@ -1614,7 +1630,7 @@
 				match = LIVE_PRODUCT_INDEX.find(p => String(p.id) === target.val || p.slug === target.val || p.slug.includes(target.val) || target.val.includes(p.slug));
 			}
 			
-			if (match) {
+			if (match && !deletedKeys.has(String(match.id).toLowerCase()) && !deletedKeys.has(String(match.name || "").toLowerCase())) {
 				activeProduct = match;
 				renderProductDetails(match);
 				loadRelatedProducts();

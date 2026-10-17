@@ -472,6 +472,11 @@ const server = http.createServer(async (req, res) => {
             targetParams.set('consumer_secret', cfg.consumerSecret);
             targetParams.set('_t', Date.now());
 
+            // For DELETE requests, ensure force=true so it is removed from WooCommerce and frontend
+            if (req.method === 'DELETE' && !targetParams.has('force')) {
+                targetParams.set('force', 'true');
+            }
+
             const targetUrl = `${cfg.wpSite}${wpApiPath}?${targetParams.toString()}`;
 
             // Read request body for POST / PUT

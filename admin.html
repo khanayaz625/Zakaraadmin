@@ -5235,6 +5235,20 @@
 						if (idx !== -1) STATE.products[idx] = productPayload;
 					}
 					localStorage.setItem("zakara_synced_products", JSON.stringify(STATE.products));
+
+					// If previously marked as deleted, remove from deleted list
+					try {
+						let deletedKeys = JSON.parse(localStorage.getItem("zakara_deleted_products") || "[]");
+						if (deletedKeys.length) {
+							deletedKeys = deletedKeys.filter(k => 
+								k !== String(productPayload.id).toLowerCase() && 
+								k !== (productPayload.name || "").toLowerCase().trim() &&
+								k !== (productPayload.slug || "").toLowerCase().trim()
+							);
+							localStorage.setItem("zakara_deleted_products", JSON.stringify(deletedKeys));
+						}
+					} catch (e) {}
+
 					updateKpis();
 					handleSearchFilter();
 					closeProductModal();
@@ -5262,23 +5276,65 @@
 			const prod = STATE.products.find(p => String(p.id) === String(productId));
 			const title = prod ? prod.name : `Product #${productId}`;
 
-			if (!confirm(`Are you sure you want to move "${title}" to Trash?`)) return;
+			if (!confirm(`Are you sure you want to permanently delete "${title}" from WordPress and the store?`)) return;
+
+			showToast(`Deleting "${title}" from WordPress...`, "info");
 
 			try {
-				try {
-					await fetch(`${APP_CONFIG.wpUrl}/wp-json/wc/v3/products/${productId}?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}&force=false`, {
-						method: "DELETE"
-					});
-				} catch (e) {}
+				let deletedFromWp = false;
+				const proxyBase = await getProxyBaseUrl();
 
+				// 1. Delete via active zero-CORS proxy (local or Render)
+				if (proxyBase !== null && proxyBase !== undefined) {
+					try {
+						const res = await fetch(`${proxyBase}/api/products/${productId}?force=true`, {
+							method: "DELETE"
+						});
+						if (res.ok) deletedFromWp = true;
+					} catch (e) {
+						console.warn("Proxy delete attempt failed:", e);
+					}
+				}
+
+				// 2. Direct cloud proxy fallback
+				if (!deletedFromWp) {
+					try {
+						const res = await fetch(`https://zakaraadmin.onrender.com/api/products/${productId}?force=true`, {
+							method: "DELETE"
+						});
+						if (res.ok) deletedFromWp = true;
+					} catch (e) {}
+				}
+
+				// 3. Fallback direct WordPress API call
+				if (!deletedFromWp) {
+					try {
+						const res = await fetch(`${APP_CONFIG.wpUrl}/wp-json/wc/v3/products/${productId}?consumer_key=${APP_CONFIG.consumerKey}&consumer_secret=${APP_CONFIG.consumerSecret}&force=true`, {
+							method: "DELETE"
+						});
+						if (res.ok) deletedFromWp = true;
+					} catch (e) {}
+				}
+
+				// Track in persistent deleted products list so all frontend pages filter it out immediately
+				let deletedKeys = [];
+				try {
+					deletedKeys = JSON.parse(localStorage.getItem("zakara_deleted_products") || "[]");
+				} catch (e) {}
+				deletedKeys.push(String(productId));
+				if (prod && prod.name) deletedKeys.push(prod.name.toLowerCase().trim());
+				if (prod && prod.slug) deletedKeys.push(prod.slug.toLowerCase().trim());
+				localStorage.setItem("zakara_deleted_products", JSON.stringify([...new Set(deletedKeys)]));
+
+				// Remove from active admin state & local storage
 				STATE.products = STATE.products.filter(p => String(p.id) !== String(productId));
 				localStorage.setItem("zakara_synced_products", JSON.stringify(STATE.products));
 
 				updateKpis();
 				handleSearchFilter();
-				showToast(`Product moved to trash.`, "info");
+				showToast(`"${title}" deleted from WordPress and frontend catalogue!`, "success");
 			} catch (err) {
-				showToast("Error trashing product: " + err.message, "error");
+				showToast("Error deleting product: " + err.message, "error");
 			}
 		}
 

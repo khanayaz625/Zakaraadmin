@@ -272,6 +272,17 @@
 			border-bottom: 1px dashed var(--border-line);
 		}
 
+		.short-desc ul, .short-desc ol {
+			margin: 8px 0;
+			padding-left: 20px;
+			list-style-type: disc;
+		}
+
+		.short-desc li {
+			margin-bottom: 6px;
+			line-height: 1.6;
+		}
+
 		.sku-badge-card {
 			display: inline-flex;
 			align-items: center;
@@ -1135,9 +1146,9 @@
 						<span id="productCodeDisplay">Product Code: ZB-LB-236</span>
 					</div>
 
-					<p class="short-desc" id="shortDesc">
+					<div class="short-desc" id="shortDesc">
 						Handcrafted soft grain genuine leather handbag designed for working professionals. Features dedicated compartment for 13" MacBook Air/laptop, antique brass fittings, and detachable leather shoulder strap.
-					</p>
+					</div>
 
 					<!-- B2B ACTION BOX -->
 					<div class="action-box">
@@ -1238,7 +1249,7 @@
 						</div>
 						<div class="spec-card-box">
 							<h4>Internal Lining</h4>
-							<p>100% Cotton Canvas / Heavy Twill Fabric</p>
+							<p id="tabSpecLining">100% Cotton Canvas / Heavy Twill Fabric</p>
 						</div>
 						<div class="spec-card-box">
 							<h4>Strap & Drop</h4>
@@ -1604,17 +1615,15 @@
 
 			// 2. Query Live WooCommerce API background sync
 			try {
-				const WC_CONSUMER_KEY = "ck_84109e5d48a5a5c104116f05c878b2ea2c34193d";
-				const WC_CONSUMER_SECRET = "cs_23a5f306edfcb5dec50e30f3b9f80fa3b1b6e7f5";
-				let apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products?consumer_key=${WC_CONSUMER_KEY}&consumer_secret=${WC_CONSUMER_SECRET}&per_page=50`;
-				const isLocalServer = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && (window.location.port === "5501" || window.location.port === "3000");
+				let apiUrl = "";
+				const isLocalServer = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
 				if (isLocalServer) {
 					apiUrl = target.type === "id" ? `/api/products/${target.val}` : `/api/products?slug=${target.val}`;
 				} else if (target.type === "id") {
-					apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products/${target.val}?consumer_key=${WC_CONSUMER_KEY}&consumer_secret=${WC_CONSUMER_SECRET}`;
+					apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products/${target.val}`;
 				} else if (target.type === "slug") {
-					apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products?slug=${target.val}&consumer_key=${WC_CONSUMER_KEY}&consumer_secret=${WC_CONSUMER_SECRET}`;
+					apiUrl = `https://www.zakarabags.com/wp-json/wc/v3/products?slug=${target.val}`;
 				}
 
 				const res = await fetch(apiUrl);
@@ -1628,9 +1637,9 @@
 							sku: item.sku || 'ZB-SERIES',
 							slug: item.slug,
 							category: item.categories && item.categories[0] ? item.categories[0].name : "Leather Goods",
-							short_description: item.short_description ? stripHtml(item.short_description) : item.description ? stripHtml(item.description) : match ? match.short_description : "",
+							short_description: item.short_description || (item.description ? item.description : (match ? match.short_description : "")),
 							images: item.images && item.images.length ? item.images.map(i => typeof i === 'string' ? i : i.src) : match ? match.images : ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"],
-							attributes: (item.attributes && item.attributes.length) ? parseWpAttributes(item.attributes, match ? match.attributes : null) : (match ? match.attributes : { leather: "Genuine Leather", dimension: "Standard Size", fittings: "Brass Fittings", weight: "850 Gms", strap: "Detachable Strap" })
+							attributes: parseWpAttributes(item.attributes, match ? match.attributes : null, item)
 						};
 						activeProduct = apiProduct;
 						renderProductDetails(apiProduct);
@@ -1642,24 +1651,62 @@
 			}
 		}
 
-		function parseWpAttributes(attrs, fallback) {
-			const res = Object.assign({}, fallback || {
+		function parseWpAttributes(attrs, fallback, wpItem = null) {
+			const res = Object.assign({
 				leather: "Genuine Leather",
 				dimension: "Standard Dimensions",
 				fittings: "Antique Brass",
 				weight: "850 Gms",
-				strap: "Detachable Leather Strap"
-			});
-			if (!Array.isArray(attrs)) return res;
-			attrs.forEach(a => {
-				const name = (a.name || '').toLowerCase();
-				const val = (a.options && a.options[0]) ? a.options[0] : '';
-				if (name.includes('leather')) res.leather = val;
-				if (name.includes('dimension') || name.includes('size')) res.dimension = val;
-				if (name.includes('fitting') || name.includes('hardware')) res.fittings = val;
-				if (name.includes('weight')) res.weight = val;
-				if (name.includes('strap') || name.includes('handle')) res.strap = val;
-			});
+				strap: "Detachable Leather Strap",
+				lining: "100% Cotton Canvas / Heavy Twill Fabric"
+			}, fallback || {});
+
+			// 1. Check native WooCommerce dimensions object
+			if (wpItem && wpItem.dimensions) {
+				const d = wpItem.dimensions;
+				if (d.length || d.width || d.height) {
+					const parts = [d.length, d.width, d.height].filter(Boolean);
+					if (parts.length) res.dimension = parts.join(' x ') + ' inches';
+				}
+			}
+
+			// 2. Check WooCommerce meta_data
+			if (wpItem && wpItem.meta_data && Array.isArray(wpItem.meta_data)) {
+				const specsMeta = wpItem.meta_data.find(m => m.key === '_zakara_specs');
+				if (specsMeta && specsMeta.value && typeof specsMeta.value === 'object') {
+					Object.assign(res, specsMeta.value);
+				}
+				const dMeta = wpItem.meta_data.find(m => m.key === 'specs_dimension' || m.key === 'dimension' || m.key === '_dimension');
+				if (dMeta && dMeta.value) res.dimension = dMeta.value;
+				const lMeta = wpItem.meta_data.find(m => m.key === 'specs_leather' || m.key === 'leather');
+				if (lMeta && lMeta.value) res.leather = lMeta.value;
+				const liMeta = wpItem.meta_data.find(m => m.key === 'specs_lining' || m.key === 'lining');
+				if (liMeta && liMeta.value) res.lining = liMeta.value;
+				const fMeta = wpItem.meta_data.find(m => m.key === 'specs_fittings' || m.key === 'fittings');
+				if (fMeta && fMeta.value) res.fittings = fMeta.value;
+				const wMeta = wpItem.meta_data.find(m => m.key === 'specs_weight' || m.key === 'weight');
+				if (wMeta && wMeta.value) res.weight = wMeta.value;
+				const sMeta = wpItem.meta_data.find(m => m.key === 'specs_strap' || m.key === 'strap');
+				if (sMeta && sMeta.value) res.strap = sMeta.value;
+			}
+
+			// 3. Check WooCommerce attributes array
+			if (Array.isArray(attrs)) {
+				attrs.forEach(a => {
+					const name = (a.name || '').toLowerCase();
+					const val = (a.options && a.options[0]) ? a.options[0] : (typeof a.options === 'string' ? a.options : '');
+					if (!val) return;
+					if (name.includes('leather')) res.leather = val;
+					else if (name.includes('dimension') || name.includes('size')) res.dimension = val;
+					else if (name.includes('fitting') || name.includes('hardware')) res.fittings = val;
+					else if (name.includes('weight')) res.weight = val;
+					else if (name.includes('strap') || name.includes('handle')) res.strap = val;
+					else if (name.includes('lining')) res.lining = val;
+					else {
+						res[a.name] = val;
+					}
+				});
+			}
 			return res;
 		}
 
@@ -1669,12 +1716,47 @@
 			return tmp.textContent || tmp.innerText || "";
 		}
 
+		function formatBulletListHtml(desc) {
+			if (!desc) return "";
+			const str = String(desc).trim();
+			if (str.includes("<ul") || str.includes("<ol") || str.includes("<li") || str.includes("<table")) {
+				return str;
+			}
+			let items = [];
+			if (str.includes("•") && !str.includes("\n")) {
+				str.split("•").forEach(p => {
+					const t = p.trim();
+					if (t) items.push(t);
+				});
+			} else {
+				str.split("\n").forEach(l => {
+					const t = l.trim();
+					if (!t) return;
+					if ((t.match(/•/g) || []).length > 1) {
+						t.split("•").forEach(p => {
+							const sub = p.trim();
+							if (sub) items.push(sub);
+						});
+					} else {
+						const clean = t.replace(/^[•\-\*▪▫‣–—\d\.\)]+\s*/, "").trim();
+						if (clean) items.push(clean);
+					}
+				});
+			}
+			if (items.length === 0) return `<p>${str}</p>`;
+			return `<ul style="margin: 8px 0; padding-left: 20px; list-style-type: disc; line-height: 1.7;">` + items.map(i => `<li style="margin-bottom: 6px;">${i}</li>`).join("") + `</ul>`;
+		}
+
 		function renderProductDetails(prod) {
 			if (pageTitle) pageTitle.textContent = `${prod.name} | Zakara International`;
 			if (productTitle) productTitle.textContent = prod.name;
 			if (titleBreadcrumb) titleBreadcrumb.textContent = prod.name;
-			if (shortDesc) shortDesc.textContent = prod.short_description || "Handcrafted genuine leather product manufactured by Zakara International.";
-			if (fullDescText) fullDescText.textContent = prod.short_description || "Handcrafted genuine leather product manufactured by Zakara International.";
+			if (shortDesc) {
+				shortDesc.innerHTML = formatBulletListHtml(prod.short_description || "Handcrafted genuine leather product manufactured by Zakara International.");
+			}
+			if (fullDescText) {
+				fullDescText.innerHTML = prod.description || formatBulletListHtml(prod.short_description || "Handcrafted genuine leather product manufactured by Zakara International.");
+			}
 			if (productCodeDisplay) productCodeDisplay.textContent = `Product Code: ${prod.sku || 'ZB-SERIES'}`;
 			if (badgeSku) badgeSku.textContent = prod.sku || 'ZB-SERIES';
 			if (modalProductName) modalProductName.textContent = `${prod.name} (${prod.sku || 'ZB-SERIES'})`;
@@ -1683,11 +1765,23 @@
 			if (categoryBreadcrumb) categoryBreadcrumb.textContent = prod.category || "Leather Goods";
 
 			if (prod.attributes) {
-				if (specLeather) specLeather.textContent = prod.attributes.leather || "Genuine Leather";
-				if (specDimension) specDimension.textContent = prod.attributes.dimension || "Standard Dimensions";
-				if (specFittings) specFittings.textContent = prod.attributes.fittings || "Brass Fittings";
-				if (specWeight) specWeight.textContent = prod.attributes.weight || "850 Gms";
-				if (specStrap) specStrap.textContent = prod.attributes.strap || "Detachable Leather Strap";
+				const attr = prod.attributes;
+				if (specLeather) specLeather.textContent = attr.leather || "Genuine Leather";
+				if (specDimension) specDimension.textContent = attr.dimension || "Standard Dimensions";
+				if (specFittings) specFittings.textContent = attr.fittings || "Brass Fittings";
+				if (specWeight) specWeight.textContent = attr.weight || "850 Gms";
+				if (specStrap) specStrap.textContent = attr.strap || "Detachable Leather Strap";
+
+				// Update Technical Specification Sheet tab cards
+				const tabSpecLeather = document.getElementById("tabSpecLeather");
+				const tabSpecDimensions = document.getElementById("tabSpecDimensions");
+				const tabSpecLining = document.getElementById("tabSpecLining");
+				const tabSpecStrap = document.getElementById("tabSpecStrap");
+
+				if (tabSpecLeather) tabSpecLeather.textContent = attr.leather || "Full Grain / Soft Grain Cow Hide Leather";
+				if (tabSpecDimensions) tabSpecDimensions.textContent = attr.dimension || "Standard Dimensions";
+				if (tabSpecLining) tabSpecLining.textContent = attr.lining || "100% Cotton Canvas / Heavy Twill Fabric";
+				if (tabSpecStrap) tabSpecStrap.textContent = attr.strap || "Detachable strap (Drop: 70cm, Length: 130cm max)";
 			}
 
 			// Gallery Images
@@ -1779,7 +1873,7 @@
 					return `
 						<article class="product-card">
 							<a href="${linkUrl}" class="product-media nav-product-link" data-slug="${p.slug}" data-id="${p.id}">
-								<span class="product-badge">Zakara</span>
+								<span class="product-badge">${p.sku || 'ZB-SERIES'}</span>
 								<img src="${p.images[0]}" alt="${p.name}" class="product-image" loading="lazy" />
 							</a>
 							<div class="product-info">
@@ -1789,7 +1883,7 @@
 								</h3>
 								<div class="product-bottom">
 									<span class="view-product">${p.sku || 'ZB-SERIES'}</span>
-									<a href="${linkUrl}" class="view-product nav-product-link" data-slug="${p.slug}" data-id="${p.id}">View piece &rsaquo;</a>
+									<a href="${linkUrl}" class="view-product nav-product-link" data-slug="${p.slug}" data-id="${p.id}">View details &rsaquo;</a>
 								</div>
 							</div>
 						</article>

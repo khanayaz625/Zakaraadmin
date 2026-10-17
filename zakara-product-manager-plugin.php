@@ -27,6 +27,76 @@ class Zakara_Product_Manager_Plugin {
 
         // Enable CORS for Zakara Admin Panel API requests
         add_action('init', [__CLASS__, 'handle_cors_headers']);
+
+        // Format short description into clean bullet list on frontend single product pages
+        add_filter('woocommerce_short_description', [__CLASS__, 'format_frontend_short_description'], 20);
+        add_filter('the_excerpt', [__CLASS__, 'format_frontend_short_description_for_product'], 20);
+    }
+
+    /**
+     * Format WooCommerce product short description into clean vertical bullet points
+     */
+    public static function format_frontend_short_description($desc) {
+        if (empty($desc)) return $desc;
+
+        // If it already contains structured <ul> or <ol>, return directly
+        if (stripos($desc, '<ul') !== false || stripos($desc, '<ol') !== false) {
+            return $desc;
+        }
+
+        // If contains bullets or newlines, convert to styled <ul><li>
+        $hasBullets = (strpos($desc, '•') !== false || strpos($desc, '&bull;') !== false || strpos($desc, '&#8226;') !== false);
+        $hasNewlines = (strpos($desc, "\n") !== false || strpos($desc, "<br") !== false);
+
+        if ($hasBullets || $hasNewlines) {
+            $raw = str_replace(['&bull;', '&#8226;'], '•', $desc);
+            $raw = preg_replace('/<br\s*\/?>/i', "\n", $raw);
+            $raw = strip_tags($raw);
+
+            $items = [];
+            if (strpos($raw, '•') !== false && strpos($raw, "\n") === false) {
+                // Multiple bullets on single line (e.g. • A • B • C)
+                $parts = explode('•', $raw);
+                foreach ($parts as $p) {
+                    $t = trim($p);
+                    if (!empty($t)) $items[] = $t;
+                }
+            } else {
+                $lines = explode("\n", $raw);
+                foreach ($lines as $line) {
+                    $trimmed = trim($line);
+                    if (empty($trimmed)) continue;
+                    if (substr_count($trimmed, '•') > 1) {
+                        $parts = explode('•', $trimmed);
+                        foreach ($parts as $p) {
+                            $t = trim($p);
+                            if (!empty($t)) $items[] = $t;
+                        }
+                    } else {
+                        $clean = preg_replace('/^[•\-\*▪▫‣–—\d\.\)]+\s*/u', '', $trimmed);
+                        if (!empty($clean)) $items[] = $clean;
+                    }
+                }
+            }
+
+            if (!empty($items)) {
+                $html = '<ul class="zakara-product-highlights" style="margin: 12px 0 16px 0; padding-left: 22px; list-style-type: disc; line-height: 1.7; display: block;">';
+                foreach ($items as $item) {
+                    $html .= '<li style="margin-bottom: 6px; line-height: 1.6; list-style-type: disc;">' . esc_html($item) . '</li>';
+                }
+                $html .= '</ul>';
+                return $html;
+            }
+        }
+
+        return $desc;
+    }
+
+    public static function format_frontend_short_description_for_product($excerpt) {
+        if (function_exists('is_product') && is_product()) {
+            return self::format_frontend_short_description($excerpt);
+        }
+        return $excerpt;
     }
 
     /**
@@ -243,7 +313,7 @@ class Zakara_Product_Manager_Plugin {
 
         $name        = sanitize_text_field($params['name'] ?? '');
         $description = wp_kses_post($params['description'] ?? ''); // Full HTML description preserved!
-        $short_desc  = sanitize_textarea_field($params['short_description'] ?? '');
+        $short_desc  = wp_kses_post($params['short_description'] ?? ''); // Preserve HTML <ul><li> bullet points!
         $status      = sanitize_text_field($params['status'] ?? 'publish');
         $regular_price = sanitize_text_field($params['regular_price'] ?? '0');
         $sale_price    = sanitize_text_field($params['sale_price'] ?? '');
@@ -344,6 +414,58 @@ class Zakara_Product_Manager_Plugin {
 
         $saved_post = get_post($product_id);
         return rest_ensure_response(self::format_product_data($saved_post));
+    }
+
+    /**
+     * Handle media upload from system/computer into WordPress Media Library
+     */
+    public static function handle_media_upload($request) {
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+        $files = $request->get_file_params();
+        if (!empty($files['file'])) {
+            $attachment_id = media_handle_upload('file', 0);
+            if (is_wp_error($attachment_id)) {
+                return new WP_Error('upload_failed', $attachment_id->get_error_message(), ['status' => 500]);
+            }
+            $url = wp_get_attachment_url($attachment_id);
+            return rest_ensure_response([
+                'success' => true,
+                'id'      => $attachment_id,
+                'url'     => $url
+            ]);
+        }
+
+        $params = $request->get_json_params() ?: $request->get_body_params();
+        if (!empty($params['data'])) {
+            $filename = sanitize_file_name($params['filename'] ?? ('upload_' . time() . '.jpg'));
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $params['data']));
+            $upload = wp_upload_bits($filename, null, $data);
+            if (!empty($upload['error'])) {
+                return new WP_Error('upload_failed', $upload['error'], ['status' => 500]);
+            }
+
+            $filetype = wp_check_filetype(basename($upload['file']), null);
+            $attachment = [
+                'post_mime_type' => $filetype['type'],
+                'post_title'     => preg_replace('/\.[^.]+$/', '', basename($upload['file'])),
+                'post_content'   => '',
+                'post_status'    => 'inherit'
+            ];
+            $attachment_id = wp_insert_attachment($attachment, $upload['file']);
+            $attach_data = wp_generate_attachment_metadata($attachment_id, $upload['file']);
+            wp_update_attachment_metadata($attachment_id, $attach_data);
+
+            return rest_ensure_response([
+                'success' => true,
+                'id'      => $attachment_id,
+                'url'     => $upload['url']
+            ]);
+        }
+
+        return new WP_Error('no_data', 'No file or image data received.', ['status' => 400]);
     }
 
     /**

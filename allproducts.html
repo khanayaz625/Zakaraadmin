@@ -760,6 +760,58 @@
 			return matchByName ? String(matchByName.id) : "all";
 		}
 
+		function getProductionCode(product) {
+			if (product.sku && String(product.sku).trim() && String(product.sku).trim() !== "0") {
+				return String(product.sku).trim();
+			}
+			if (product.attributes && Array.isArray(product.attributes)) {
+				const skuAttr = product.attributes.find(a => {
+					const n = (a.name || '').toLowerCase();
+					return n === 'sku' || n === 'code' || n.includes('production');
+				});
+				if (skuAttr && skuAttr.options && skuAttr.options[0]) {
+					return String(skuAttr.options[0]).trim();
+				}
+			}
+			const textToSearch = [
+				product.name || '',
+				product.slug || '',
+				(product.images && product.images[0] ? (typeof product.images[0] === 'string' ? product.images[0] : (product.images[0].src || '')) : '')
+			].join(' ');
+
+			const match = textToSearch.match(/ZB-[A-Z0-9]+-[A-Z0-9]+(-[A-Z0-9]+)?/i) || textToSearch.match(/ZB-[A-Z0-9-]+/i);
+			if (match) {
+				return match[0].toUpperCase();
+			}
+
+			const fallbackMap = {
+				9435: "ZB-LB-236",
+				9414: "ZB-LB-230",
+				9355: "ZB-PB-402",
+				9278: "ZB-BP-312",
+				8489: "ZB-MB-215",
+				8469: "ZB-TB-225",
+				8486: "ZB-LB-607",
+				8482: "ZB-BP-280",
+				1581: "ZB-TB-180",
+				1870: "ZB-MB-170",
+				1868: "ZB-BC-168",
+				1460: "ZB-LT-146",
+				1162: "ZB-TB-116",
+				1088: "ZB-TB-108",
+				1068: "ZB-WB-106",
+				1060: "ZB-WB-104",
+				1044: "ZB-WB-102",
+				947: "ZB-SB-94",
+				899: "ZB-WB-89"
+			};
+			if (product.id && fallbackMap[product.id]) {
+				return fallbackMap[product.id];
+			}
+
+			return product.id ? `ZB-${product.id}` : "ZB-SERIES";
+		}
+
 		function renderProducts() {
 			const start = (state.page - 1) * PRODUCTS_PER_PAGE;
 			const visible = state.filtered.slice(start, start + PRODUCTS_PER_PAGE);
@@ -774,18 +826,19 @@
 				const detailUrl = isLocalEnv 
 					? `product-detail.html?slug=${product.slug || ''}&id=${product.id || ''}`
 					: (product.permalink || `https://www.zakarabags.com/product/${product.slug || ''}/`);
+				const productionCode = getProductionCode(product);
 				return `
 					<article class="product-card" style="animation-delay:${index * 40}ms">
 						<a href="${detailUrl}" class="product-media" title="${product.name}">
-							<span class="product-badge">${product.is_on_sale ? "Offer" : "Zakara"}</span>
+							<span class="product-badge">${productionCode}</span>
 							<img class="product-image" src="${image}" alt="${product.name}" loading="lazy">
 						</a>
 						<div class="product-info">
 							<span class="product-category">${category}</span>
 							<h2 class="product-name"><a href="${detailUrl}">${product.name}</a></h2>
 							<div class="product-bottom">
-								${product.sku ? `<span class="product-sku-tag">${product.sku}</span>` : ''}
-								<a class="view-product" href="${detailUrl}">View piece</a>
+								<span class="product-sku-tag">${productionCode}</span>
+								<a class="view-product" href="${detailUrl}">View details</a>
 							</div>
 						</div>
 					</article>

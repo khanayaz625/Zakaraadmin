@@ -159,12 +159,19 @@
         }
 
         .banner-subtitle {
-            max-width: 720px;
+            max-width: 1080px;
+            width: 100%;
             margin: 0 auto;
             color: var(--pantone-cream);
-            font-size: 16px;
-            line-height: 1.6;
+            font-size: 15px;
+            line-height: 1.5;
             text-align: center;
+        }
+
+        @media (min-width: 900px) {
+            .banner-subtitle {
+                white-space: nowrap;
+            }
         }
 
         /* -------------------------------------------------------------
@@ -495,7 +502,7 @@
     <!-- Top Header Banner -->
     <header class="banner-header">
         <h1>Services We Offer</h1>
-        <p class="banner-subtitle">Bespoke leather goods manufacturing, private label development, logo embossing &amp; global export from Kanpur, India.</p>
+        <p class="banner-subtitle">Bespoke leather manufacturing &amp; global export from Kanpur, India.</p>
     </header>
 
     <!-- Main Content Area -->

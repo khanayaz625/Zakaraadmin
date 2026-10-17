@@ -3662,7 +3662,7 @@
 				try {
 					STATE.products = JSON.parse(cached);
 					updateKpis();
-					renderCatalogTable();
+					handleSearchFilter();
 				} catch (e) {}
 			}
 
@@ -3736,8 +3736,11 @@
 				handleSearchFilter();
 				if (showNotification) showToast(`Loaded ${STATE.products.length} live products directly from WordPress!`, "success");
 			} else {
+				if (STATE.products.length && (!STATE.filteredProducts || !STATE.filteredProducts.length)) {
+					handleSearchFilter();
+				}
 				if (showNotification) {
-					showToast(`Notice: Browser blocked direct connection due to CORS. Please run "node server.js" in your terminal.`, "warning");
+					showToast(`Notice: Direct connection to WordPress returned 0 products. Check API keys in settings.`, "warning");
 				}
 			}
 		}

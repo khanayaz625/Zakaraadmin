@@ -517,22 +517,52 @@
 			height: 100vh;
 			border-right: 1px solid rgba(255, 255, 255, 0.06);
 			z-index: 50;
+			transition: width 0.28s cubic-bezier(0.2, 0, 0, 1), background-color 0.2s ease;
+		}
+
+		.admin-sidebar.collapsed {
+			width: 76px;
 		}
 
 		.sidebar-brand {
-			padding: 24px 20px;
+			padding: 20px 16px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			min-height: 80px;
+			box-sizing: border-box;
+			transition: padding 0.28s cubic-bezier(0.2, 0, 0, 1);
+		}
+
+		.admin-sidebar.collapsed .sidebar-brand {
+			padding: 20px 10px;
+			justify-content: center;
+		}
+
+		.brand-info-wrap {
 			display: flex;
 			align-items: center;
 			gap: 12px;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			overflow: hidden;
+			text-decoration: none;
+			color: inherit;
 		}
 
 		.sidebar-brand img {
 			width: 40px;
 			height: 40px;
+			min-width: 40px;
 			border-radius: 8px;
 			background: #fff;
 			padding: 2px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+			transition: transform 0.2s ease;
+		}
+
+		.sidebar-brand img:hover {
+			transform: scale(1.05);
 		}
 
 		.sidebar-brand-text {
@@ -542,6 +572,12 @@
 			color: #ffffff;
 			letter-spacing: -0.01em;
 			line-height: 1.2;
+			white-space: nowrap;
+			transition: opacity 0.2s ease;
+		}
+
+		.admin-sidebar.collapsed .sidebar-brand-text {
+			display: none;
 		}
 
 		.sidebar-brand-text span {
@@ -554,6 +590,33 @@
 			margin-top: 2px;
 		}
 
+		/* Sidebar Collapse Toggle Button inside Brand */
+		.sidebar-collapse-toggle {
+			background: rgba(255, 255, 255, 0.06);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			color: #b8aba0;
+			width: 28px;
+			height: 28px;
+			border-radius: 6px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			flex-shrink: 0;
+		}
+
+		.sidebar-collapse-toggle:hover {
+			background: rgba(194, 138, 90, 0.25);
+			color: #ffffff;
+			border-color: var(--pantone-gold);
+			transform: scale(1.06);
+		}
+
+		.admin-sidebar.collapsed .sidebar-collapse-toggle {
+			display: none;
+		}
+
 		.sidebar-nav {
 			padding: 20px 12px;
 			flex: 1;
@@ -561,6 +624,12 @@
 			flex-direction: column;
 			gap: 4px;
 			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		.admin-sidebar.collapsed .sidebar-nav {
+			padding: 16px 8px;
+			align-items: center;
 		}
 
 		.nav-section-title {
@@ -570,6 +639,17 @@
 			letter-spacing: 0.08em;
 			color: #8c8279;
 			padding: 12px 12px 6px;
+			white-space: nowrap;
+		}
+
+		.admin-sidebar.collapsed .nav-section-title {
+			width: 28px;
+			height: 1px;
+			margin: 10px 0;
+			padding: 0;
+			background: rgba(255, 255, 255, 0.1);
+			font-size: 0;
+			overflow: hidden;
 		}
 
 		.nav-link {
@@ -582,6 +662,16 @@
 			font-size: 0.9rem;
 			font-weight: 500;
 			transition: var(--transition);
+			position: relative;
+			white-space: nowrap;
+		}
+
+		.admin-sidebar.collapsed .nav-link {
+			width: 44px;
+			height: 44px;
+			padding: 0;
+			justify-content: center;
+			border-radius: 8px;
 		}
 
 		.nav-link svg {
@@ -591,6 +681,12 @@
 			stroke: currentColor;
 			fill: none;
 			flex-shrink: 0;
+			transition: transform 0.18s ease;
+		}
+
+		.admin-sidebar.collapsed .nav-link svg {
+			width: 20px;
+			height: 20px;
 		}
 
 		.nav-link:hover {
@@ -598,11 +694,22 @@
 			background-color: rgba(255, 255, 255, 0.07);
 		}
 
+		.nav-link:hover svg {
+			transform: scale(1.08);
+		}
+
 		.nav-link.active {
 			color: #ffffff;
 			background: linear-gradient(90deg, rgba(194, 138, 90, 0.28) 0%, rgba(194, 138, 90, 0.1) 100%);
 			border-left: 3px solid var(--pantone-gold);
 			font-weight: 600;
+		}
+
+		.admin-sidebar.collapsed .nav-link.active {
+			border-left: none;
+			background: rgba(194, 138, 90, 0.22);
+			border: 1px solid rgba(194, 138, 90, 0.45);
+			box-shadow: 0 0 12px rgba(194, 138, 90, 0.25);
 		}
 
 		.nav-badge {
@@ -615,6 +722,11 @@
 			border-radius: var(--radius-full);
 		}
 
+		.admin-sidebar.collapsed .nav-link span,
+		.admin-sidebar.collapsed .nav-badge {
+			display: none;
+		}
+
 		.sidebar-footer {
 			padding: 16px;
 			border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -622,12 +734,27 @@
 			align-items: center;
 			justify-content: space-between;
 			background: rgba(0, 0, 0, 0.18);
+			box-sizing: border-box;
+			min-height: 72px;
+			transition: padding 0.28s cubic-bezier(0.2, 0, 0, 1);
+		}
+
+		.admin-sidebar.collapsed .sidebar-footer {
+			padding: 14px 6px;
+			flex-direction: column;
+			gap: 12px;
+			justify-content: center;
 		}
 
 		.user-profile {
 			display: flex;
 			align-items: center;
 			gap: 10px;
+			position: relative;
+		}
+
+		.admin-sidebar.collapsed .user-details {
+			display: none;
 		}
 
 		.user-avatar {
@@ -641,6 +768,13 @@
 			justify-content: center;
 			font-weight: 700;
 			font-size: 0.85rem;
+			border: 1.5px solid var(--pantone-gold);
+			transition: transform 0.2s ease;
+		}
+
+		.user-profile:hover .user-avatar {
+			transform: scale(1.08);
+			box-shadow: 0 0 10px rgba(194, 138, 90, 0.4);
 		}
 
 		.user-details {
@@ -663,11 +797,61 @@
 			color: #9c9288;
 			padding: 6px;
 			border-radius: var(--radius-sm);
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+			transition: all 0.2s ease;
 		}
 
 		.btn-logout:hover {
 			color: #ff6b6b;
 			background: rgba(255, 107, 107, 0.1);
+			transform: scale(1.08);
+		}
+
+		/* Floating Tooltips in Collapsed Mode */
+		@keyframes tooltipSlideIn {
+			from { opacity: 0; transform: translateY(-50%) translateX(-6px); }
+			to { opacity: 1; transform: translateY(-50%) translateX(0); }
+		}
+
+		.admin-sidebar.collapsed .nav-link[data-tooltip]:hover::after,
+		.admin-sidebar.collapsed .user-profile[data-tooltip]:hover::after,
+		.admin-sidebar.collapsed .btn-logout[data-tooltip]:hover::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			left: calc(100% + 14px);
+			top: 50%;
+			transform: translateY(-50%);
+			background: #1c1714;
+			color: #f7f1eb;
+			border: 1px solid rgba(194, 138, 90, 0.4);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+			font-size: 0.8rem;
+			font-weight: 500;
+			padding: 6px 12px;
+			border-radius: 6px;
+			white-space: nowrap;
+			z-index: 99999;
+			pointer-events: none;
+			animation: tooltipSlideIn 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		}
+
+		.admin-sidebar.collapsed .nav-link[data-tooltip]:hover::before,
+		.admin-sidebar.collapsed .user-profile[data-tooltip]:hover::before,
+		.admin-sidebar.collapsed .btn-logout[data-tooltip]:hover::before {
+			content: '';
+			position: absolute;
+			left: calc(100% + 8px);
+			top: 50%;
+			transform: translateY(-50%);
+			border-width: 5px 6px 5px 0;
+			border-style: solid;
+			border-color: transparent #1c1714 transparent transparent;
+			z-index: 99999;
+			pointer-events: none;
 		}
 
 		/* Main Content Area */
@@ -696,7 +880,39 @@
 		.topbar-left {
 			display: flex;
 			align-items: center;
-			gap: 16px;
+			gap: 14px;
+		}
+
+		/* Topbar Toggle Sidebar Button */
+		.topbar-toggle-sidebar-btn {
+			background: #fbf9f6;
+			border: 1px solid var(--border-line);
+			color: var(--ink-dark);
+			width: 36px;
+			height: 36px;
+			border-radius: var(--radius-sm);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: var(--transition);
+			flex-shrink: 0;
+		}
+
+		.topbar-toggle-sidebar-btn:hover {
+			background: #f2ede8;
+			border-color: var(--pantone-gold);
+			color: var(--pantone-cocoa);
+			transform: translateY(-1px);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+		}
+
+		.topbar-toggle-sidebar-btn svg {
+			transition: transform 0.25s ease;
+		}
+
+		.admin-sidebar.collapsed ~ .admin-main .topbar-toggle-sidebar-btn svg {
+			transform: scaleX(-1);
 		}
 
 		.sync-status-indicator {
@@ -2002,54 +2218,61 @@
 	<section id="dashboardView" class="view-screen">
 		
 		<!-- Left Sidebar Navigation -->
-		<aside class="admin-sidebar">
+		<aside class="admin-sidebar" id="adminSidebar">
 			<div class="sidebar-brand">
-				<img src="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" alt="Zakara International" />
-				<div class="sidebar-brand-text">
-					Zakara Bags
-					<span>Admin Catalog</span>
+				<div class="brand-info-wrap" onclick="if(document.getElementById('adminSidebar').classList.contains('collapsed')) toggleSidebarCollapse();" style="display: flex; align-items: center; gap: 12px; cursor: pointer;" title="Zakara International">
+					<img src="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" alt="Zakara International" />
+					<div class="sidebar-brand-text">
+						Zakara Bags
+						<span>Admin Catalog</span>
+					</div>
 				</div>
+				<button type="button" class="sidebar-collapse-toggle" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Collapse sidebar to icons only">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+						<polyline points="15 18 9 12 15 6"></polyline>
+					</svg>
+				</button>
 			</div>
 
 			<nav class="sidebar-nav">
 				<span class="nav-section-title">Catalog</span>
-				<a href="#" class="nav-link active">
+				<a href="#" class="nav-link active" data-tooltip="All Products">
 					<svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
 					<span>All Products</span>
 					<span class="nav-badge" id="sidebarProductCount">34</span>
 				</a>
-				<a href="#" class="nav-link" onclick="openProductModal('new')">
+				<a href="#" class="nav-link" onclick="openProductModal('new')" data-tooltip="+ Add Product">
 					<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
 					<span>+ Add Product</span>
 				</a>
 
 				<span class="nav-section-title">Live Website Pages</span>
-				<a href="https://www.zakarabags.com/shop-3/" target="_blank" class="nav-link" title="Open real live /shop-3/ page">
+				<a href="https://www.zakarabags.com/shop-3/" target="_blank" class="nav-link" data-tooltip="Live Shop (/shop-3/) ↗" title="Open real live /shop-3/ page">
 					<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
 					<span>Live Shop (/shop-3/) ↗</span>
 				</a>
-				<a href="https://www.zakarabags.com/product/ladies-soft-leather-handbag/" target="_blank" class="nav-link" title="Open live single product page">
+				<a href="https://www.zakarabags.com/product/ladies-soft-leather-handbag/" target="_blank" class="nav-link" data-tooltip="Sample Product Page ↗" title="Open live single product page">
 					<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
 					<span>Sample Product Page ↗</span>
 				</a>
-				<a href="https://www.zakarabags.com/wp-admin/edit.php?post_type=product" target="_blank" class="nav-link">
+				<a href="https://www.zakarabags.com/wp-admin/edit.php?post_type=product" target="_blank" class="nav-link" data-tooltip="WP Admin Products ↗">
 					<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
 					<span>WP Admin Products ↗</span>
 				</a>
 
 				<span class="nav-section-title">System</span>
-				<a href="#" class="nav-link" id="navChangeCredentials" onclick="openCredentialsModal()">
+				<a href="#" class="nav-link" id="navChangeCredentials" onclick="openCredentialsModal()" data-tooltip="Change Credentials">
 					<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
 					<span>Change Credentials</span>
 				</a>
-				<a href="#" class="nav-link" onclick="openSettingsModal()">
+				<a href="#" class="nav-link" onclick="openSettingsModal()" data-tooltip="WP API Settings">
 					<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 					<span>WP API Settings</span>
 				</a>
 			</nav>
 
 			<div class="sidebar-footer">
-				<div class="user-profile" onclick="openCredentialsModal()" style="cursor: pointer;" title="Manage Admin ID &amp; Password">
+				<div class="user-profile" onclick="openCredentialsModal()" style="cursor: pointer;" data-tooltip="Admin Profile (Click to edit)" title="Manage Admin ID &amp; Password">
 					<div class="user-avatar" id="sidebarAvatar">A</div>
 					<div class="user-details">
 						<div class="user-name" id="sidebarUserName">Admin</div>
@@ -2059,7 +2282,7 @@
 						</div>
 					</div>
 				</div>
-				<button class="btn-logout" title="Sign out" onclick="handleLogout()">
+				<button class="btn-logout" data-tooltip="Sign out" title="Sign out" onclick="handleLogout()">
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
 				</button>
 			</div>
@@ -2071,6 +2294,13 @@
 			<!-- Topbar -->
 			<header class="admin-topbar">
 				<div class="topbar-left">
+					<button type="button" class="topbar-toggle-sidebar-btn" id="topbarSidebarToggle" onclick="toggleSidebarCollapse()" title="Toggle Sidebar (Expand / Collapse to icons)">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+							<line x1="9" y1="3" x2="9" y2="21"></line>
+						</svg>
+					</button>
+
 					<div class="sync-status-indicator">
 						<span class="pulse-dot"></span>
 						<span id="topbarSyncStatus">Connected: WooCommerce REST API (34 Products)</span>
@@ -3032,6 +3262,9 @@
 			document.getElementById("sidebarUserName").textContent = username;
 			document.getElementById("sidebarAvatar").textContent = username.charAt(0).toUpperCase();
 
+			// Initialize sidebar collapse state from preferences
+			initSidebarState();
+
 			// Initialize 15-minute inactivity tracking
 			initInactivityTracking();
 
@@ -3645,6 +3878,11 @@
 			document.getElementById("kpiCategories").textContent = catCount;
 			document.getElementById("kpiInStock").textContent = inStock;
 			document.getElementById("sidebarProductCount").textContent = total;
+
+			const allProdLink = document.querySelector(".nav-link[data-tooltip^='All Products']");
+			if (allProdLink) {
+				allProdLink.setAttribute("data-tooltip", `All Products (${total})`);
+			}
 		}
 
 		function populateCategoryFilters(categories) {
@@ -5012,8 +5250,34 @@
 			} catch (e) {}
 		}
 
+		/* --------------------------------------------------------------------------
+		   7. SIDEBAR COLLAPSE & ICON-ONLY VIEW LOGIC
+		   -------------------------------------------------------------------------- */
+		function toggleSidebarCollapse() {
+			const sidebar = document.getElementById("adminSidebar");
+			if (!sidebar) return;
+			const isCollapsed = sidebar.classList.toggle("collapsed");
+			localStorage.setItem("zakara_sidebar_collapsed", isCollapsed ? "true" : "false");
+
+			const topbarBtn = document.getElementById("topbarSidebarToggle");
+			if (topbarBtn) {
+				topbarBtn.title = isCollapsed ? "Expand sidebar to full width" : "Collapse sidebar (icons only)";
+			}
+		}
+
+		function initSidebarState() {
+			const saved = localStorage.getItem("zakara_sidebar_collapsed");
+			const sidebar = document.getElementById("adminSidebar");
+			const topbarBtn = document.getElementById("topbarSidebarToggle");
+			if (saved === "true" && sidebar) {
+				sidebar.classList.add("collapsed");
+				if (topbarBtn) topbarBtn.title = "Expand sidebar to full width";
+			}
+		}
+
 		// Launch on DOM ready
 		window.addEventListener("DOMContentLoaded", () => {
+			initSidebarState();
 			fetchPrivateServerConfig();
 			checkExistingSession();
 		});

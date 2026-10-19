@@ -2109,13 +2109,941 @@
 			.nav-link { justify-content: center; }
 		}
 
-		@media (max-width: 768px) {
-			#dashboardView { flex-direction: column; }
-			.admin-sidebar { width: 100%; height: auto; position: static; flex-direction: row; border-right: none; }
-			.sidebar-nav { flex-direction: row; }
-			.kpi-grid { grid-template-columns: 1fr; }
-			.form-grid-2, .form-grid-3, .specs-editor-grid { grid-template-columns: 1fr; }
-			.admin-content { padding: 16px; }
+		/* ==========================================================================
+		   BLOG MANAGEMENT, AIOSEO ENGINE & IMAGE SEO MODAL STYLING
+		   ========================================================================== */
+		.admin-section-pane {
+			display: none;
+			animation: fadeInSection 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.admin-section-pane.active {
+			display: block;
+		}
+		@keyframes fadeInSection {
+			from { opacity: 0; transform: translateY(6px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		/* Blog Table Elements */
+		.blog-featured-thumb {
+			width: 60px;
+			height: 48px;
+			border-radius: var(--radius-sm);
+			object-fit: cover;
+			background: #eee;
+			border: 1px solid var(--border-line);
+		}
+		.blog-title-cell {
+			display: flex;
+			flex-direction: column;
+			gap: 3px;
+		}
+		.blog-title-text {
+			font-weight: 600;
+			color: var(--ink-dark);
+			font-size: 0.94rem;
+			line-height: 1.35;
+		}
+		.blog-slug-text {
+			font-family: var(--font-mono);
+			font-size: 0.76rem;
+			color: var(--text-muted);
+			display: flex;
+			align-items: center;
+			gap: 4px;
+		}
+		.blog-cat-pill {
+			display: inline-block;
+			padding: 3px 8px;
+			background: var(--pantone-gold-pale);
+			color: var(--pantone-cocoa);
+			border: 1px solid rgba(194, 138, 90, 0.3);
+			border-radius: var(--radius-full);
+			font-size: 0.75rem;
+			font-weight: 600;
+		}
+
+		/* AIOSEO Score Pill */
+		.aioseo-score-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 4px 10px;
+			border-radius: var(--radius-full);
+			font-size: 0.82rem;
+			font-weight: 700;
+			cursor: pointer;
+			transition: var(--transition);
+		}
+		.aioseo-score-pill:hover {
+			transform: scale(1.05);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		}
+		.aioseo-score-pill.score-good {
+			background: #dcfce7;
+			color: #15803d;
+			border: 1.5px solid #86efac;
+		}
+		.aioseo-score-pill.score-warning {
+			background: #ffedd5;
+			color: #c2410c;
+			border: 1.5px solid #fdba74;
+		}
+		.aioseo-score-pill.score-poor {
+			background: #fee2e2;
+			color: #b91c1c;
+			border: 1.5px solid #fca5a5;
+		}
+		.aioseo-score-pill.score-none {
+			background: #f1f5f9;
+			color: #475569;
+			border: 1.5px solid #cbd5e1;
+		}
+		.aioseo-score-pill.score-none:hover {
+			border-color: var(--pantone-gold);
+			color: var(--pantone-cocoa);
+		}
+
+		/* Real WordPress-style AIOSEO Details Cell */
+		.aioseo-details-cell {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			min-width: 175px;
+		}
+		.aioseo-badge-row {
+			display: flex;
+			align-items: center;
+		}
+		.aioseo-live-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 3px 10px;
+			border-radius: 4px;
+			font-size: 0.86rem;
+			font-weight: 800;
+			cursor: pointer;
+			transition: all 0.15s ease;
+		}
+		.aioseo-live-badge:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+		}
+		.aioseo-live-badge.badge-good {
+			background: #f0fdf4;
+			color: #15803d;
+			border: 1.5px solid #22c55e;
+		}
+		.aioseo-live-badge.badge-warn {
+			background: #fff7ed;
+			color: #c2410c;
+			border: 1.5px solid #f97316;
+		}
+		.aioseo-live-badge.badge-poor {
+			background: #fef2f2;
+			color: #b91c1c;
+			border: 1.5px solid #ef4444;
+		}
+		.aioseo-detail-line {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 0.74rem;
+			color: var(--text-muted);
+			line-height: 1.25;
+		}
+		.aioseo-detail-dot {
+			font-size: 0.85rem;
+			line-height: 1;
+		}
+		.aioseo-detail-dot.dot-good {
+			color: #22c55e;
+		}
+		.aioseo-detail-dot.dot-warn {
+			color: #f97316;
+		}
+		.aioseo-detail-dot.dot-poor {
+			color: #ef4444;
+		}
+		.aioseo-detail-text {
+			color: var(--ink-dark);
+			font-weight: 600;
+			max-width: 105px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.aioseo-detail-pixel {
+			font-size: 0.68rem;
+			font-weight: 700;
+			padding: 1px 5px;
+			border-radius: 3px;
+		}
+		.aioseo-detail-pixel.pixel-warn {
+			background: #fee2e2;
+			color: #b91c1c;
+			border: 1px solid #fca5a5;
+		}
+		.aioseo-detail-pixel.pixel-good {
+			background: #dcfce7;
+			color: #15803d;
+			border: 1px solid #86efac;
+		}
+		.aioseo-detail-count {
+			font-size: 0.72rem;
+			color: var(--text-muted);
+			font-weight: 600;
+		}
+		.aioseo-detail-count.count-zero {
+			color: #ef4444;
+			font-weight: 700;
+		}
+		.aioseo-inline-edit {
+			background: none;
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			font-size: 0.74rem;
+			opacity: 0.65;
+			transition: all 0.15s;
+		}
+		.aioseo-inline-edit:hover {
+			opacity: 1;
+			transform: scale(1.15);
+		}
+
+		/* Blog Filter Tabs & Interactive KPI Cards */
+		.blog-tab-btn {
+			display: inline-flex;
+			align-items: center;
+			padding: 7px 15px;
+			border-radius: var(--radius-full);
+			border: 1px solid var(--border-line);
+			background: var(--bg-card);
+			color: var(--text-muted);
+			font-size: 0.84rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.blog-tab-btn:hover {
+			border-color: var(--pantone-gold);
+			color: var(--ink-dark);
+			transform: translateY(-1px);
+		}
+		.blog-tab-btn.active {
+			background: var(--pantone-cocoa);
+			color: #ffffff;
+			border-color: var(--pantone-cocoa);
+			box-shadow: 0 2px 8px rgba(44, 27, 18, 0.25);
+		}
+		.blog-tab-btn.active .badge {
+			background: rgba(255, 255, 255, 0.22) !important;
+			color: #ffffff !important;
+		}
+		.kpi-card[onclick] {
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.kpi-card[onclick]:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-md);
+			border-color: var(--pantone-gold);
+		}
+		.kpi-card.kpi-active-filter {
+			border-color: var(--pantone-gold) !important;
+			background: linear-gradient(180deg, #ffffff 0%, #fdf8f3 100%) !important;
+			box-shadow: 0 4px 14px rgba(184, 134, 11, 0.16) !important;
+			position: relative;
+		}
+		.kpi-card.kpi-active-filter::after {
+			content: "ACTIVE VIEW";
+			position: absolute;
+			top: 8px;
+			right: 12px;
+			font-size: 0.62rem;
+			font-weight: 700;
+			color: var(--pantone-gold);
+			letter-spacing: 0.5px;
+			background: var(--pantone-gold-pale);
+			padding: 2px 6px;
+			border-radius: 4px;
+		}
+
+		/* ==========================================================================
+		   GEMINI FLASH AI SEO STUDIO & SEGMENTED COLUMN STYLING
+		   ========================================================================== */
+		.blog-right-tabs-header {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			background: #eadecd;
+			padding: 4px;
+			border-radius: var(--radius-sm);
+			border: 1px solid rgba(194, 138, 90, 0.35);
+			margin-bottom: 12px;
+		}
+		.blog-right-tab-btn {
+			flex: 1;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 7px;
+			padding: 8px 10px;
+			border-radius: 6px;
+			border: none;
+			background: transparent;
+			color: var(--text-muted);
+			font-weight: 700;
+			font-size: 0.82rem;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.blog-right-tab-btn:hover {
+			color: var(--ink-dark);
+		}
+		.blog-right-tab-btn.active {
+			background: #ffffff;
+			color: var(--pantone-cocoa);
+			box-shadow: 0 2px 8px rgba(44, 27, 18, 0.12);
+		}
+		.ai-tab-badge {
+			background: var(--pantone-gold);
+			color: #26160d;
+			font-size: 0.62rem;
+			font-weight: 800;
+			padding: 1px 6px;
+			border-radius: 4px;
+			letter-spacing: 0.5px;
+		}
+		.audit-tab-score-pill {
+			background: #dcfce7;
+			color: #15803d;
+			font-size: 0.65rem;
+			font-weight: 800;
+			padding: 2px 7px;
+			border-radius: 4px;
+			border: 1px solid #86efac;
+		}
+		.blog-right-pane {
+			display: flex;
+			flex-direction: column;
+			gap: 14px;
+			animation: fadeInSection 0.25s ease;
+		}
+
+		/* AI Studio Header Card */
+		.ai-studio-header-card {
+			background: linear-gradient(135deg, #26160d 0%, #3a2215 100%);
+			color: #ffffff;
+			border: 1.5px solid var(--pantone-gold);
+			border-radius: var(--radius-md);
+			padding: 16px;
+			box-shadow: 0 6px 20px rgba(38, 22, 13, 0.22);
+			position: relative;
+			overflow: hidden;
+		}
+		.ai-studio-header-card::before {
+			content: "";
+			position: absolute;
+			top: -40px;
+			right: -40px;
+			width: 120px;
+			height: 120px;
+			background: radial-gradient(circle, rgba(194, 138, 90, 0.35) 0%, transparent 70%);
+			border-radius: 50%;
+			pointer-events: none;
+		}
+		.ai-tag-pill {
+			background: var(--pantone-gold);
+			color: #26160d;
+			font-size: 0.65rem;
+			font-weight: 800;
+			padding: 2px 7px;
+			border-radius: 4px;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+		}
+		.ai-score-projection-strip {
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			background: rgba(255, 255, 255, 0.09);
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			border-radius: var(--radius-sm);
+			padding: 10px 14px;
+			margin-top: 10px;
+		}
+		.ai-proj-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 2px;
+		}
+		.ai-proj-lbl {
+			font-size: 0.66rem;
+			color: #d6c7b2;
+			text-transform: uppercase;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+		}
+		.ai-proj-val {
+			font-size: 1.15rem;
+			font-weight: 800;
+		}
+		.ai-proj-arrow {
+			font-size: 1.25rem;
+			color: var(--pantone-gold);
+			font-weight: bold;
+		}
+		.ai-btn-optimize {
+			background: linear-gradient(135deg, #c28a5a 0%, #b8860b 100%);
+			color: #ffffff;
+			border: none;
+			padding: 11px 16px;
+			border-radius: var(--radius-sm);
+			font-weight: 700;
+			font-size: 0.9rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			width: 100%;
+			box-shadow: 0 4px 14px rgba(184, 134, 11, 0.35);
+		}
+		.ai-btn-optimize:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 6px 18px rgba(184, 134, 11, 0.45);
+			filter: brightness(1.05);
+		}
+		.ai-btn-optimize:disabled {
+			opacity: 0.7;
+			cursor: not-allowed;
+			transform: none;
+		}
+
+		/* Welcoming Intro Card */
+		.ai-idle-intro-card {
+			background: #ffffff;
+			border: 1.5px dashed rgba(194, 138, 90, 0.6);
+			border-radius: var(--radius-md);
+			padding: 24px 20px;
+			text-align: center;
+			box-shadow: var(--shadow-sm);
+		}
+
+		/* High-Contrast AI Suggestions Cards */
+		.ai-results-drawer {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			animation: fadeInSection 0.3s ease;
+		}
+		.ai-auto-card {
+			background: #ffffff;
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-sm);
+			padding: 12px 14px;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+			transition: border-color 0.2s ease;
+		}
+		.ai-auto-card:hover {
+			border-color: var(--pantone-gold);
+		}
+		.ai-auto-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 6px;
+		}
+		.ai-auto-title {
+			font-size: 0.74rem;
+			font-weight: 700;
+			color: var(--pantone-cocoa);
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			display: flex;
+			align-items: center;
+			gap: 5px;
+		}
+		.ai-auto-val {
+			font-size: 0.86rem;
+			font-weight: 600;
+			color: var(--ink-dark);
+			line-height: 1.45;
+			word-break: break-word;
+			background: #faf8f5;
+			border: 1px solid var(--border-line);
+			border-radius: 5px;
+			padding: 8px 10px;
+		}
+
+		/* Distinct Manual Action Required Box */
+		.ai-manual-action-box {
+			background: #fff8f6;
+			border: 1.5px solid #f87171;
+			border-radius: var(--radius-sm);
+			padding: 14px;
+			color: var(--ink-dark);
+			box-shadow: 0 4px 14px rgba(239, 68, 68, 0.08);
+		}
+		.ai-manual-action-header {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			color: #b91c1c;
+			font-weight: 700;
+			font-size: 0.86rem;
+			margin-bottom: 6px;
+		}
+		.ai-manual-item-card {
+			background: #ffffff;
+			border: 1px solid #fecaca;
+			border-left: 4px solid #ef4444;
+			border-radius: 6px;
+			padding: 10px 12px;
+			margin-bottom: 8px;
+		}
+		.ai-manual-item-card:last-child {
+			margin-bottom: 0;
+		}
+		.ai-manual-item-head {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 4px;
+		}
+		.ai-manual-item-title {
+			font-weight: 700;
+			font-size: 0.82rem;
+			color: #991b1b;
+		}
+		.ai-manual-item-desc {
+			font-size: 0.78rem;
+			color: var(--ink-dark);
+			line-height: 1.45;
+		}
+		.ai-error-banner {
+			background: #fef2f2;
+			border: 1.5px solid #ef4444;
+			border-radius: var(--radius-sm);
+			padding: 12px 14px;
+			margin-top: 10px;
+			color: #991b1b;
+			font-size: 0.82rem;
+		}
+		.aioseo-ai-callout {
+			background: linear-gradient(135deg, #26160d, #4a2c19);
+			color: #ffffff;
+			border: 1px solid var(--pantone-gold);
+			border-radius: var(--radius-sm);
+			padding: 10px 14px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.8rem;
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
+		.aioseo-ai-callout:hover {
+			filter: brightness(1.1);
+			transform: translateY(-1px);
+		}
+
+		/* Modal Wide Variant (for Blog & SEO Studio) */
+		.modal-container.modal-wide {
+			max-width: 1400px;
+			width: 96vw;
+			height: 94vh;
+			display: flex;
+			flex-direction: column;
+		}
+		.blog-modal-layout {
+			display: grid;
+			grid-template-columns: 1fr 470px;
+			height: calc(100% - 130px);
+			overflow: hidden;
+		}
+		.blog-content-column {
+			padding: 24px 28px;
+			overflow-y: auto;
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+			border-right: 1.5px solid var(--border-line);
+			background: #ffffff;
+		}
+		.blog-aioseo-column {
+			padding: 18px 20px;
+			overflow-y: auto;
+			background: #faf8f5;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+
+		/* Rich WYSIWYG Content Editor */
+		.rich-editor-wrap {
+			display: flex;
+			flex-direction: column;
+			border-radius: var(--radius-sm);
+			overflow: hidden;
+		}
+		.rich-editor-toolbar {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 5px;
+			padding: 9px 12px;
+			background: #f4eee7;
+			border: 1.5px solid var(--border-line);
+			border-bottom: none;
+			border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+		}
+		.editor-btn {
+			padding: 6px 11px;
+			background: #ffffff;
+			border: 1px solid var(--border-line);
+			border-radius: 4px;
+			font-size: 0.82rem;
+			font-weight: 600;
+			cursor: pointer;
+			color: var(--ink-dark);
+			transition: var(--transition);
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+		.editor-btn:hover {
+			background: var(--pantone-gold-pale);
+			border-color: var(--pantone-gold);
+			color: var(--pantone-cocoa);
+		}
+		.editor-btn.btn-seo-insert {
+			background: #fff8f0;
+			color: var(--pantone-cocoa);
+			border-color: var(--pantone-gold);
+			font-weight: 700;
+		}
+		.editor-btn-divider {
+			width: 1px;
+			height: 20px;
+			background: var(--border-line);
+			margin: 0 4px;
+		}
+		.rich-editor-content {
+			min-height: 320px;
+			max-height: 520px;
+			overflow-y: auto;
+			padding: 16px 18px;
+			background: #ffffff;
+			border: 1.5px solid var(--border-line);
+			border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+			font-family: var(--font-body);
+			font-size: 0.95rem;
+			line-height: 1.7;
+			color: var(--text-body);
+			outline: none;
+		}
+		.rich-editor-content:focus {
+			border-color: var(--pantone-gold);
+			box-shadow: 0 0 0 3px rgba(194, 138, 90, 0.18);
+		}
+		.rich-editor-content img {
+			max-width: 100%;
+			height: auto;
+			border-radius: var(--radius-sm);
+			margin: 12px 0;
+			border: 1px solid var(--border-line);
+		}
+
+		/* AIOSEO Cards & Live Scoring Gauge */
+		.aioseo-box {
+			background: #ffffff;
+			border: 1.5px solid var(--border-line);
+			border-radius: var(--radius-md);
+			padding: 16px;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+		}
+		.aioseo-box-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 12px;
+		}
+		.aioseo-box-title {
+			font-family: var(--font-heading);
+			font-size: 0.96rem;
+			font-weight: 700;
+			color: var(--pantone-asphalt);
+			display: flex;
+			align-items: center;
+			gap: 7px;
+		}
+
+		.aioseo-gauge-wrap {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			padding: 14px;
+			background: #fdfcfb;
+			border-radius: var(--radius-sm);
+			border: 1.5px solid var(--border-subtle);
+			margin-bottom: 14px;
+		}
+		.gauge-svg-circle {
+			transform: rotate(-90deg);
+			transform-origin: 50% 50%;
+		}
+		.gauge-bg {
+			stroke: #e5e7eb;
+			fill: transparent;
+		}
+		.gauge-fill {
+			fill: transparent;
+			stroke-linecap: round;
+			transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+		}
+		.aioseo-gauge-meta {
+			flex: 1;
+		}
+		.aioseo-gauge-score {
+			font-family: var(--font-heading);
+			font-size: 1.85rem;
+			font-weight: 800;
+			line-height: 1.1;
+		}
+		.aioseo-gauge-status {
+			font-size: 0.82rem;
+			font-weight: 700;
+			margin-top: 2px;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+		}
+
+		/* Google SERP Live Snippet Box */
+		.serp-preview-box {
+			background: #ffffff;
+			border: 1px solid #dadce0;
+			border-radius: 8px;
+			padding: 14px;
+			margin-top: 8px;
+			font-family: Roboto, Arial, sans-serif;
+			box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+		}
+		.serp-preview-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 8px;
+			font-size: 0.74rem;
+			color: #5f6368;
+			text-transform: uppercase;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+		}
+		.serp-breadcrumb {
+			font-size: 0.78rem;
+			color: #202124;
+			margin-bottom: 3px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: flex;
+			align-items: center;
+			gap: 5px;
+		}
+		.serp-favicon {
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+		}
+		.serp-title {
+			font-size: 1.12rem;
+			color: #1a0dab;
+			line-height: 1.35;
+			font-weight: 400;
+			cursor: pointer;
+			text-decoration: none;
+			margin-bottom: 4px;
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+		}
+		.serp-title:hover {
+			text-decoration: underline;
+		}
+		.serp-snippet {
+			font-size: 0.83rem;
+			color: #4d5156;
+			line-height: 1.45;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+		}
+		.serp-snippet strong {
+			color: #202124;
+			font-weight: 700;
+		}
+
+		/* AIOSEO Checklist & Dynamic Ranking Errors */
+		.aioseo-tabs-bar {
+			display: flex;
+			gap: 4px;
+			margin-bottom: 12px;
+			background: #eee7de;
+			padding: 3px;
+			border-radius: var(--radius-sm);
+		}
+		.aioseo-filter-btn {
+			flex: 1;
+			padding: 6px 3px;
+			font-size: 0.72rem;
+			font-weight: 700;
+			border-radius: 6px;
+			border: none;
+			background: transparent;
+			color: var(--text-muted);
+			cursor: pointer;
+			text-align: center;
+			transition: var(--transition);
+		}
+		.aioseo-filter-btn.active {
+			background: #ffffff;
+			color: var(--ink-dark);
+			box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+		}
+
+		.aioseo-issues-list {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			max-height: 380px;
+			overflow-y: auto;
+			padding-right: 2px;
+		}
+		.aioseo-issue-item {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			padding: 10px 12px;
+			border-radius: var(--radius-sm);
+			font-size: 0.82rem;
+			line-height: 1.42;
+			border: 1px solid transparent;
+			transition: var(--transition);
+			animation: fadeInIssue 0.25s ease;
+		}
+		@keyframes fadeInIssue {
+			from { opacity: 0; transform: translateY(-4px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		.aioseo-issue-item.error {
+			background: #fef2f2;
+			border-color: #fecaca;
+			color: #991b1b;
+		}
+		.aioseo-issue-item.warning {
+			background: #fff7ed;
+			border-color: #fed7aa;
+			color: #9a3412;
+		}
+		.aioseo-issue-item.good {
+			background: #f0fdf4;
+			border-color: #bbf7d0;
+			color: #166534;
+		}
+		.issue-icon {
+			font-size: 0.95rem;
+			flex-shrink: 0;
+			line-height: 1.2;
+		}
+		.issue-body {
+			flex: 1;
+		}
+		.issue-title {
+			font-weight: 700;
+			margin-bottom: 2px;
+			display: block;
+		}
+		.issue-desc {
+			font-size: 0.77rem;
+			opacity: 0.92;
+		}
+		.issue-fix-btn {
+			margin-left: 6px;
+			padding: 3px 8px;
+			border-radius: 4px;
+			background: rgba(0, 0, 0, 0.08);
+			border: none;
+			font-size: 0.7rem;
+			font-weight: 700;
+			cursor: pointer;
+			white-space: nowrap;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+			transition: var(--transition);
+		}
+		.issue-fix-btn:hover {
+			background: rgba(0, 0, 0, 0.16);
+		}
+
+		/* Image SEO Studio Modal & Product Gallery Badges */
+		.img-action-btn.seo-btn {
+			background: #fff8f0;
+			color: var(--pantone-gold);
+			border-color: rgba(194, 138, 90, 0.4);
+			font-size: 0.74rem;
+			font-weight: 700;
+			padding: 0 6px;
+		}
+		.img-action-btn.seo-btn:hover {
+			background: var(--pantone-gold);
+			color: #ffffff;
+		}
+		.seo-alt-pill {
+			display: block;
+			font-size: 0.69rem;
+			font-weight: 600;
+			padding: 2px 6px;
+			border-radius: 4px;
+			margin-top: 5px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			max-width: 100%;
+			text-align: left;
+		}
+		.seo-alt-pill.has-alt {
+			background: #dcfce7;
+			color: #166534;
+			border: 1px solid #bbf7d0;
+		}
+		.seo-alt-pill.no-alt {
+			background: #fee2e2;
+			color: #991b1b;
+			border: 1px solid #fecaca;
+		}
+
+		/* Responsive adjustments */
+		@media (max-width: 1100px) {
+			.blog-modal-layout {
+				grid-template-columns: 1fr;
+				height: auto;
+				overflow-y: auto;
+			}
+			.blog-content-column {
+				border-right: none;
+				border-bottom: 1.5px solid var(--border-line);
+			}
 		}
 	</style>
 </head>
@@ -2236,14 +3164,35 @@
 
 			<nav class="sidebar-nav">
 				<span class="nav-section-title">Catalog</span>
-				<a href="#" class="nav-link active" data-tooltip="All Products">
+				<a href="#" class="nav-link active" id="navLinkProducts" onclick="switchMainSection('products'); return false;" data-tooltip="All Products">
 					<svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
 					<span>All Products</span>
 					<span class="nav-badge" id="sidebarProductCount">34</span>
 				</a>
-				<a href="#" class="nav-link" onclick="openProductModal('new')" data-tooltip="+ Add Product">
+				<a href="#" class="nav-link" onclick="openProductModal('new'); return false;" data-tooltip="+ Add Product">
 					<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
 					<span>+ Add Product</span>
+				</a>
+
+				<span class="nav-section-title">Editorial &amp; Blog</span>
+				<a href="#" class="nav-link" id="navLinkBlog" onclick="switchMainSection('blog'); setBlogStatusFilter('all'); return false;" data-tooltip="All Blog Posts">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+					<span>All Blog Posts</span>
+					<span class="nav-badge" id="sidebarBlogCount" style="background: var(--pantone-cocoa); color: #fff;">19</span>
+				</a>
+				<a href="#" class="nav-link" id="navLinkBlogPub" onclick="switchMainSection('blog'); setBlogStatusFilter('publish'); return false;" data-tooltip="Published Articles" style="padding-left: 28px; font-size: 0.84rem;">
+					<span style="color: var(--success); font-weight: bold; margin-right: 4px;">●</span>
+					<span>Published Articles</span>
+					<span class="nav-badge" id="sidebarBlogPubCount" style="background: var(--success-bg); color: var(--success); border: 1px solid rgba(46,125,50,0.3);">18</span>
+				</a>
+				<a href="#" class="nav-link" id="navLinkBlogDraft" onclick="switchMainSection('blog'); setBlogStatusFilter('draft'); return false;" data-tooltip="Draft Articles" style="padding-left: 28px; font-size: 0.84rem;">
+					<span style="color: var(--warning); font-weight: bold; margin-right: 4px;">○</span>
+					<span>Draft Articles</span>
+					<span class="nav-badge" id="sidebarBlogDraftCount" style="background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(230,81,0,0.3);">1</span>
+				</a>
+				<a href="#" class="nav-link" onclick="openBlogPostModal('new'); return false;" data-tooltip="+ New Blog Post">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line><circle cx="12" cy="12" r="10"></circle></svg>
+					<span>+ New Blog Post</span>
 				</a>
 
 				<span class="nav-section-title">Live Website Pages</span>
@@ -2335,8 +3284,10 @@
 			<!-- Workspace Body -->
 			<main class="admin-content">
 				
-				<!-- Stats Overview Cards -->
-				<section class="kpi-grid">
+				<!-- SECTION 1: E-COMMERCE PRODUCTS CATALOG -->
+				<div id="sectionProducts" class="admin-section-pane active">
+					<!-- Stats Overview Cards -->
+					<section class="kpi-grid">
 					<div class="kpi-card">
 						<div class="kpi-info">
 							<h3>Total Products</h3>
@@ -2445,6 +3396,156 @@
 					</div>
 
 				</section>
+				</div><!-- end #sectionProducts -->
+
+				<!-- SECTION 2: BLOG POSTS & AIOSEO EDITORIAL WORKSPACE -->
+				<div id="sectionBlog" class="admin-section-pane">
+					
+					<!-- Blog KPIs Overview Cards (Interactive Filters) -->
+					<section class="kpi-grid">
+						<div class="kpi-card" id="kpiCardBlogTotal" onclick="setBlogStatusFilter('all')" title="Click to show all blog articles">
+							<div class="kpi-info">
+								<h3>Total Blog Posts</h3>
+								<div class="kpi-value" id="kpiBlogTotal">19</div>
+								<div class="kpi-sub">All Articles &amp; Guides</div>
+							</div>
+							<div class="kpi-icon">📝</div>
+						</div>
+
+						<div class="kpi-card" id="kpiCardBlogPublished" onclick="setBlogStatusFilter('publish')" title="Click to show published live articles">
+							<div class="kpi-info">
+								<h3>Published &amp; Indexed</h3>
+								<div class="kpi-value" id="kpiBlogPublished" style="color: var(--success);">18</div>
+								<div class="kpi-sub" style="color: var(--success);">● Live on Website</div>
+							</div>
+							<div class="kpi-icon">🌐</div>
+						</div>
+
+						<div class="kpi-card" id="kpiCardBlogDrafts" onclick="setBlogStatusFilter('draft')" title="Click to show draft articles">
+							<div class="kpi-info">
+								<h3>Draft Articles</h3>
+								<div class="kpi-value" id="kpiBlogDrafts" style="color: var(--warning);">1</div>
+								<div class="kpi-sub" style="color: var(--warning);">○ Work in Progress</div>
+							</div>
+							<div class="kpi-icon">✍️</div>
+						</div>
+
+						<div class="kpi-card" id="kpiCardBlogAvgSeo" onclick="sortBlogBySeo()" title="Click to sort by AIOSEO score">
+							<div class="kpi-info">
+								<h3>Avg AIOSEO Score</h3>
+								<div class="kpi-value" id="kpiBlogAvgSeo" style="color: #16a34a;">82/100</div>
+								<div class="kpi-sub" id="kpiBlogAvgSeoSub" style="color: #16a34a;">🟢 Strong Search Visibility</div>
+							</div>
+							<div class="kpi-icon">⚡</div>
+						</div>
+					</section>
+
+					<!-- Blog Posts Table Management Panel -->
+					<section class="catalog-panel">
+						<div class="panel-header">
+							<div class="panel-title-area">
+								<h2>Direct Blog Editorial &amp; AIOSEO Optimization</h2>
+								<p>Publish articles with rich media, craft SEO image filenames &amp; alt tags, and resolve real-time ranking errors</p>
+							</div>
+
+							<div style="display: flex; gap: 8px;">
+								<button class="btn-subtle" onclick="syncBlogPostsFromWP(true)">
+									<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+									<span>Refresh Posts</span>
+								</button>
+								<button class="btn-gold" onclick="openBlogPostModal('new')">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+									<span>+ New Blog Post</span>
+								</button>
+							</div>
+						</div>
+
+						<!-- Quick Status Filter Segmented Tabs -->
+						<div class="blog-status-tabs" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border-line);">
+							<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+								<span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px;">Status View:</span>
+								<button type="button" id="tabBlogStatusAll" class="blog-tab-btn active" onclick="setBlogStatusFilter('all')">
+									<span>All Articles</span>
+									<span class="badge" id="quickCountAll" style="background: var(--bg-card-subtle); color: var(--ink-dark); margin-left: 6px;">19</span>
+								</button>
+								<button type="button" id="tabBlogStatusPublish" class="blog-tab-btn" onclick="setBlogStatusFilter('publish')">
+									<span style="color: var(--success); font-weight: bold; margin-right: 4px;">●</span> <span>Published</span>
+									<span class="badge badge-publish" id="quickCountPublish" style="margin-left: 6px;">18</span>
+								</button>
+								<button type="button" id="tabBlogStatusDraft" class="blog-tab-btn" onclick="setBlogStatusFilter('draft')">
+									<span style="color: var(--warning); font-weight: bold; margin-right: 4px;">○</span> <span>Drafts</span>
+									<span class="badge badge-draft" id="quickCountDraft" style="margin-left: 6px;">1</span>
+								</button>
+							</div>
+							<div style="display: flex; align-items: center; gap: 8px;">
+								<button type="button" class="btn-subtle" style="padding: 6px 12px; font-size: 0.8rem;" onclick="sortBlogBySeo()" title="Sort articles by AIOSEO ranking score">
+									<span>⚡ Sort by SEO Score</span>
+								</button>
+							</div>
+						</div>
+
+						<!-- Search & Filters -->
+						<div class="filters-bar">
+							<div class="filter-group-left">
+								<div class="search-box">
+									<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+									<input type="text" id="blogSearchInput" class="search-input" placeholder="Search blog posts by title, focus keyphrase, or tag..." oninput="handleBlogSearchFilter()" />
+								</div>
+
+								<select id="blogCategoryFilter" class="select-filter" onchange="handleBlogSearchFilter()">
+									<option value="all">All Blog Categories</option>
+								</select>
+
+								<select id="blogStatusFilter" class="select-filter" onchange="handleBlogSearchFilter()">
+									<option value="all">All Statuses</option>
+									<option value="publish">Published</option>
+									<option value="draft">Draft</option>
+								</select>
+
+								<select id="blogSeoFilter" class="select-filter" onchange="handleBlogSearchFilter()">
+									<option value="all">All SEO Scores</option>
+									<option value="good">🟢 Good (80-100)</option>
+									<option value="warning">🟠 Needs Work (50-79)</option>
+									<option value="poor">🔴 Critical Issues (&lt;50)</option>
+								</select>
+							</div>
+
+							<div class="filter-group-right">
+								<select id="blogSortFilter" class="select-filter" onchange="handleBlogSearchFilter()">
+									<option value="date-desc">Newest First</option>
+									<option value="seo-desc">Highest SEO Score</option>
+									<option value="seo-asc">Lowest SEO Score (Fix First)</option>
+									<option value="title-asc">Title: A &rarr; Z</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Blog Posts Table -->
+						<div class="table-responsive">
+							<table class="products-table">
+								<thead>
+									<tr>
+										<th style="width: 72px;">Image</th>
+										<th>Article Title &amp; Slug</th>
+										<th>Category &amp; Keyphrase</th>
+										<th>Status</th>
+										<th>Date</th>
+										<th>AIOSEO Details</th>
+										<th style="text-align: right;">Actions</th>
+									</tr>
+								</thead>
+								<tbody id="blogTableBody">
+									<!-- Populated dynamically -->
+								</tbody>
+							</table>
+						</div>
+
+						<!-- Footer & Pagination -->
+						<div class="panel-footer">
+							<div id="blogCountText">Showing 3 blog posts</div>
+						</div>
+					</section>
+				</div><!-- end #sectionBlog -->
 
 			</main>
 		</div>
@@ -2870,6 +3971,22 @@
 					4. Once saved, all edits in this Admin Console will automatically update on <code>/shop-3/</code> and single product pages!
 				</div>
 
+				<!-- Google Gemini Flash AI Integration Card in Settings -->
+				<div style="background: linear-gradient(135deg, #26160d 0%, #3a2215 100%); color: #fff; border: 1.5px solid var(--pantone-gold); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+					<div>
+						<strong style="color: #fff; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+							<span>✨</span> Google Gemini AI SEO Copilot
+							<span class="ai-tag-pill" id="settingsAiBadge">FLASH</span>
+						</strong>
+						<span style="font-size: 0.74rem; color: #d6c7b2; display: block; margin-top: 2px;" id="settingsAiStatusText">
+							Uses Gemini Flash to automatically analyze and fix AIOSEO ranking errors
+						</span>
+					</div>
+					<button type="button" class="btn-gold" onclick="openAiSettingsModal()" style="padding: 6px 12px; font-size: 0.78rem; white-space: nowrap;">
+						⚙️ Configure AI Key
+					</button>
+				</div>
+
 				<div style="display: flex; gap: 10px; align-items: center;">
 					<button type="button" class="btn-subtle" onclick="testWpApiConnection()">
 						🔍 Test Connection Now
@@ -2990,6 +4107,570 @@
 	</div>
 
 
+	<!-- ==========================================================================
+	     4. BLOG POST EDITOR & DYNAMIC AIOSEO RANKING ENGINE MODAL
+	     ========================================================================== -->
+	<div id="blogPostModal" class="modal-backdrop">
+		<div class="modal-container modal-wide">
+			
+			<div class="modal-header">
+				<div class="modal-title-wrap">
+					<h3 id="blogModalHeading">Create New Blog Post</h3>
+					<p id="blogModalSubHeading">Write rich articles with SEO-friendly images &amp; optimize search ranking with live AIOSEO checks</p>
+				</div>
+				<div style="display: flex; align-items: center; gap: 10px;">
+					<span id="blogLiveScoreHeader" class="aioseo-score-pill score-good" style="font-size: 0.88rem; padding: 6px 14px;">
+						⚡ AIOSEO Score: <strong id="blogHeaderScoreNum">0</strong>/100
+					</span>
+					<button class="modal-close-btn" onclick="closeBlogPostModal()">&times;</button>
+				</div>
+			</div>
+
+			<!-- TWO-COLUMN LAYOUT: Content on Left, Dynamic AIOSEO on Right -->
+			<div class="blog-modal-layout">
+				
+				<!-- LEFT COLUMN: Article Content Studio -->
+				<div class="blog-content-column">
+					<input type="hidden" id="editBlogPostId" />
+
+					<!-- Post Title & Live Slug Generator -->
+					<div class="form-group">
+						<div style="display: flex; justify-content: space-between; align-items: center;">
+							<label class="form-label" for="blogPostTitle">Article Title *</label>
+							<span style="font-size: 0.74rem; color: var(--text-muted);" id="blogTitleCharCount">0 chars (recommended 40-60)</span>
+						</div>
+						<input type="text" id="blogPostTitle" class="form-input" placeholder="e.g. The Ultimate Guide to Full Grain Leather Bags" style="font-size: 1.15rem; font-weight: 600;" required oninput="handleBlogTitleInput(this.value)" />
+					</div>
+
+					<!-- Permalink / Slug -->
+					<div class="form-group">
+						<label class="form-label" for="blogPostSlug">URL Permalink &amp; Slug</label>
+						<div class="form-input-wrap" style="display: flex; align-items: center; background: #faf8f5; border: 1.5px solid var(--border-line); border-radius: var(--radius-sm); padding: 0 10px;">
+							<span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); white-space: nowrap;">
+								https://www.zakarabags.com/blog/
+							</span>
+							<input type="text" id="blogPostSlug" class="form-input" style="border: none; background: transparent; padding: 10px 4px; font-family: var(--font-mono); font-size: 0.84rem;" placeholder="clean-seo-slug" oninput="runAioseoAnalysis()" />
+							<button type="button" class="btn-subtle" onclick="autoGenerateSlugFromTitle()" style="padding: 4px 10px; font-size: 0.75rem; white-space: nowrap;">
+								⚡ Regenerate
+							</button>
+						</div>
+					</div>
+
+					<!-- Categories & Tags Row -->
+					<div class="form-grid-3">
+						<div class="form-group">
+							<label class="form-label" for="blogPostCategory">Category</label>
+							<select id="blogPostCategory" class="form-input" onchange="runAioseoAnalysis()">
+								<option value="Leather Care & Guides">Leather Care &amp; Guides</option>
+								<option value="Craftsmanship">Craftsmanship</option>
+								<option value="Style & Fashion">Style &amp; Fashion</option>
+								<option value="Wholesale & B2B Manufacturing">Wholesale &amp; B2B Manufacturing</option>
+								<option value="Travel & Everyday Carry">Travel &amp; Everyday Carry</option>
+								<option value="Product Spotlights">Product Spotlights</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label class="form-label" for="blogPostStatus">Publish Status</label>
+							<select id="blogPostStatus" class="form-input">
+								<option value="publish">Published &amp; Live</option>
+								<option value="draft">Draft (Work in Progress)</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label class="form-label" for="blogPostTags">Tags (Comma-separated)</label>
+							<input type="text" id="blogPostTags" class="form-input" placeholder="Leather, Luxury, Care" />
+						</div>
+					</div>
+
+					<!-- Excerpt / Meta Description Preview -->
+					<div class="form-group">
+						<div style="display: flex; justify-content: space-between; align-items: center;">
+							<label class="form-label" for="blogPostExcerpt">Article Summary &amp; Search Excerpt</label>
+							<span style="font-size: 0.74rem; color: var(--text-muted);" id="blogExcerptCharCount">0 chars</span>
+						</div>
+						<textarea id="blogPostExcerpt" class="form-input" rows="2" placeholder="Brief summary of the article for blog cards and default meta description..." oninput="handleBlogExcerptInput(this.value)"></textarea>
+					</div>
+
+					<!-- Featured Image Studio Card (With SEO Filename, Alt, Title) -->
+					<div class="form-group">
+						<label class="form-label">Featured Image &amp; Media SEO</label>
+						<div style="display: flex; gap: 16px; align-items: center; padding: 14px; background: #faf8f5; border: 1.5px solid var(--border-line); border-radius: var(--radius-sm);">
+							<div style="position: relative; width: 110px; height: 80px; flex-shrink: 0; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-line); background: #eee;">
+								<img id="blogFeaturedPreview" src="https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg" alt="Featured Image Preview" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
+							</div>
+							
+							<div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+								<div style="display: flex; align-items: center; gap: 8px;">
+									<strong id="blogFeaturedFilenameText" style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-dark);">featured-image.jpg</strong>
+									<span id="blogFeaturedAltBadge" class="seo-alt-pill has-alt">Alt: Configured</span>
+								</div>
+								<span id="blogFeaturedAltTextDisplay" style="font-size: 0.76rem; color: var(--text-muted); text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 380px;">
+									Alt: Full grain leather bag craftsmanship
+								</span>
+								<div style="display: flex; gap: 8px; margin-top: 4px;">
+									<button type="button" class="btn-subtle" onclick="triggerBlogFeaturedUpload()" style="padding: 4px 10px; font-size: 0.76rem;">
+										📁 Upload New Photo
+									</button>
+									<button type="button" class="btn-subtle" onclick="openImageSeoModalForBlogFeatured()" style="padding: 4px 10px; font-size: 0.76rem; background: #fff8f0; color: var(--pantone-cocoa); border-color: var(--pantone-gold);">
+										🏷️ Edit Alt, Title &amp; Rename
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- Hidden inputs for featured image state -->
+						<input type="hidden" id="blogFeaturedSrc" value="https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg" />
+						<input type="hidden" id="blogFeaturedAlt" value="Artisan full grain leather craftsmanship" />
+						<input type="hidden" id="blogFeaturedTitle" value="Handcrafted Leather Bags" />
+						<input type="hidden" id="blogFeaturedFilename" value="full-grain-leather-craftsmanship.jpg" />
+						<input type="file" id="blogFeaturedFileInput" accept="image/*" style="display: none;" onchange="handleBlogFeaturedFileUpload(this.files)" />
+					</div>
+
+					<!-- Rich WYSIWYG Content Area -->
+					<div class="form-group" style="margin-top: 6px;">
+						<div style="display: flex; justify-content: space-between; align-items: center;">
+							<label class="form-label" style="margin: 0;">Article Content *</label>
+							<div style="font-size: 0.76rem; color: var(--text-muted); display: flex; align-items: center; gap: 12px;">
+								<span id="blogContentWordCount">0 words</span>
+								<span id="blogContentCharCount">0 characters</span>
+							</div>
+						</div>
+
+						<div class="rich-editor-wrap">
+							<!-- WYSIWYG Toolbar -->
+							<div class="rich-editor-toolbar">
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('formatBlock', '<h2>')" title="Add Heading 2">
+									<strong>H2</strong>
+								</button>
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('formatBlock', '<h3>')" title="Add Heading 3">
+									<strong>H3</strong>
+								</button>
+								<div class="editor-btn-divider"></div>
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('bold')" title="Bold (Ctrl+B)">
+									<strong>B</strong>
+								</button>
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('italic')" title="Italic (Ctrl+I)">
+									<em>I</em>
+								</button>
+								<div class="editor-btn-divider"></div>
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('insertUnorderedList')" title="Bullet List">
+									• List
+								</button>
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('insertOrderedList')" title="Numbered List">
+									1. List
+								</button>
+								<button type="button" class="editor-btn" onclick="execBlogEditorCmd('formatBlock', '<blockquote>')" title="Blockquote">
+									❝ Quote
+								</button>
+								<div class="editor-btn-divider"></div>
+								<button type="button" class="editor-btn" onclick="insertLinkInBlogEditor()" title="Insert Hyperlink">
+									🔗 Link
+								</button>
+								<button type="button" class="editor-btn btn-seo-insert" onclick="openInsertImageModalForBlog()" title="Insert Image with SEO Alt, Title & Sanitized Filename">
+									🖼️ Insert SEO Image
+								</button>
+								<div class="editor-btn-divider"></div>
+								<button type="button" class="editor-btn" id="btnToggleBlogHtml" onclick="toggleBlogEditorSourceMode()" title="Toggle Visual WYSIWYG / Raw HTML Source">
+									&lt;/&gt; HTML Source
+								</button>
+							</div>
+
+							<!-- Visual Editable Surface -->
+							<div id="blogContentVisual" class="rich-editor-content" contenteditable="true" oninput="handleBlogContentInput()" onkeyup="handleBlogContentInput()" placeholder="Write your full article content here... Use H2/H3 headings, add links, and include your focus keyphrase."></div>
+							
+							<!-- Raw HTML Textarea (hidden by default) -->
+							<textarea id="blogContentRaw" class="rich-editor-content" style="display: none; font-family: var(--font-mono); font-size: 0.86rem;" oninput="syncBlogContentFromRaw()"></textarea>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- RIGHT COLUMN: Dynamic AIOSEO Ranking Engine & AI Copilot -->
+				<div class="blog-aioseo-column" id="blogAioseoColumn">
+					
+					<!-- Segmented Navigation Tabs: AI Copilot vs Live AIOSEO Audit -->
+					<div class="blog-right-tabs-header">
+						<button type="button" class="blog-right-tab-btn active" id="tabBtnAiCopilot" onclick="switchBlogRightTab('ai')">
+							<span style="font-size: 1.05rem;">✨</span>
+							<span>Gemini AI Studio</span>
+							<span class="ai-tab-badge" id="aiTabBadgeText">FLASH</span>
+						</button>
+						<button type="button" class="blog-right-tab-btn" id="tabBtnAioseoAudit" onclick="switchBlogRightTab('audit')">
+							<span style="font-size: 1.05rem;">📋</span>
+							<span>Live AIOSEO Audit</span>
+							<span class="audit-tab-score-pill" id="auditTabScoreBadge">85/100</span>
+						</button>
+					</div>
+
+					<!-- TAB PANE 1: ✨ GEMINI FLASH AI SEO STUDIO -->
+					<div id="paneBlogRightAi" class="blog-right-pane active">
+						
+						<!-- AI Status & Score Projection Bar -->
+						<div class="ai-studio-header-card">
+							<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+								<div>
+									<div style="display: flex; align-items: center; gap: 8px;">
+										<span style="font-size: 1.25rem;">✨</span>
+										<strong style="font-size: 0.96rem; color: #ffffff;">Google Gemini Flash Copilot</strong>
+										<span class="ai-tag-pill" id="aiCopilotModelBadge">FLASH</span>
+									</div>
+									<div style="font-size: 0.74rem; color: #d6c7b2; margin-top: 3px;">
+										Auto-boosts AIOSEO ranking to 95+ and lists required manual steps
+									</div>
+								</div>
+								<button type="button" class="btn-subtle" onclick="openAiSettingsModal()" style="padding: 4px 10px; font-size: 0.74rem; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.22); border-radius: 4px;" title="Configure Google Gemini API Key">
+									⚙️ AI Key
+								</button>
+							</div>
+
+							<!-- Live Score Projection Banner -->
+							<div class="ai-score-projection-strip" id="aiScoreProjectionStrip">
+								<div class="ai-proj-item">
+									<span class="ai-proj-lbl">Current Live Score</span>
+									<span class="ai-proj-val" id="aiProjCurrentScore" style="color: #f87171;">45/100</span>
+								</div>
+								<div class="ai-proj-arrow">&rarr;</div>
+								<div class="ai-proj-item">
+									<span class="ai-proj-lbl">Projected with AI</span>
+									<span class="ai-proj-val" id="aiProjNewScore" style="color: #4ade80;">95-100</span>
+								</div>
+							</div>
+
+							<!-- Big Run Button -->
+							<button type="button" class="ai-btn-optimize" id="btnAiOptimizeRanking" onclick="runAiAioseoOptimization()" style="margin-top: 12px;">
+								<span id="aiBtnSpinner" style="display: none;">⏳</span>
+								<span id="aiBtnIcon">⚡</span>
+								<span id="aiBtnLabel">AI Auto-Improve AIOSEO Ranking</span>
+							</button>
+
+							<!-- Key Status Strip -->
+							<div id="aiKeyStatusBanner" style="margin-top: 10px; font-size: 0.74rem; display: flex; justify-content: space-between; align-items: center; color: #d6c7b2;">
+								<span id="aiKeyStatusText">🔑 Checking API key...</span>
+								<a href="#" onclick="openAiSettingsModal(); return false;" style="color: var(--pantone-gold); text-decoration: underline;">Configure</a>
+							</div>
+						</div>
+
+						<!-- AI Optimization Results & Manual Action Breakdown -->
+						<div id="aiOptimizationResultsContainer" style="display: block;">
+							<!-- Default welcoming card before running -->
+							<div class="ai-idle-intro-card">
+								<div style="font-size: 2rem; margin-bottom: 8px;">🚀</div>
+								<strong style="color: var(--ink-dark); font-size: 0.92rem; display: block; margin-bottom: 4px;">
+									Ready to Auto-Elevate Article Ranking
+								</strong>
+								<p style="font-size: 0.78rem; color: var(--text-muted); margin: 0 0 14px; line-height: 1.45;">
+									Click <strong>"AI Auto-Improve AIOSEO Ranking"</strong> above. Gemini Flash will analyze your title, slug, keyphrase density, and content hook, then separate automated 1-click fixes from actions requiring manual editorial attention.
+								</p>
+								<div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+									<span style="font-size: 0.72rem; background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-weight: 600;">⚡ 1-Click Keyphrase</span>
+									<span style="font-size: 0.72rem; background: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 4px; font-weight: 600;">⚡ CTR Title &amp; Meta</span>
+									<span style="font-size: 0.72rem; background: #fef3c7; color: #b45309; padding: 3px 8px; border-radius: 4px; font-weight: 600;">📋 Step-by-Step Manual Guide</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- TAB PANE 2: 📋 LIVE AIOSEO AUDIT & SERP PREVIEW -->
+					<div id="paneBlogRightAudit" class="blog-right-pane" style="display: none;">
+						
+						<!-- Quick switch to AI copilot banner -->
+						<div class="aioseo-ai-callout" onclick="switchBlogRightTab('ai')">
+							<span>✨ Auto-fix all these errors with Gemini Flash</span>
+							<strong style="text-decoration: underline;">Open AI Copilot &rarr;</strong>
+						</div>
+
+						<!-- AIOSEO Live Score Gauge Box -->
+						<div class="aioseo-box">
+							<div class="aioseo-box-header">
+								<div class="aioseo-box-title">
+									<span>⚡</span> AIOSEO Dynamic Ranking Engine
+								</div>
+								<span id="aioseoRealtimePill" style="font-size: 0.72rem; padding: 2px 8px; border-radius: var(--radius-full); background: #dcfce7; color: #166534; font-weight: 700;">
+									● LIVE ANALYZER
+								</span>
+							</div>
+
+							<div class="aioseo-gauge-wrap">
+								<svg width="84" height="84" viewBox="0 0 100 100">
+									<circle class="gauge-bg" cx="50" cy="50" r="42" stroke-width="9"></circle>
+									<circle id="aioseoGaugeCircle" class="gauge-fill" cx="50" cy="50" r="42" stroke-width="9" stroke="#16a34a" stroke-dasharray="264" stroke-dashoffset="40"></circle>
+								</svg>
+
+								<div class="aioseo-gauge-meta">
+									<div id="aioseoGaugeScoreNum" class="aioseo-gauge-score" style="color: #16a34a;">85/100</div>
+									<div id="aioseoGaugeStatusText" class="aioseo-gauge-status" style="color: #16a34a;">Good Ranking</div>
+									<div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 3px;">
+										Updates live as you fix errors below
+									</div>
+								</div>
+							</div>
+
+							<!-- Focus Keyphrase Input -->
+							<div class="form-group" style="margin-bottom: 8px;">
+								<label class="form-label" for="blogFocusKeyphrase" style="font-size: 0.8rem; font-weight: 700;">
+									🎯 Focus Keyphrase *
+								</label>
+								<input type="text" id="blogFocusKeyphrase" class="form-input" placeholder="e.g. full grain leather vs genuine leather" style="font-size: 0.88rem; font-weight: 600;" oninput="runAioseoAnalysis()" />
+								<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 0.74rem; color: var(--text-muted);">
+									<span>Density: <strong id="aioseoDensityVal" style="color: var(--ink-dark);">0%</strong> (Aim for 0.8% - 2.5%)</span>
+									<span id="aioseoDensityOccurrences">0 occurrences</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Google SERP Snippet Preview Box -->
+						<div class="aioseo-box">
+							<div class="serp-preview-header">
+								<span>Google Search Result Snippet</span>
+								<span style="display: inline-flex; gap: 4px;">
+									<span style="font-size: 0.72rem; color: var(--pantone-cocoa); font-weight: 600;">Desktop / Mobile Preview</span>
+								</span>
+							</div>
+
+							<div class="serp-preview-box">
+								<div class="serp-breadcrumb">
+									<img src="https://www.zakarabags.com/wp-content/uploads/2019/07/cropped-Zakara-Logo-192x192.png" alt="Zakara Favicon" class="serp-favicon" />
+									<span>https://www.zakarabags.com &rsaquo; blog &rsaquo; <span id="serpSlugText">post-slug</span></span>
+								</div>
+								<a href="#" class="serp-title" id="serpTitleText" onclick="return false;">
+									Article SEO Title | Zakara Bags
+								</a>
+								<div class="serp-snippet" id="serpSnippetText">
+									Article meta description snippet showing how this blog post will appear in Google search results...
+								</div>
+							</div>
+
+							<!-- SEO Title & Meta Description Override -->
+							<div style="margin-top: 12px; display: flex; flex-direction: column; gap: 10px;">
+								<div>
+									<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+										<label class="form-label" for="blogSeoTitle" style="font-size: 0.76rem; font-weight: 600; margin: 0;">SEO Title Tag</label>
+										<span id="seoTitleCounter" style="font-size: 0.72rem; color: var(--text-muted);">0 / 60 chars</span>
+									</div>
+									<input type="text" id="blogSeoTitle" class="form-input" style="padding: 7px 10px; font-size: 0.82rem;" placeholder="Leave blank to use post title" oninput="handleSeoTitleInput(this.value)" />
+								</div>
+
+								<div>
+									<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+										<label class="form-label" for="blogMetaDescription" style="font-size: 0.76rem; font-weight: 600; margin: 0;">Meta Description</label>
+										<span id="metaDescCounter" style="font-size: 0.72rem; color: var(--text-muted);">0 / 160 chars</span>
+									</div>
+									<textarea id="blogMetaDescription" class="form-input" rows="2" style="padding: 7px 10px; font-size: 0.82rem;" placeholder="Leave blank to use excerpt" oninput="handleMetaDescInput(this.value)"></textarea>
+								</div>
+							</div>
+						</div>
+
+						<!-- AIOSEO Dynamic Ranking Errors & Checklist -->
+						<div class="aioseo-box" style="flex: 1;">
+							<div class="aioseo-box-header">
+								<div class="aioseo-box-title" style="font-size: 0.88rem;">
+									<span>📋</span> Ranking Checklist &amp; Errors
+								</div>
+								<span id="aioseoIssueSummaryBadge" style="font-size: 0.72rem; font-weight: 700; color: #dc2626;">
+									0 Errors
+								</span>
+							</div>
+
+							<!-- Filter Tabs (All, Critical Errors, Warnings, Passed) -->
+							<div class="aioseo-tabs-bar">
+								<button type="button" class="aioseo-filter-btn active" id="tabAioseoAll" onclick="filterAioseoIssues('all')">
+									All (<span id="countAioseoAll">0</span>)
+								</button>
+								<button type="button" class="aioseo-filter-btn" id="tabAioseoErrors" onclick="filterAioseoIssues('error')">
+									🔴 Errors (<span id="countAioseoErrors">0</span>)
+								</button>
+								<button type="button" class="aioseo-filter-btn" id="tabAioseoWarnings" onclick="filterAioseoIssues('warning')">
+									🟠 Warnings (<span id="countAioseoWarnings">0</span>)
+								</button>
+								<button type="button" class="aioseo-filter-btn" id="tabAioseoPassed" onclick="filterAioseoIssues('good')">
+									🟢 Passed (<span id="countAioseoPassed">0</span>)
+								</button>
+							</div>
+
+							<!-- Dynamic List of Errors / Passed Checks -->
+							<div class="aioseo-issues-list" id="aioseoIssuesContainer">
+								<!-- Dynamically generated items -->
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<!-- Modal Footer -->
+			<div class="modal-footer">
+				<div style="display: flex; align-items: center; gap: 8px;">
+					<button type="button" class="btn-subtle" onclick="deleteCurrentBlogPost()" id="btnDeleteBlogPost" style="color: var(--danger); display: none;">
+						🗑️ Delete Post
+					</button>
+				</div>
+				<div class="modal-footer-right">
+					<button type="button" class="btn-subtle" onclick="closeBlogPostModal()">Cancel</button>
+					<button type="button" class="btn-subtle" onclick="saveBlogPost('draft')" id="btnSaveBlogDraft">
+						Save as Draft
+					</button>
+					<button type="button" class="btn-gold" onclick="saveBlogPost('publish')" id="btnSaveBlogPublish">
+						<span>🚀 Publish Article</span>
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- ==========================================================================
+	     5. IMAGE SEO STUDIO & FRIENDLY RENAMER MODAL
+	     ========================================================================== -->
+	<div id="imageSeoModal" class="modal-backdrop">
+		<div class="modal-container" style="max-width: 600px; height: auto;">
+			<div class="modal-header">
+				<div class="modal-title-wrap">
+					<h3>🏷️ Image SEO Studio &amp; Friendly Renamer</h3>
+					<p>Rename image filename for search friendliness and set descriptive Alt &amp; Title attributes</p>
+				</div>
+				<button class="modal-close-btn" onclick="closeImageSeoModal()">&times;</button>
+			</div>
+
+			<form id="imageSeoForm" onsubmit="handleImageSeoSubmit(event)" style="padding: 22px 28px; display: flex; flex-direction: column; gap: 16px;">
+				<input type="hidden" id="imgSeoTargetType" />
+				<input type="hidden" id="imgSeoTargetIndex" />
+
+				<!-- Image Preview Card -->
+				<div style="display: flex; gap: 14px; align-items: center; background: #faf8f5; border: 1.5px solid var(--border-line); border-radius: var(--radius-sm); padding: 12px;">
+					<div style="width: 100px; height: 75px; border-radius: 6px; overflow: hidden; background: #eee; border: 1px solid var(--border-line); flex-shrink: 0;">
+						<img id="imgSeoModalPreview" src="" alt="SEO Preview" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
+					</div>
+					<div style="flex: 1; min-width: 0;">
+						<span style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em;">Current Source URL</span>
+						<div id="imgSeoCurrentUrl" style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--ink-dark); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"></div>
+					</div>
+				</div>
+
+				<!-- SEO Friendly Filename Field -->
+				<div class="form-group">
+					<div style="display: flex; justify-content: space-between; align-items: center;">
+						<label class="form-label" for="imgSeoFilenameInput">
+							SEO-Friendly Filename *
+						</label>
+						<button type="button" class="btn-subtle" onclick="autoSlugifySeoFilename()" style="padding: 2px 8px; font-size: 0.72rem;">
+							⚡ Auto-Slugify
+						</button>
+					</div>
+					<input type="text" id="imgSeoFilenameInput" class="form-input" style="font-family: var(--font-mono); font-size: 0.88rem;" placeholder="e.g. genuine-leather-travel-duffle-bag.jpg" required oninput="sanitizeImgSeoFilenameInput(this)" />
+					<p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 3px;">
+						Search engines like Google Image Search prioritize clean lowercase hyphenated slugs over camera codes like <code>IMG_3663.jpg</code>.
+					</p>
+				</div>
+
+				<!-- Image Alt Text Field -->
+				<div class="form-group">
+					<div style="display: flex; justify-content: space-between; align-items: center;">
+						<label class="form-label" for="imgSeoAltInput">
+							Image Alt Text (Alternative Text) *
+						</label>
+						<button type="button" class="btn-subtle" onclick="autoGenerateAltText()" style="padding: 2px 8px; font-size: 0.72rem;">
+							✨ Generate from Title
+						</button>
+					</div>
+					<input type="text" id="imgSeoAltInput" class="form-input" placeholder="e.g. Handcrafted brown full grain leather travel duffle bag" required oninput="updateAltTextCounter(this.value)" />
+					<div style="display: flex; justify-content: space-between; margin-top: 3px; font-size: 0.74rem; color: var(--text-muted);">
+						<span>Crucial for Google Image ranking &amp; AIOSEO checklist</span>
+						<span id="imgSeoAltCounter">0 chars</span>
+					</div>
+				</div>
+
+				<!-- Image Title Field -->
+				<div class="form-group">
+					<label class="form-label" for="imgSeoTitleInput">Image Title Attribute</label>
+					<input type="text" id="imgSeoTitleInput" class="form-input" placeholder="e.g. Zakara Luxury Leather Duffle Bag" />
+					<p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 3px;">
+						Displayed on desktop hover tooltip and stored in media library attributes.
+					</p>
+				</div>
+
+				<!-- Actions -->
+				<div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;">
+					<button type="button" class="btn-subtle" onclick="closeImageSeoModal()">Cancel</button>
+					<button type="submit" class="btn-primary" style="margin-top:0;">
+						<span>💾 Save SEO Metadata</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- ==========================================================================
+	     6. GOOGLE GEMINI AI SETTINGS MODAL
+	     ========================================================================== -->
+	<div id="aiSettingsModal" class="modal-backdrop">
+		<div class="modal-container" style="max-width: 580px; height: auto;">
+			<div class="modal-header">
+				<div class="modal-title-wrap">
+					<h3>✨ Google Gemini AI Configuration</h3>
+					<p>Connect Gemini Flash model to auto-fix AIOSEO ranking errors &amp; optimize articles</p>
+				</div>
+				<button class="modal-close-btn" onclick="closeAiSettingsModal()">&times;</button>
+			</div>
+
+			<form id="aiSettingsForm" onsubmit="handleAiSettingsSubmit(event)" style="padding: 22px 28px; display: flex; flex-direction: column; gap: 16px;">
+				<div class="form-group">
+					<label class="form-label" for="settingGeminiApiKey">
+						Google Gemini API Key *
+					</label>
+					<div class="form-input-wrap">
+						<input type="password" id="settingGeminiApiKey" class="form-input" placeholder="AIzaSy••••••••••••••••••••••••••••••••" autocomplete="off" />
+						<button type="button" class="password-toggle" onclick="togglePasswordVisibility('settingGeminiApiKey')">Show</button>
+					</div>
+					<div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between;">
+						<span>Get a free Gemini API key in 60 seconds:</span>
+						<a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: var(--pantone-gold); text-decoration: underline; font-weight: 600;">
+							Open Google AI Studio ↗
+						</a>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="settingGeminiModel">
+						Gemini Model
+					</label>
+					<select id="settingGeminiModel" class="form-input">
+						<option value="gemini-flash-latest" selected>gemini-flash-latest (Recommended: Dynamic Google Gemini Flash)</option>
+						<option value="gemini-3.8-flash">gemini-3.8-flash (Latest High-Precision Flash)</option>
+						<option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Ultra Fast Lightweight Flash)</option>
+						<option value="gemini-pro-latest">gemini-pro-latest (Pro Deep Reasoning Model)</option>
+					</select>
+					<p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 3px;">
+						Gemini Flash models are optimized for real-time SEO copywriting, keyphrase density calculations, and AIOSEO audit checks.
+					</p>
+				</div>
+
+				<div style="background: var(--bg-card-subtle); border: 1px solid var(--border-line); border-radius: var(--radius-sm); padding: 12px; font-size: 0.8rem; line-height: 1.45; color: var(--text-muted);">
+					<strong style="color: var(--ink-dark); display: block; margin-bottom: 2px;">⚡ How AI Ranking Optimization works:</strong>
+					AI automatically resolves Focus Keyphrase, SEO Title length, Meta Description CTR, and Excerpt. If any item requires manual human action (like inserting store links, external citations, or photography), it displays actionable step-by-step instructions so you can update that issue manually in the editor.
+				</div>
+
+				<div style="display: flex; gap: 10px; align-items: center;">
+					<button type="button" class="btn-subtle" onclick="testGeminiApiKey()">
+						🔍 Test Gemini Connection
+					</button>
+					<span id="aiSettingsTestResult" style="font-size: 0.8rem; font-weight: 600;"></span>
+				</div>
+
+				<div class="modal-footer" style="padding: 10px 0 0; margin-top: 6px; border-top: 1px solid var(--border-line); justify-content: flex-end;">
+					<button type="button" class="btn-subtle" onclick="closeAiSettingsModal()">Cancel</button>
+					<button type="submit" class="btn-primary" style="margin-top: 0;">
+						<span>💾 Save Gemini Settings</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<!-- Toast Notifications Container -->
 	<div id="toastContainer" class="toast-container"></div>
 
@@ -3016,7 +4697,15 @@
 			selectedCategories: new Set(),
 			galleryImages: [],
 			productImages: [],
-			customSpecs: []
+			customSpecs: [],
+			// Editorial & Blog State
+			activeMainSection: 'products',
+			blogPosts: [],
+			filteredBlogPosts: [],
+			activeEditingPost: null,
+			blogCategories: [],
+			aioseoIssueFilter: 'all',
+			activeImageSeoTarget: null
 		};
 
 		/* --------------------------------------------------------------------------
@@ -3674,7 +5363,18 @@
 				} catch (e) {}
 			}
 
+			// Pre-hydrate blog posts from cache for instant loading of all posted & draft articles
+			const cachedBlog = localStorage.getItem("zakara_cached_blog_posts");
+			if (cachedBlog) {
+				try {
+					STATE.blogPosts = JSON.parse(cachedBlog);
+					renderBlogPostsTable();
+					updateBlogKpis();
+				} catch (e) {}
+			}
+
 			await syncProductsFromWP(false);
+			await syncBlogPostsFromWP(false);
 		}
 
 		async function syncProductsFromWP(showNotification = true) {
@@ -3832,8 +5532,14 @@
 			// 1. Check wpItem.meta_data for _zakara_specs or direct keys
 			if (wpItem.meta_data && Array.isArray(wpItem.meta_data)) {
 				const specsMeta = wpItem.meta_data.find(m => m.key === "_zakara_specs");
-				if (specsMeta && specsMeta.value && typeof specsMeta.value === "object") {
-					Object.assign(attributes, specsMeta.value);
+				if (specsMeta && specsMeta.value) {
+					let sVal = specsMeta.value;
+					if (typeof sVal === "string") {
+						try { sVal = JSON.parse(sVal); } catch (e) {}
+					}
+					if (sVal && typeof sVal === "object") {
+						Object.assign(attributes, sVal);
+					}
 				}
 				const l = wpItem.meta_data.find(m => m.key === "specs_leather" || m.key === "leather");
 				if (l && l.value) attributes.leather = l.value;
@@ -3847,12 +5553,24 @@
 				if (w && w.value) attributes.weight = w.value;
 				const s = wpItem.meta_data.find(m => m.key === "specs_strap" || m.key === "strap");
 				if (s && s.value) attributes.strap = s.value;
+
+				// Check any other custom specs_* keys in meta_data
+				wpItem.meta_data.forEach(m => {
+					if (m.key && m.key.startsWith("specs_") && m.value) {
+						const k = m.key.replace(/^specs_/, "");
+						const stdKeys = new Set(["leather", "dimension", "dimensions", "lining", "fittings", "weight", "strap"]);
+						if (!stdKeys.has(k.toLowerCase()) && !attributes[k]) {
+							attributes[k] = m.value;
+						}
+					}
+				});
 			}
 
 			// 2. Parse WooCommerce product attributes array
 			if (wpItem.attributes && Array.isArray(wpItem.attributes) && wpItem.attributes.length > 0) {
 				wpItem.attributes.forEach(a => {
-					const n = (a.name || "").toLowerCase();
+					const rawName = (a.name || "").trim();
+					const n = rawName.toLowerCase();
 					const val = (a.options && a.options[0]) ? a.options[0] : (typeof a.options === "string" ? a.options : "");
 					if (val) {
 						if (n.includes("leather")) attributes.leather = val;
@@ -3862,11 +5580,13 @@
 						else if (n.includes("weight")) attributes.weight = val;
 						else if (n.includes("strap") || n.includes("handle")) attributes.strap = val;
 						else {
-							attributes[a.name] = val;
+							attributes[rawName] = val;
 						}
 					}
 				});
-			} else if (existing.attributes) {
+			} else if (wpItem.attributes && typeof wpItem.attributes === "object") {
+				Object.assign(attributes, wpItem.attributes);
+			} else if (existing && existing.attributes) {
 				attributes = existing.attributes;
 			}
 
@@ -4297,12 +6017,22 @@
 				document.getElementById("specStrap").value = attr.strap || "Dual Leather Detachable Strap";
 
 				// Custom Specs
-				const standardKeys = new Set(["leather", "dimension", "lining", "fittings", "weight", "strap"]);
+				const standardKeys = new Set(["leather", "dimension", "dimensions", "lining", "fittings", "weight", "strap", "hardware", "handles"]);
 				Object.keys(attr).forEach(k => {
 					if (!standardKeys.has(k.toLowerCase()) && attr[k]) {
-						STATE.customSpecs.push({ key: k, value: attr[k] });
+						STATE.customSpecs.push({ key: k, value: String(attr[k]) });
 					}
 				});
+				if (Array.isArray(prod.rawAttributes)) {
+					prod.rawAttributes.forEach(ra => {
+						const n = (ra.name || "").trim();
+						const nLower = n.toLowerCase();
+						if (!standardKeys.has(nLower) && !STATE.customSpecs.some(cs => cs.key.trim().toLowerCase() === nLower)) {
+							const val = (ra.options && ra.options[0]) ? ra.options[0] : (typeof ra.options === "string" ? ra.options : "");
+							if (val) STATE.customSpecs.push({ key: n, value: String(val) });
+						}
+					});
+				}
 			}
 
 			renderCategoryCheckboxes();
@@ -4499,8 +6229,13 @@
 				return;
 			}
 
-			grid.innerHTML = STATE.productImages.map((src, idx) => {
+			grid.innerHTML = STATE.productImages.map((rawItem, idx) => {
 				const isPrimary = idx === 0;
+				const imgSrc = (typeof rawItem === 'object' && rawItem) ? (rawItem.src || '') : (rawItem || '');
+				const imgAlt = (typeof rawItem === 'object' && rawItem) ? (rawItem.alt || '') : '';
+				const imgTitle = (typeof rawItem === 'object' && rawItem) ? (rawItem.title || rawItem.name || '') : '';
+				const imgFilename = (typeof rawItem === 'object' && rawItem && rawItem.filename) ? rawItem.filename : (imgSrc ? imgSrc.split('/').pop().split('?')[0] : `image-${idx+1}.jpg`);
+
 				return `
 					<div class="image-manage-card ${isPrimary ? 'is-primary' : ''}" 
 					     draggable="true" 
@@ -4517,8 +6252,14 @@
 						</span>
 
 						<div class="image-card-thumb-wrap">
-							<img src="${formatPublicImageUrl(src)}" alt="Product Photo ${idx + 1}" loading="lazy" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
+							<img src="${formatPublicImageUrl(imgSrc)}" alt="${escapeHtml(imgAlt || 'Product Photo ' + (idx + 1))}" title="${escapeHtml(imgTitle || imgFilename)}" loading="lazy" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
 							<div class="image-card-drag-handle" title="Drag to reorder position">⋮⋮ Drag</div>
+						</div>
+
+						<div style="padding: 0 6px 4px;">
+							<span class="seo-alt-pill ${imgAlt ? 'has-alt' : 'no-alt'}" title="${imgAlt ? 'Alt: ' + escapeHtml(imgAlt) : 'Missing Alt text - click SEO button to add'}">
+								${imgAlt ? '✓ Alt: ' + escapeHtml(imgAlt.slice(0, 18)) + (imgAlt.length > 18 ? '...' : '') : '⚠️ No Alt Text'}
+							</span>
 						</div>
 
 						<div class="image-card-actions">
@@ -4527,6 +6268,9 @@
 							</button>
 							<button type="button" class="img-action-btn" title="Move Right / Later" onclick="moveProductImage(${idx}, 1)" ${idx === STATE.productImages.length - 1 ? 'disabled' : ''}>
 								▶
+							</button>
+							<button type="button" class="img-action-btn seo-btn" title="Edit SEO Filename, Alt Text & Title" onclick="openImageSeoModal(${idx}, 'product')">
+								🏷️ SEO
 							</button>
 							${!isPrimary ? `
 								<button type="button" class="img-action-btn star-btn" title="Make Primary Featured Image" onclick="makeProductImagePrimary(${idx})">
@@ -4860,6 +6604,26 @@
 		/* --------------------------------------------------------------------------
 		   4C. SPECIFICATION CARD ENGINE: DYNAMIC FIELDS & LIVE PREVIEW
 		   -------------------------------------------------------------------------- */
+		function escapeHtmlAttr(str) {
+			if (str === null || str === undefined) return "";
+			return String(str)
+				.replace(/&/g, "&amp;")
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#039;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;");
+		}
+
+		function escapeHtml(str) {
+			if (str === null || str === undefined) return "";
+			return String(str)
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;")
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#039;");
+		}
+
 		function renderCustomSpecsRows() {
 			const list = document.getElementById("customSpecsList");
 			if (!list) return;
@@ -4869,8 +6633,8 @@
 			}
 			list.innerHTML = STATE.customSpecs.map((cs, idx) => `
 				<div class="custom-spec-row">
-					<input type="text" class="form-input" style="flex: 1;" placeholder="Field Name (e.g. Laptop Fit)" value="${cs.key || ''}" oninput="updateCustomSpec(${idx}, 'key', this.value)" />
-					<input type="text" class="form-input" style="flex: 2;" placeholder="Field Value (e.g. Fits up to 14&quot; MacBook)" value="${cs.value || ''}" oninput="updateCustomSpec(${idx}, 'value', this.value)" />
+					<input type="text" class="form-input" style="flex: 1;" placeholder="Field Name (e.g. Laptop Fit)" value="${escapeHtmlAttr(cs.key || '')}" oninput="updateCustomSpec(${idx}, 'key', this.value)" />
+					<input type="text" class="form-input" style="flex: 2;" placeholder="Field Value (e.g. Fits up to 14&quot; MacBook)" value="${escapeHtmlAttr(cs.value || '')}" oninput="updateCustomSpec(${idx}, 'value', this.value)" />
 					<button type="button" class="btn-subtle" style="color: var(--danger); border-color: rgba(220, 38, 38, 0.3); padding: 6px 12px;" onclick="removeCustomSpecRow(${idx})" title="Remove Field">✕</button>
 				</div>
 			`).join("");
@@ -4912,27 +6676,27 @@
 			let html = `
 				<div class="specs-preview-card">
 					<h4>Leather Grade</h4>
-					<p>${leather}</p>
+					<p>${escapeHtml(leather)}</p>
 				</div>
 				<div class="specs-preview-card">
 					<h4>Dimensions (LxWxH)</h4>
-					<p>${dimension}</p>
+					<p>${escapeHtml(dimension)}</p>
 				</div>
 				<div class="specs-preview-card">
 					<h4>Internal Lining</h4>
-					<p>${lining}</p>
+					<p>${escapeHtml(lining)}</p>
 				</div>
 				<div class="specs-preview-card">
 					<h4>Strap &amp; Drop</h4>
-					<p>${strap}</p>
+					<p>${escapeHtml(strap)}</p>
 				</div>
 				<div class="specs-preview-card">
 					<h4>Hardware &amp; Fittings</h4>
-					<p>${fittings}</p>
+					<p>${escapeHtml(fittings)}</p>
 				</div>
 				<div class="specs-preview-card">
 					<h4>Approx Weight</h4>
-					<p>${weight}</p>
+					<p>${escapeHtml(weight)}</p>
 				</div>
 			`;
 
@@ -4941,8 +6705,8 @@
 					if (cs.key && cs.key.trim() && cs.value && cs.value.trim()) {
 						html += `
 							<div class="specs-preview-card">
-								<h4>${cs.key.trim()}</h4>
-								<p>${cs.value.trim()}</p>
+								<h4>${escapeHtml(cs.key.trim())}</h4>
+								<p>${escapeHtml(cs.value.trim())}</p>
 							</div>
 						`;
 					}
@@ -4999,22 +6763,31 @@
 					? [...STATE.productImages] 
 					: ["https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg"];
 
-				// Ensure every image is converted to a valid, public HTTP/HTTPS URL
+				// Ensure every image is converted to a valid, public HTTP/HTTPS URL with Alt & Title
 				const preparedWcImages = [];
 				for (let i = 0; i < allImages.length; i++) {
-					let src = allImages[i];
+					let rawItem = allImages[i];
+					if (!rawItem) continue;
+					let src = (typeof rawItem === 'object' && rawItem) ? (rawItem.src || '') : String(rawItem).trim();
+					let alt = (typeof rawItem === 'object' && rawItem) ? (rawItem.alt || '') : '';
+					let title = (typeof rawItem === 'object' && rawItem) ? (rawItem.title || rawItem.name || '') : '';
+					let filename = (typeof rawItem === 'object' && rawItem && rawItem.filename) ? rawItem.filename : '';
+
 					if (!src) continue;
-					src = String(src).trim();
 
 					// If base64 data URL, upload it now to get a permanent public URL
 					if (src.startsWith("data:image/")) {
 						try {
 							saveBtn.innerHTML = `<span>Uploading Image #${i + 1} to Cloud...</span>`;
-							const upUrl = await uploadBase64Direct(src, `product_${productId}_${i + 1}.jpg`);
+							const seoName = filename || `product_${productId}_${i + 1}.jpg`;
+							const upUrl = await uploadBase64Direct(src, seoName);
 							if (upUrl) {
 								src = upUrl;
-								allImages[i] = upUrl;
-								STATE.productImages[i] = upUrl;
+								if (typeof rawItem === 'object') {
+									rawItem.src = upUrl;
+								} else {
+									STATE.productImages[i] = upUrl;
+								}
 							}
 						} catch (upErr) {
 							console.warn("Base64 upload attempt failed:", upErr);
@@ -5022,8 +6795,10 @@
 					}
 
 					const publicSrc = formatPublicImageUrl(src);
-					allImages[i] = publicSrc;
-					preparedWcImages.push({ src: publicSrc });
+					const wcImg = { src: publicSrc };
+					if (alt) wcImg.alt = alt;
+					if (title || filename) wcImg.name = title || filename;
+					preparedWcImages.push(wcImg);
 				}
 
 				// Specifications
@@ -5340,7 +7115,12 @@
 
 		function previewCurrentProductPage() {
 			const slug = document.getElementById("editSlug").value || "ladies-soft-leather-handbag";
-			window.open(`https://www.zakarabags.com/product/${slug}/`, "_blank");
+			const id = document.getElementById("editProductId").value;
+			const isLocal = window.location.protocol === "file:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+			const url = isLocal 
+				? `product-detail.html?slug=${encodeURIComponent(slug)}&id=${encodeURIComponent(id)}`
+				: `https://www.zakarabags.com/product/${encodeURIComponent(slug)}/`;
+			window.open(url, "_blank");
 		}
 
 
@@ -5514,14 +7294,2149 @@
 			}
 		}
 
-		function initSidebarState() {
-			const saved = localStorage.getItem("zakara_sidebar_collapsed");
-			const sidebar = document.getElementById("adminSidebar");
-			const topbarBtn = document.getElementById("topbarSidebarToggle");
-			if (saved === "true" && sidebar) {
-				sidebar.classList.add("collapsed");
-				if (topbarBtn) topbarBtn.title = "Expand sidebar to full width";
+		/* ==========================================================================
+		   8. BLOG POST EDITORIAL, DYNAMIC AIOSEO RANKING ENGINE & IMAGE SEO STUDIO
+		   ========================================================================== */
+
+		/**
+		 * Switch between E-Commerce Products and Editorial Blog workspaces
+		 */
+		function switchMainSection(section) {
+			STATE.activeMainSection = section;
+			const sectionProducts = document.getElementById("sectionProducts");
+			const sectionBlog = document.getElementById("sectionBlog");
+			const navLinkProducts = document.getElementById("navLinkProducts");
+			const navLinkBlog = document.getElementById("navLinkBlog");
+			const topStatus = document.getElementById("topbarSyncStatus");
+
+			if (section === "blog") {
+				if (sectionProducts) {
+					sectionProducts.classList.remove("active");
+					sectionProducts.style.display = "none";
+				}
+				if (sectionBlog) {
+					sectionBlog.classList.add("active");
+					sectionBlog.style.display = "block";
+				}
+				if (navLinkProducts) navLinkProducts.classList.remove("active");
+				if (navLinkBlog) navLinkBlog.classList.add("active");
+				if (topStatus) {
+					topStatus.textContent = `Editorial Blog Studio (${(STATE.blogPosts || []).length} Posts Cached)`;
+				}
+				if (!STATE.blogPosts || !STATE.blogPosts.length) {
+					syncBlogPostsFromWP(false);
+				} else {
+					renderBlogPostsTable();
+					updateBlogKpis();
+				}
+			} else {
+				if (sectionBlog) {
+					sectionBlog.classList.remove("active");
+					sectionBlog.style.display = "none";
+				}
+				if (sectionProducts) {
+					sectionProducts.classList.add("active");
+					sectionProducts.style.display = "block";
+				}
+				if (navLinkBlog) navLinkBlog.classList.remove("active");
+				if (navLinkProducts) navLinkProducts.classList.add("active");
+				if (topStatus) {
+					topStatus.textContent = `Connected: WooCommerce REST API (${(STATE.products || []).length} Products)`;
+				}
 			}
+		}
+
+		/**
+		 * Fetch Blog Posts from /api/posts and sync with local state & storage
+		 */
+		async function syncBlogPostsFromWP(showNotification = false) {
+			if (showNotification) showToast("Refreshing genuine WordPress blog posts & AIOSEO audits...", "info");
+			// Purge any stale mock articles from localStorage
+			try {
+				const cachedStr = localStorage.getItem("zakara_cached_blog_posts");
+				if (cachedStr) {
+					const parsed = JSON.parse(cachedStr);
+					if (parsed.some(p => p.id === 103 || (p.title && p.title.includes("B2B Custom")) || (p.title && p.title.includes("Clean and Maintain")))) {
+						localStorage.removeItem("zakara_cached_blog_posts");
+					}
+				}
+			} catch (e) {}
+
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const queryParam = showNotification ? "?refresh=true" : "";
+				const res = await fetch(`${proxyBase}/api/posts${queryParam}`);
+				if (res.ok) {
+					const posts = await res.json();
+					if (Array.isArray(posts)) {
+						STATE.blogPosts = posts;
+						localStorage.setItem("zakara_cached_blog_posts", JSON.stringify(posts));
+						renderBlogPostsTable();
+						updateBlogKpis();
+						if (showNotification) showToast(`Synced ${posts.length} real WordPress blog posts!`, "success");
+					}
+				}
+			} catch (err) {
+				console.warn("Failed to fetch blog posts from API, checking local cache:", err);
+				const cached = localStorage.getItem("zakara_cached_blog_posts");
+				if (cached) {
+					try {
+						STATE.blogPosts = JSON.parse(cached);
+						renderBlogPostsTable();
+						updateBlogKpis();
+					} catch (e) {}
+				}
+			}
+
+			// Also fetch blog categories for selector
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const catRes = await fetch(`${proxyBase}/api/post-categories`);
+				if (catRes.ok) {
+					const cats = await catRes.json();
+					if (Array.isArray(cats)) {
+						STATE.blogCategories = cats;
+						populateBlogCategoryDropdowns(cats);
+					}
+				}
+			} catch (e) {}
+		}
+
+		function populateBlogCategoryDropdowns(cats) {
+			const filterSel = document.getElementById("blogCategoryFilter");
+			const postSel = document.getElementById("blogPostCategory");
+			if (filterSel) {
+				const current = filterSel.value;
+				filterSel.innerHTML = `<option value="all">All Blog Categories</option>` + 
+					cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+				filterSel.value = current;
+			}
+			if (postSel) {
+				const current = postSel.value;
+				postSel.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+				if (current) postSel.value = current;
+			}
+		}
+
+		function updateBlogKpis() {
+			const posts = STATE.blogPosts || [];
+			const total = posts.length;
+			const published = posts.filter(p => p.status === 'publish').length;
+			const drafts = posts.filter(p => p.status === 'draft').length;
+
+			// Calculate average AIOSEO score
+			let totalScore = 0;
+			let scoredCount = 0;
+			posts.forEach(p => {
+				const score = (p.seo && typeof p.seo.score === 'number') ? p.seo.score : 0;
+				if (score > 0) {
+					totalScore += score;
+					scoredCount++;
+				}
+			});
+			const avgScore = scoredCount > 0 ? Math.round(totalScore / scoredCount) : 80;
+
+			const elTotal = document.getElementById("kpiBlogTotal");
+			const elPub = document.getElementById("kpiBlogPublished");
+			const elDraft = document.getElementById("kpiBlogDrafts");
+			const elAvg = document.getElementById("kpiBlogAvgSeo");
+			const elAvgSub = document.getElementById("kpiBlogAvgSeoSub");
+			const elBadge = document.getElementById("sidebarBlogCount");
+			const elBadgePub = document.getElementById("sidebarBlogPubCount");
+			const elBadgeDraft = document.getElementById("sidebarBlogDraftCount");
+			const elQuickAll = document.getElementById("quickCountAll");
+			const elQuickPub = document.getElementById("quickCountPublish");
+			const elQuickDraft = document.getElementById("quickCountDraft");
+
+			if (elTotal) elTotal.textContent = total;
+			if (elPub) elPub.textContent = published;
+			if (elDraft) elDraft.textContent = drafts;
+			if (elBadge) elBadge.textContent = total;
+			if (elBadgePub) elBadgePub.textContent = published;
+			if (elBadgeDraft) elBadgeDraft.textContent = drafts;
+			if (elQuickAll) elQuickAll.textContent = total;
+			if (elQuickPub) elQuickPub.textContent = published;
+			if (elQuickDraft) elQuickDraft.textContent = drafts;
+
+			if (elAvg) {
+				elAvg.textContent = `${avgScore}/100`;
+				if (avgScore >= 80) {
+					elAvg.style.color = "#16a34a";
+					if (elAvgSub) {
+						elAvgSub.textContent = "🟢 Strong Search Visibility";
+						elAvgSub.style.color = "#16a34a";
+					}
+				} else if (avgScore >= 50) {
+					elAvg.style.color = "#ea580c";
+					if (elAvgSub) {
+						elAvgSub.textContent = "🟠 Needs Optimization";
+						elAvgSub.style.color = "#ea580c";
+					}
+				} else {
+					elAvg.style.color = "#dc2626";
+					if (elAvgSub) {
+						elAvgSub.textContent = "🔴 Critical Ranking Issues";
+						elAvgSub.style.color = "#dc2626";
+					}
+				}
+			}
+		}
+
+		/**
+		 * Render the Blog Posts management table with AIOSEO score pills
+		 */
+		function renderBlogPostsTable() {
+			const tbody = document.getElementById("blogTableBody");
+			const countText = document.getElementById("blogCountText");
+			if (!tbody) return;
+
+			let list = [...(STATE.blogPosts || [])];
+
+			// Search filter
+			const search = (document.getElementById("blogSearchInput") ? document.getElementById("blogSearchInput").value : "").toLowerCase().trim();
+			if (search) {
+				list = list.filter(p => {
+					const t = (p.title || "").toLowerCase();
+					const s = (p.slug || "").toLowerCase();
+					const k = (p.seo && p.seo.focus_keyphrase ? p.seo.focus_keyphrase : "").toLowerCase();
+					const tags = Array.isArray(p.tags) ? p.tags.join(" ").toLowerCase() : "";
+					return t.includes(search) || s.includes(search) || k.includes(search) || tags.includes(search);
+				});
+			}
+
+			// Category filter
+			const catFilter = document.getElementById("blogCategoryFilter") ? document.getElementById("blogCategoryFilter").value : "all";
+			if (catFilter !== "all") {
+				list = list.filter(p => Array.isArray(p.categories) && p.categories.includes(catFilter));
+			}
+
+			// Status filter
+			const statusFilter = document.getElementById("blogStatusFilter") ? document.getElementById("blogStatusFilter").value : "all";
+			if (statusFilter !== "all") {
+				list = list.filter(p => p.status === statusFilter);
+			}
+
+			// SEO Score filter
+			const seoFilter = document.getElementById("blogSeoFilter") ? document.getElementById("blogSeoFilter").value : "all";
+			if (seoFilter !== "all") {
+				list = list.filter(p => {
+					const score = (p.seo && typeof p.seo.score === 'number') ? p.seo.score : 0;
+					if (seoFilter === "good") return score >= 80;
+					if (seoFilter === "warning") return score >= 50 && score < 80;
+					if (seoFilter === "poor") return score < 50;
+					return true;
+				});
+			}
+
+			// Sorting
+			const sortFilter = document.getElementById("blogSortFilter") ? document.getElementById("blogSortFilter").value : "date-desc";
+			list.sort((a, b) => {
+				const scoreA = (a.seo && typeof a.seo.score === 'number') ? a.seo.score : 0;
+				const scoreB = (b.seo && typeof b.seo.score === 'number') ? b.seo.score : 0;
+				if (sortFilter === "seo-desc") return scoreB - scoreA;
+				if (sortFilter === "seo-asc") return scoreA - scoreB;
+				if (sortFilter === "title-asc") return (a.title || "").localeCompare(b.title || "");
+				// default date-desc
+				const dateA = new Date(a.date || 0).getTime();
+				const dateB = new Date(b.date || 0).getTime();
+				return dateB - dateA;
+			});
+
+			STATE.filteredBlogPosts = list;
+
+			if (countText) {
+				countText.textContent = `Showing ${list.length} of ${(STATE.blogPosts || []).length} blog articles`;
+			}
+
+			if (!list.length) {
+				tbody.innerHTML = `
+					<tr>
+						<td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+							<div style="font-size: 2.2rem; margin-bottom: 8px;">📝</div>
+							<strong>No matching blog posts found</strong>
+							<p style="font-size: 0.84rem; margin: 6px 0 16px;">Try adjusting your search criteria or create a new blog article.</p>
+							<button type="button" class="btn-gold" onclick="openBlogPostModal('new')">
+								<span>+ Create First Blog Post</span>
+							</button>
+						</td>
+					</tr>
+				`;
+				return;
+			}
+
+			tbody.innerHTML = list.map(post => {
+				const feat = post.featured_image || {};
+				const featSrc = formatPublicImageUrl(feat.src || "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg");
+				const featAlt = feat.alt || post.title || "";
+
+				const isPub = post.status === "publish";
+				const dateStr = post.date_formatted || (post.date ? new Date(post.date).toLocaleDateString() : "Recent");
+				const catName = Array.isArray(post.categories) && post.categories.length ? post.categories[0] : "General";
+				const keyphrase = (post.seo && post.seo.focus_keyphrase && post.seo.focus_keyphrase.trim()) ? post.seo.focus_keyphrase.trim() : "";
+
+				const seo = post.seo || {};
+				const score = typeof seo.score === 'number' ? seo.score : 0;
+				const scoreLabel = seo.score_label || (score >= 80 ? 'Good' : (score >= 50 ? 'Needs Work' : 'Critical'));
+				const isGood = score >= 80;
+				const isWarn = score >= 50 && score < 80;
+				const badgeClass = isGood ? 'badge-good' : (isWarn ? 'badge-warn' : 'badge-poor');
+
+				const titleSnippet = seo.title_snippet || (post.title ? (post.title.slice(0, 19) + '...') : 'Untitled');
+				const titlePixelWidth = seo.title_pixel_width || 520;
+				const isTitleOverMax = typeof seo.is_title_over_max === 'boolean' ? seo.is_title_over_max : (titlePixelWidth > 600);
+
+				const metaDescSnippet = seo.meta_desc_snippet || (post.excerpt ? (post.excerpt.slice(0, 19) + '...') : '—');
+				const metaDescLength = typeof seo.meta_desc_length === 'number' ? seo.meta_desc_length : 0;
+				const isMetaDescGood = typeof seo.is_meta_desc_good === 'boolean' ? seo.is_meta_desc_good : (metaDescLength >= 120 && metaDescLength <= 160);
+
+				const detailsHtml = `
+					<div class="aioseo-details-cell">
+						<div class="aioseo-badge-row">
+							<div class="aioseo-live-badge ${badgeClass}" onclick="openBlogPostModal(${post.id});" title="Live AIOSEO TruSEO Score: ${score}/100 (${scoreLabel}). Click to open &amp; optimize with AI!">
+								<span>⚙️</span>
+								<span>${score}/100</span>
+							</div>
+						</div>
+						<div class="aioseo-detail-line" title="SEO Title: ${escapeHtml(seo.seo_title || post.title || '')}">
+							<span class="aioseo-detail-dot ${isTitleOverMax ? 'dot-warn' : 'dot-good'}">○</span>
+							<span class="aioseo-detail-text">${escapeHtml(titleSnippet)}</span>
+							<span class="aioseo-detail-pixel ${isTitleOverMax ? 'pixel-warn' : 'pixel-good'}">${titlePixelWidth}px</span>
+							<button type="button" class="aioseo-inline-edit" onclick="openBlogPostModal(${post.id});" title="Edit SEO Title">✏️</button>
+						</div>
+						<div class="aioseo-detail-line" title="Meta Description: ${escapeHtml(seo.meta_description || '')}">
+							<span class="aioseo-detail-dot ${metaDescLength > 0 ? (isMetaDescGood ? 'dot-good' : 'dot-warn') : 'dot-warn'}">○</span>
+							<span class="aioseo-detail-text">${escapeHtml(metaDescSnippet)}</span>
+							<span class="aioseo-detail-count ${metaDescLength === 0 ? 'count-zero' : ''}">${metaDescLength}</span>
+							<button type="button" class="aioseo-inline-edit" onclick="openBlogPostModal(${post.id});" title="Edit Meta Description">✏️</button>
+						</div>
+					</div>
+				`;
+
+				const keyphraseHtml = keyphrase
+					? `<span style="font-size: 0.74rem; color: var(--text-muted);">🎯 ${escapeHtml(keyphrase)}</span>`
+					: `<span style="font-size: 0.74rem; color: #dc2626; font-style: italic; font-weight: 600;">⚠️ No Keyphrase</span>`;
+
+				return `
+					<tr>
+						<td>
+							<img src="${featSrc}" alt="${escapeHtml(featAlt)}" class="blog-featured-thumb" onerror="this.src='https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg'" />
+						</td>
+						<td>
+							<div class="blog-title-cell">
+								<a href="#" class="blog-title-text" onclick="openBlogPostModal(${post.id}); return false;">
+									${escapeHtml(post.title || "Untitled Article")}
+								</a>
+								<span class="blog-slug-text">
+									🔗 /blog/${escapeHtml(post.slug || "post")}
+								</span>
+							</div>
+						</td>
+						<td>
+							<div style="display: flex; flex-direction: column; gap: 4px;">
+								<span class="blog-cat-pill">${escapeHtml(catName)}</span>
+								${keyphraseHtml}
+							</div>
+						</td>
+						<td>
+							<span class="badge ${isPub ? 'badge-publish' : 'badge-draft'}" style="font-size: 0.76rem; padding: 4px 10px; cursor: pointer;" onclick="setBlogStatusFilter('${post.status}');" title="Click to filter by ${isPub ? 'Published' : 'Draft'}">
+								${isPub ? '● Published' : '○ Draft'}
+							</span>
+						</td>
+						<td>
+							<span style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(dateStr)}</span>
+						</td>
+						<td>
+							${detailsHtml}
+						</td>
+						<td style="text-align: right;">
+							<div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
+								<button type="button" class="table-action-btn" style="background: linear-gradient(135deg, #26160d, #422718); border-color: var(--pantone-gold); color: #ffffff; font-weight: 700;" title="Auto-Improve Ranking with Google Gemini AI" onclick="openBlogPostModalAndOptimize(${post.id})">
+									✨ AI Optimize
+								</button>
+								<button type="button" class="table-action-btn" title="Edit Article & SEO" onclick="openBlogPostModal(${post.id})">
+									✏️ Edit
+								</button>
+								<button type="button" class="table-action-btn delete-btn" title="Delete Post" onclick="deleteBlogPost(${post.id})">
+									🗑️
+								</button>
+							</div>
+						</td>
+					</tr>
+				`;
+			}).join("");
+		}
+
+		function handleBlogSearchFilter() {
+			const statusFilter = document.getElementById("blogStatusFilter");
+			const cur = statusFilter ? statusFilter.value : 'all';
+			syncBlogStatusTabsAndCards(cur);
+			renderBlogPostsTable();
+		}
+
+		/**
+		 * Quick filter articles by status ('all', 'publish', or 'draft')
+		 */
+		function setBlogStatusFilter(status) {
+			const statusFilter = document.getElementById("blogStatusFilter");
+			if (statusFilter) statusFilter.value = status;
+			syncBlogStatusTabsAndCards(status);
+			renderBlogPostsTable();
+		}
+
+		function syncBlogStatusTabsAndCards(status) {
+			const tabAll = document.getElementById("tabBlogStatusAll");
+			const tabPub = document.getElementById("tabBlogStatusPublish");
+			const tabDraft = document.getElementById("tabBlogStatusDraft");
+			if (tabAll) tabAll.classList.toggle("active", status === 'all');
+			if (tabPub) tabPub.classList.toggle("active", status === 'publish');
+			if (tabDraft) tabDraft.classList.toggle("active", status === 'draft');
+
+			const cardAll = document.getElementById("kpiCardBlogTotal");
+			const cardPub = document.getElementById("kpiCardBlogPublished");
+			const cardDraft = document.getElementById("kpiCardBlogDrafts");
+			if (cardAll) cardAll.classList.toggle("kpi-active-filter", status === 'all');
+			if (cardPub) cardPub.classList.toggle("kpi-active-filter", status === 'publish');
+			if (cardDraft) cardDraft.classList.toggle("kpi-active-filter", status === 'draft');
+
+			const navAll = document.getElementById("navLinkBlog");
+			const navPub = document.getElementById("navLinkBlogPub");
+			const navDraft = document.getElementById("navLinkBlogDraft");
+			if (navPub) navPub.classList.toggle("active", status === 'publish');
+			if (navDraft) navDraft.classList.toggle("active", status === 'draft');
+			if (navAll) navAll.classList.toggle("active", status === 'all');
+		}
+
+		let blogSeoSortDirection = 'desc';
+		function sortBlogBySeo() {
+			const sortFilter = document.getElementById("blogSortFilter");
+			blogSeoSortDirection = blogSeoSortDirection === 'desc' ? 'asc' : 'desc';
+			if (sortFilter) {
+				sortFilter.value = blogSeoSortDirection === 'desc' ? 'seo-desc' : 'seo-asc';
+			}
+			showToast(`Sorted by AIOSEO score: ${blogSeoSortDirection === 'desc' ? 'Highest first' : 'Lowest first (Fix critical errors)'}`, "info");
+			renderBlogPostsTable();
+		}
+
+		/**
+		 * Open the Blog Post Editor Modal (for new or existing post)
+		 */
+		function openBlogPostModal(idOrNew) {
+			const modal = document.getElementById("blogPostModal");
+			const heading = document.getElementById("blogModalHeading");
+			const delBtn = document.getElementById("btnDeleteBlogPost");
+			if (!modal) return;
+
+			if (idOrNew === "new") {
+				STATE.activeEditingPost = null;
+				if (heading) heading.textContent = "Create New Blog Post";
+				if (delBtn) delBtn.style.display = "none";
+
+				document.getElementById("editBlogPostId").value = "";
+				document.getElementById("blogPostTitle").value = "";
+				document.getElementById("blogPostSlug").value = "";
+				document.getElementById("blogPostStatus").value = "draft";
+				document.getElementById("blogPostTags").value = "Leather, Handcrafted, Care";
+				document.getElementById("blogPostExcerpt").value = "";
+				document.getElementById("blogFocusKeyphrase").value = "";
+				document.getElementById("blogSeoTitle").value = "";
+				document.getElementById("blogMetaDescription").value = "";
+
+				// Starter content template
+				const starterHtml = `<h2>Introduction</h2>\n<p>Start writing your in-depth guide or leather fashion insights here. Include your focus keyphrase in the opening paragraph to boost your AIOSEO search ranking.</p>\n\n<h3>Artisan Craftsmanship & Quality</h3>\n<p>Detail the premium full-grain materials, hand-stitching techniques, and genuine hardware used in Zakara creations.</p>`;
+				document.getElementById("blogContentVisual").innerHTML = starterHtml;
+				document.getElementById("blogContentRaw").value = starterHtml;
+
+				// Featured image reset
+				setBlogFeaturedImageData({
+					src: "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg",
+					alt: "Handcrafted full grain leather bags artisan manufacturing",
+					title: "Zakara Leather Goods",
+					filename: "artisan-handcrafted-leather-bags.jpg"
+				});
+
+			} else {
+				const post = (STATE.blogPosts || []).find(p => p.id === Number(idOrNew) || String(p.id) === String(idOrNew));
+				if (!post) {
+					showToast("Blog post not found", "error");
+					return;
+				}
+				STATE.activeEditingPost = post;
+				if (heading) heading.textContent = `Edit Blog Post: ${post.title || ""}`;
+				if (delBtn) delBtn.style.display = "inline-flex";
+
+				document.getElementById("editBlogPostId").value = post.id;
+				document.getElementById("blogPostTitle").value = post.title || "";
+				document.getElementById("blogPostSlug").value = post.slug || "";
+				document.getElementById("blogPostStatus").value = post.status || "publish";
+				document.getElementById("blogPostTags").value = Array.isArray(post.tags) ? post.tags.join(", ") : "";
+				document.getElementById("blogPostExcerpt").value = post.excerpt || "";
+
+				const catVal = Array.isArray(post.categories) && post.categories.length ? post.categories[0] : "";
+				if (catVal && document.getElementById("blogPostCategory")) {
+					document.getElementById("blogPostCategory").value = catVal;
+				}
+
+				const seo = post.seo || {};
+				document.getElementById("blogFocusKeyphrase").value = seo.focus_keyphrase || "";
+				document.getElementById("blogSeoTitle").value = seo.seo_title || "";
+				document.getElementById("blogMetaDescription").value = seo.meta_description || "";
+
+				const contentHtml = post.content || "";
+				document.getElementById("blogContentVisual").innerHTML = contentHtml;
+				document.getElementById("blogContentRaw").value = contentHtml;
+
+				// Featured image
+				const feat = post.featured_image || {};
+				setBlogFeaturedImageData({
+					src: feat.src || "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg",
+					alt: feat.alt || post.title || "",
+					title: feat.title || post.title || "",
+					filename: feat.filename || (feat.src ? feat.src.split("/").pop().split("?")[0] : "featured.jpg")
+				});
+			}
+
+			// Reset to visual editor tab
+			document.getElementById("blogContentVisual").style.display = "block";
+			document.getElementById("blogContentRaw").style.display = "none";
+			const toggleBtn = document.getElementById("btnToggleBlogHtml");
+			if (toggleBtn) toggleBtn.innerHTML = `&lt;/&gt; HTML Source`;
+
+			// Update word count & character counters
+			handleBlogContentInput(false);
+			handleBlogTitleInput(document.getElementById("blogPostTitle").value, false);
+			handleBlogExcerptInput(document.getElementById("blogPostExcerpt").value, false);
+
+			// Run real-time AIOSEO calculation
+			runAioseoAnalysis();
+
+			// Switch to AI Studio tab by default
+			switchBlogRightTab('ai');
+
+			// Reset and refresh AI Copilot State
+			loadAiConfig();
+			const aiResults = document.getElementById("aiOptimizationResultsContainer");
+			if (aiResults) {
+				aiResults.style.display = "block";
+				aiResults.innerHTML = `
+					<div class="ai-idle-intro-card">
+						<div style="font-size: 2rem; margin-bottom: 8px;">🚀</div>
+						<strong style="color: var(--ink-dark); font-size: 0.92rem; display: block; margin-bottom: 4px;">
+							Ready to Auto-Elevate Article Ranking
+						</strong>
+						<p style="font-size: 0.78rem; color: var(--text-muted); margin: 0 0 14px; line-height: 1.45;">
+							Click <strong>"AI Auto-Improve AIOSEO Ranking"</strong> above. Gemini Flash will analyze your title, slug, keyphrase density, and content hook, then separate automated 1-click fixes from actions requiring manual editorial attention.
+						</p>
+						<div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+							<span style="font-size: 0.72rem; background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-weight: 600;">⚡ 1-Click Keyphrase</span>
+							<span style="font-size: 0.72rem; background: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 4px; font-weight: 600;">⚡ CTR Title &amp; Meta</span>
+							<span style="font-size: 0.72rem; background: #fef3c7; color: #b45309; padding: 3px 8px; border-radius: 4px; font-weight: 600;">📋 Step-by-Step Manual Guide</span>
+						</div>
+					</div>
+				`;
+			}
+
+			modal.classList.add("active");
+		}
+
+		function openBlogPostModalAndOptimize(id) {
+			openBlogPostModal(id);
+			switchBlogRightTab('ai');
+			setTimeout(() => {
+				runAiAioseoOptimization();
+			}, 300);
+		}
+
+		function closeBlogPostModal() {
+			const modal = document.getElementById("blogPostModal");
+			if (modal) modal.classList.remove("active");
+		}
+
+		function setBlogFeaturedImageData(data) {
+			const preview = document.getElementById("blogFeaturedPreview");
+			const nameText = document.getElementById("blogFeaturedFilenameText");
+			const altText = document.getElementById("blogFeaturedAltTextDisplay");
+			const altBadge = document.getElementById("blogFeaturedAltBadge");
+
+			const src = formatPublicImageUrl(data.src || "");
+			const alt = data.alt || "";
+			const title = data.title || "";
+			const filename = data.filename || (src ? src.split("/").pop().split("?")[0] : "featured.jpg");
+
+			if (preview) preview.src = src;
+			if (nameText) nameText.textContent = filename;
+			if (altText) altText.textContent = alt ? `Alt: ${alt}` : "⚠️ Missing Alt Text";
+			if (altBadge) {
+				if (alt) {
+					altBadge.className = "seo-alt-pill has-alt";
+					altBadge.textContent = "✓ Alt: Configured";
+				} else {
+					altBadge.className = "seo-alt-pill no-alt";
+					altBadge.textContent = "⚠️ Missing Alt";
+				}
+			}
+
+			document.getElementById("blogFeaturedSrc").value = src;
+			document.getElementById("blogFeaturedAlt").value = alt;
+			document.getElementById("blogFeaturedTitle").value = title;
+			document.getElementById("blogFeaturedFilename").value = filename;
+		}
+
+		function handleBlogTitleInput(val, runAnalysis = true) {
+			const count = document.getElementById("blogTitleCharCount");
+			if (count) count.textContent = `${val.length} chars (recommended 40-60)`;
+
+			// Auto slugify if slug is empty or was matching previous title
+			const slugInput = document.getElementById("blogPostSlug");
+			if (slugInput && (!slugInput.value || slugInput.dataset.autoSlug === "true")) {
+				slugInput.value = sanitizeSeoSlug(val);
+				slugInput.dataset.autoSlug = "true";
+			}
+
+			if (runAnalysis) runAioseoAnalysis();
+		}
+
+		function handleBlogExcerptInput(val, runAnalysis = true) {
+			const count = document.getElementById("blogExcerptCharCount");
+			if (count) count.textContent = `${val.length} chars`;
+			if (runAnalysis) runAioseoAnalysis();
+		}
+
+		function handleSeoTitleInput(val) {
+			const count = document.getElementById("seoTitleCounter");
+			if (count) count.textContent = `${val.length} / 60 chars`;
+			runAioseoAnalysis();
+		}
+
+		function handleMetaDescInput(val) {
+			const count = document.getElementById("metaDescCounter");
+			if (count) count.textContent = `${val.length} / 160 chars`;
+			runAioseoAnalysis();
+		}
+
+		function autoGenerateSlugFromTitle() {
+			const title = document.getElementById("blogPostTitle").value;
+			const slugInput = document.getElementById("blogPostSlug");
+			if (slugInput) {
+				slugInput.value = sanitizeSeoSlug(title);
+				slugInput.dataset.autoSlug = "true";
+				runAioseoAnalysis();
+				showToast("SEO Slug regenerated!", "info");
+			}
+		}
+
+		function sanitizeSeoSlug(str) {
+			return (str || "")
+				.toLowerCase()
+				.normalize("NFD")
+				.replace(/[\u0300-\u036f]/g, "")
+				.replace(/[^a-z0-9\s-]/g, "")
+				.trim()
+				.replace(/[\s_]+/g, "-")
+				.replace(/-+/g, "-")
+				.slice(0, 80);
+		}
+
+		/* Rich WYSIWYG Editor Commands */
+		function execBlogEditorCmd(cmd, arg = null) {
+			const visual = document.getElementById("blogContentVisual");
+			if (!visual) return;
+			visual.focus();
+			document.execCommand(cmd, false, arg);
+			handleBlogContentInput();
+		}
+
+		function insertLinkInBlogEditor() {
+			const url = prompt("Enter hyperlink URL (e.g. https://www.zakarabags.com/shop-3/):", "https://www.zakarabags.com/shop-3/");
+			if (url) {
+				execBlogEditorCmd("createLink", url);
+			}
+		}
+
+		function toggleBlogEditorSourceMode() {
+			const visual = document.getElementById("blogContentVisual");
+			const raw = document.getElementById("blogContentRaw");
+			const btn = document.getElementById("btnToggleBlogHtml");
+			if (!visual || !raw) return;
+
+			if (visual.style.display !== "none") {
+				// Switch to HTML Source
+				raw.value = visual.innerHTML;
+				visual.style.display = "none";
+				raw.style.display = "block";
+				raw.focus();
+				if (btn) btn.innerHTML = `👁️ Visual Editor`;
+			} else {
+				// Switch to Visual Editor
+				visual.innerHTML = raw.value;
+				raw.style.display = "none";
+				visual.style.display = "block";
+				visual.focus();
+				if (btn) btn.innerHTML = `&lt;/&gt; HTML Source`;
+				runAioseoAnalysis();
+			}
+		}
+
+		function handleBlogContentInput(runAnalysis = true) {
+			const visual = document.getElementById("blogContentVisual");
+			const raw = document.getElementById("blogContentRaw");
+			if (visual && raw && visual.style.display !== "none") {
+				raw.value = visual.innerHTML;
+			}
+			updateContentCounters();
+			if (runAnalysis) runAioseoAnalysis();
+		}
+
+		function syncBlogContentFromRaw() {
+			const visual = document.getElementById("blogContentVisual");
+			const raw = document.getElementById("blogContentRaw");
+			if (visual && raw) {
+				visual.innerHTML = raw.value;
+			}
+			updateContentCounters();
+			runAioseoAnalysis();
+		}
+
+		function updateContentCounters() {
+			const visual = document.getElementById("blogContentVisual");
+			const wordEl = document.getElementById("blogContentWordCount");
+			const charEl = document.getElementById("blogContentCharCount");
+			if (!visual) return;
+
+			const text = visual.innerText || "";
+			const words = text.trim() ? text.trim().split(/\s+/).filter(Boolean).length : 0;
+			const chars = text.length;
+
+			if (wordEl) wordEl.textContent = `${words} words`;
+			if (charEl) charEl.textContent = `${chars} characters`;
+		}
+
+		/**
+		 * DYNAMIC AIOSEO RANKING ENGINE
+		 * Calculates 0-100 SEO score, updates circular gauge, Google SERP snippet,
+		 * and builds dynamic checklist of Errors, Warnings, and Passed checks in real time.
+		 */
+		function runAioseoAnalysis() {
+			const title = (document.getElementById("blogPostTitle") ? document.getElementById("blogPostTitle").value : "").trim();
+			const slug = (document.getElementById("blogPostSlug") ? document.getElementById("blogPostSlug").value : "").trim().toLowerCase();
+			const keyphrase = (document.getElementById("blogFocusKeyphrase") ? document.getElementById("blogFocusKeyphrase").value : "").trim().toLowerCase();
+			const excerpt = (document.getElementById("blogPostExcerpt") ? document.getElementById("blogPostExcerpt").value : "").trim();
+			const seoTitleCustom = (document.getElementById("blogSeoTitle") ? document.getElementById("blogSeoTitle").value : "").trim();
+			const metaDescCustom = (document.getElementById("blogMetaDescription") ? document.getElementById("blogMetaDescription").value : "").trim();
+			const featuredAlt = (document.getElementById("blogFeaturedAlt") ? document.getElementById("blogFeaturedAlt").value : "").trim();
+
+			const visualEl = document.getElementById("blogContentVisual");
+			const contentHtml = visualEl ? visualEl.innerHTML : "";
+			const contentText = visualEl ? (visualEl.innerText || "") : "";
+
+			const effectiveSeoTitle = seoTitleCustom || (title ? `${title} | Zakara Bags` : "Blog Article | Zakara Bags");
+			const effectiveMetaDesc = metaDescCustom || excerpt || "Read handcrafted leather insights, care tutorials and artisan craftsmanship guides from Zakara International.";
+
+			// Update Google SERP Preview Box
+			const serpTitle = document.getElementById("serpTitleText");
+			const serpSlug = document.getElementById("serpSlugText");
+			const serpSnippet = document.getElementById("serpSnippetText");
+
+			if (serpTitle) serpTitle.textContent = effectiveSeoTitle;
+			if (serpSlug) serpSlug.textContent = slug || "article-slug";
+
+			// Highlight keyphrase in SERP Snippet
+			if (serpSnippet) {
+				if (keyphrase && effectiveMetaDesc.toLowerCase().includes(keyphrase)) {
+					const regex = new RegExp(`(${escapeRegExp(keyphrase)})`, "gi");
+					serpSnippet.innerHTML = escapeHtml(effectiveMetaDesc).replace(regex, "<strong>$1</strong>");
+				} else {
+					serpSnippet.textContent = effectiveMetaDesc;
+				}
+			}
+
+			// Calculation variables
+			let score = 0;
+			const issues = [];
+			const words = contentText.trim() ? contentText.trim().split(/\s+/).filter(Boolean).length : 0;
+			const keyphraseWords = keyphrase ? keyphrase.split(/\s+/).filter(Boolean) : [];
+
+			// 1. Focus Keyphrase existence
+			if (!keyphrase) {
+				issues.push({
+					type: "error",
+					title: "Missing Focus Keyphrase",
+					desc: "Enter a target keyphrase (e.g. 'full grain leather care') to enable ranking analysis.",
+					targetField: "blogFocusKeyphrase"
+				});
+			}
+
+			// 2. Keyphrase in SEO Title (Max 20 pts)
+			if (keyphrase) {
+				if (effectiveSeoTitle.toLowerCase().includes(keyphrase)) {
+					score += 15;
+					// Check if near beginning
+					const wordsBefore = effectiveSeoTitle.toLowerCase().split(keyphrase)[0].trim().split(/\s+/).filter(Boolean).length;
+					if (wordsBefore <= 3) {
+						score += 5;
+						issues.push({
+							type: "good",
+							title: "Keyphrase at Beginning of SEO Title",
+							desc: `Your keyphrase appears near the front of the SEO title for maximum click-through appeal.`
+						});
+					} else {
+						issues.push({
+							type: "good",
+							title: "Keyphrase Found in SEO Title",
+							desc: `Great! The focus keyphrase '${keyphrase}' is present in your title tag.`
+						});
+					}
+				} else {
+					issues.push({
+						type: "error",
+						title: "Keyphrase Missing in SEO Title",
+						desc: `Search engines require the focus keyphrase '${keyphrase}' in the title tag to rank for that query.`,
+						targetField: "blogPostTitle"
+					});
+				}
+			}
+
+			// 3. Keyphrase in Meta Description (Max 15 pts)
+			if (keyphrase) {
+				if (effectiveMetaDesc.toLowerCase().includes(keyphrase)) {
+					score += 15;
+					issues.push({
+						type: "good",
+						title: "Keyphrase in Meta Description",
+						desc: `The focus keyphrase appears in the meta description snippet.`
+					});
+				} else {
+					issues.push({
+						type: "error",
+						title: "Keyphrase Missing in Meta Description",
+						desc: `Include your keyphrase '${keyphrase}' in the meta description to encourage Google searchers to click.`,
+						targetField: "blogMetaDescription"
+					});
+				}
+			}
+
+			// 4. Keyphrase in URL Slug (Max 10 pts)
+			if (keyphrase) {
+				const slugKeyphrase = sanitizeSeoSlug(keyphrase);
+				if (slug.includes(slugKeyphrase) || (keyphraseWords.length > 0 && keyphraseWords.every(w => slug.includes(w)))) {
+					score += 10;
+					issues.push({
+						type: "good",
+						title: "Keyphrase in URL Permalink",
+						desc: `Clean URL slug includes target search keywords.`
+					});
+				} else {
+					issues.push({
+						type: "error",
+						title: "Keyphrase Missing from URL Slug",
+						desc: `URL permalinks containing the focus keyphrase receive higher click-through rates.`,
+						targetField: "blogPostSlug"
+					});
+				}
+			}
+
+			// 5. Keyphrase in First Paragraph / Introduction (Max 10 pts)
+			if (keyphrase) {
+				const first100Words = contentText.split(/\s+/).slice(0, 100).join(" ").toLowerCase();
+				if (first100Words.includes(keyphrase)) {
+					score += 10;
+					issues.push({
+						type: "good",
+						title: "Keyphrase in Introduction",
+						desc: `Your focus keyphrase appears early in the first paragraph of copy.`
+					});
+				} else {
+					issues.push({
+						type: "error",
+						title: "Keyphrase Missing in First Paragraph",
+						desc: `Search algorithms look for the focus keyphrase in the opening paragraph of the text.`,
+						targetField: "blogContentVisual"
+					});
+				}
+			}
+
+			// 6. Keyphrase Density in Content Body (Max 15 pts)
+			let occurrences = 0;
+			let density = 0;
+			if (keyphrase && words > 0) {
+				const regex = new RegExp(`\\b${escapeRegExp(keyphrase)}\\b`, "gi");
+				const matches = contentText.match(regex);
+				occurrences = matches ? matches.length : 0;
+				density = (occurrences * (keyphraseWords.length || 1) / words) * 100;
+			}
+
+			const densityValEl = document.getElementById("aioseoDensityVal");
+			const densityOccEl = document.getElementById("aioseoDensityOccurrences");
+			if (densityValEl) densityValEl.textContent = `${density.toFixed(1)}%`;
+			if (densityOccEl) densityOccEl.textContent = `${occurrences} mention(s)`;
+
+			if (keyphrase) {
+				if (occurrences === 0) {
+					issues.push({
+						type: "error",
+						title: "Zero Keyphrase Density (0%)",
+						desc: `The keyphrase '${keyphrase}' was not found in the article copy. Distribute it naturally throughout the text.`,
+						targetField: "blogContentVisual"
+					});
+				} else if (density < 0.8) {
+					score += 7;
+					issues.push({
+						type: "warning",
+						title: `Low Keyphrase Density (${density.toFixed(1)}%)`,
+						desc: `Found ${occurrences} time(s). Recommended density is 0.8% - 2.5%. Add 1-2 more natural mentions.`,
+						targetField: "blogContentVisual"
+					});
+				} else if (density >= 0.8 && density <= 2.5) {
+					score += 15;
+					issues.push({
+						type: "good",
+						title: `Optimal Keyphrase Density (${density.toFixed(1)}%)`,
+						desc: `Found ${occurrences} times. Balanced natural distribution without keyword stuffing.`
+					});
+				} else {
+					score += 5;
+					issues.push({
+						type: "warning",
+						title: `High Keyphrase Density (${density.toFixed(1)}%)`,
+						desc: `Keyphrase appears ${occurrences} times. Be careful of keyword stuffing penalties.`,
+						targetField: "blogContentVisual"
+					});
+				}
+			}
+
+			// 7. Content Length / Word Count (Max 15 pts)
+			if (words < 300) {
+				issues.push({
+					type: "error",
+					title: `Content Too Short (${words} words)`,
+					desc: `Google considers content under 300 words as 'thin content'. Add more value and details.`,
+					targetField: "blogContentVisual"
+				});
+			} else if (words < 600) {
+				score += 10;
+				issues.push({
+					type: "warning",
+					title: `Acceptable Length (${words} words)`,
+					desc: `Meets minimum 300 words, but in-depth posts with 600+ words rank significantly higher on Google SERP.`
+				});
+			} else {
+				score += 15;
+				issues.push({
+					type: "good",
+					title: `Excellent Content Length (${words} words)`,
+					desc: `Thorough and comprehensive article meeting competitive search criteria.`
+				});
+			}
+
+			// 8. Subheadings Structure (H2 / H3) (Max 10 pts)
+			const tempDiv = document.createElement("div");
+			tempDiv.innerHTML = contentHtml;
+			const headings = tempDiv.querySelectorAll("h2, h3");
+
+			if (headings.length === 0) {
+				issues.push({
+					type: "warning",
+					title: "No Subheadings (H2 or H3)",
+					desc: "Break up long walls of text with H2 and H3 subheadings for readability and featured snippets.",
+					targetField: "blogContentVisual"
+				});
+			} else {
+				let hasKeyphraseInHeading = false;
+				headings.forEach(h => {
+					if (keyphrase && h.innerText.toLowerCase().includes(keyphrase)) {
+						hasKeyphraseInHeading = true;
+					}
+				});
+
+				if (hasKeyphraseInHeading) {
+					score += 10;
+					issues.push({
+						type: "good",
+						title: "Keyphrase in Subheading (H2/H3)",
+						desc: `Found ${headings.length} subheading(s), with your focus keyphrase featured.`
+					});
+				} else {
+					score += 5;
+					issues.push({
+						type: "warning",
+						title: "Keyphrase Missing in Subheadings",
+						desc: `You have ${headings.length} subheadings, but none include the focus keyphrase '${keyphrase}'.`,
+						targetField: "blogContentVisual"
+					});
+				}
+			}
+
+			// 9. Image SEO & Alt Attributes (Max 10 pts)
+			const contentImages = tempDiv.querySelectorAll("img");
+			const allImagesToCheck = [];
+			if (featuredAlt !== undefined) {
+				allImagesToCheck.push({ src: "featured", alt: featuredAlt });
+			}
+			contentImages.forEach(img => {
+				allImagesToCheck.push({ src: img.src, alt: (img.getAttribute("alt") || "").trim() });
+			});
+
+			if (allImagesToCheck.length === 0) {
+				issues.push({
+					type: "warning",
+					title: "No Images in Article",
+					desc: "Visual media increases user dwell time and enables Google Image Search traffic.",
+					targetField: "blogFeaturedFileInput"
+				});
+			} else {
+				const missingAlt = allImagesToCheck.filter(i => !i.alt);
+				if (missingAlt.length > 0) {
+					score += 3;
+					issues.push({
+						type: "error",
+						title: `${missingAlt.length} Image(s) Missing Alt Text`,
+						desc: "Every image needs descriptive Alt text containing relevant keywords for accessibility and SEO.",
+						targetField: "blogFeaturedAlt"
+					});
+				} else {
+					score += 10;
+					issues.push({
+						type: "good",
+						title: "All Images Have SEO Alt Text",
+						desc: `All ${allImagesToCheck.length} photo(s) have descriptive Alt text configured.`
+					});
+				}
+			}
+
+			// 10. Title Length
+			const titleLen = effectiveSeoTitle.length;
+			if (titleLen >= 40 && titleLen <= 60) {
+				issues.push({
+					type: "good",
+					title: `Optimal Title Tag Length (${titleLen} chars)`,
+					desc: `Title fits comfortably within Google SERP pixel width.`
+				});
+			} else if (titleLen < 40) {
+				issues.push({
+					type: "warning",
+					title: `Title Tag is Short (${titleLen} chars)`,
+					desc: `Recommended length is 40-60 characters. Add brand name or compelling qualifiers.`,
+					targetField: "blogPostTitle"
+				});
+			} else {
+				issues.push({
+					type: "warning",
+					title: `Title Tag is Long (${titleLen} chars)`,
+					desc: `Titles over 60 characters risk getting truncated with '...' on mobile search results.`,
+					targetField: "blogPostTitle"
+				});
+			}
+
+			// 11. Meta Description Length
+			const descLen = effectiveMetaDesc.length;
+			if (descLen >= 120 && descLen <= 160) {
+				issues.push({
+					type: "good",
+					title: `Optimal Meta Description Length (${descLen} chars)`,
+					desc: `Snippet length is ideal for desktop and mobile displays.`
+				});
+			} else if (descLen < 120) {
+				issues.push({
+					type: "warning",
+					title: `Meta Description is Short (${descLen} chars)`,
+					desc: `Aim for 120-160 characters to maximize snippet real estate on search pages.`,
+					targetField: "blogMetaDescription"
+				});
+			} else {
+				issues.push({
+					type: "warning",
+					title: `Meta Description Too Long (${descLen} chars)`,
+					desc: `Descriptions over 160 characters will be clipped by search engines.`,
+					targetField: "blogMetaDescription"
+				});
+			}
+
+			// 12. Internal / External Links
+			const links = tempDiv.querySelectorAll("a");
+			if (links.length > 0) {
+				score += 5;
+				issues.push({
+					type: "good",
+					title: `Links Found (${links.length} links)`,
+					desc: `Good link structure connecting readers to related products or resources.`
+				});
+			} else {
+				issues.push({
+					type: "warning",
+					title: "No Internal or Outbound Links",
+					desc: "Add links to your product catalogue (/shop-3/) or care guides to retain readers.",
+					targetField: "blogContentVisual"
+				});
+			}
+
+			// Normalize Final Score (0 - 100)
+			score = Math.max(8, Math.min(100, Math.round(score)));
+
+			// Update Gauge UI
+			updateAioseoScoreDisplay(score);
+
+			// Render checklist issues
+			renderAioseoIssuesList(issues);
+
+			return { score, issues };
+		}
+
+		function updateAioseoScoreDisplay(score) {
+			const numEl = document.getElementById("aioseoGaugeScoreNum");
+			const statusEl = document.getElementById("aioseoGaugeStatusText");
+			const circle = document.getElementById("aioseoGaugeCircle");
+			const headerScore = document.getElementById("blogHeaderScoreNum");
+			const headerPill = document.getElementById("blogLiveScoreHeader");
+
+			let color = "#16a34a";
+			let statusText = "Good Ranking";
+			let pillClass = "score-good";
+
+			if (score < 50) {
+				color = "#dc2626";
+				statusText = "Critical Issues";
+				pillClass = "score-poor";
+			} else if (score < 80) {
+				color = "#ea580c";
+				statusText = "Needs Work";
+				pillClass = "score-warning";
+			}
+
+			if (numEl) {
+				numEl.textContent = `${score}/100`;
+				numEl.style.color = color;
+			}
+			if (statusEl) {
+				statusEl.textContent = statusText;
+				statusEl.style.color = color;
+			}
+			if (circle) {
+				circle.setAttribute("stroke", color);
+				const offset = 264 - (264 * score / 100);
+				circle.setAttribute("stroke-dashoffset", offset);
+			}
+			if (headerScore) headerScore.textContent = score;
+			if (headerPill) {
+				headerPill.className = `aioseo-score-pill ${pillClass}`;
+			}
+			const tabScoreBadge = document.getElementById("auditTabScoreBadge");
+			if (tabScoreBadge) {
+				tabScoreBadge.textContent = `${score}/100`;
+				tabScoreBadge.style.background = score >= 80 ? "#dcfce7" : (score >= 50 ? "#ffedd5" : "#fee2e2");
+				tabScoreBadge.style.color = score >= 80 ? "#15803d" : (score >= 50 ? "#c2410c" : "#b91c1c");
+				tabScoreBadge.style.borderColor = score >= 80 ? "#86efac" : (score >= 50 ? "#fdba74" : "#fca5a5");
+			}
+			const projCur = document.getElementById("aiProjCurrentScore");
+			if (projCur) {
+				projCur.textContent = `${score}/100`;
+				projCur.style.color = score >= 80 ? "#4ade80" : (score >= 50 ? "#fbbf24" : "#f87171");
+			}
+		}
+
+		function renderAioseoIssuesList(issues) {
+			const container = document.getElementById("aioseoIssuesContainer");
+			const badge = document.getElementById("aioseoIssueSummaryBadge");
+			if (!container) return;
+
+			const errors = issues.filter(i => i.type === "error");
+			const warnings = issues.filter(i => i.type === "warning");
+			const goods = issues.filter(i => i.type === "good");
+
+			document.getElementById("countAioseoAll").textContent = issues.length;
+			document.getElementById("countAioseoErrors").textContent = errors.length;
+			document.getElementById("countAioseoWarnings").textContent = warnings.length;
+			document.getElementById("countAioseoPassed").textContent = goods.length;
+
+			if (badge) {
+				if (errors.length > 0) {
+					badge.textContent = `🔴 ${errors.length} Critical Error(s)`;
+					badge.style.color = "#dc2626";
+				} else if (warnings.length > 0) {
+					badge.textContent = `🟠 ${warnings.length} Recommended`;
+					badge.style.color = "#ea580c";
+				} else {
+					badge.textContent = `🟢 All Passed (100%)`;
+					badge.style.color = "#16a34a";
+				}
+			}
+
+			const filter = STATE.aioseoIssueFilter || "all";
+			let filtered = issues;
+			if (filter === "error") filtered = errors;
+			else if (filter === "warning") filtered = warnings;
+			else if (filter === "good") filtered = goods;
+
+			if (!filtered.length) {
+				container.innerHTML = `
+					<div style="text-align: center; padding: 24px 12px; color: var(--text-muted); font-size: 0.82rem;">
+						${filter === 'error' ? '🎉 No critical errors found! Great job.' : 'No items in this category.'}
+					</div>
+				`;
+				return;
+			}
+
+			container.innerHTML = filtered.map(item => {
+				const icon = item.type === "error" ? "🔴" : (item.type === "warning" ? "🟠" : "🟢");
+				return `
+					<div class="aioseo-issue-item ${item.type}">
+						<span class="issue-icon">${icon}</span>
+						<div class="issue-body">
+							<span class="issue-title">${escapeHtml(item.title)}</span>
+							<span class="issue-desc">${escapeHtml(item.desc)}</span>
+						</div>
+						${item.targetField ? `
+							<button type="button" class="issue-fix-btn" onclick="focusAioseoTargetField('${item.targetField}')">
+								Fix
+							</button>
+						` : ""}
+					</div>
+				`;
+			}).join("");
+		}
+
+		function filterAioseoIssues(type) {
+			STATE.aioseoIssueFilter = type;
+			document.querySelectorAll(".aioseo-filter-btn").forEach(btn => btn.classList.remove("active"));
+			const activeBtn = document.getElementById(`tabAioseo${type.charAt(0).toUpperCase() + type.slice(1)}`);
+			if (activeBtn) activeBtn.classList.add("active");
+			runAioseoAnalysis();
+		}
+
+		function focusAioseoTargetField(fieldId) {
+			const el = document.getElementById(fieldId);
+			if (el) {
+				el.scrollIntoView({ behavior: "smooth", block: "center" });
+				el.focus();
+				el.classList.add("shake");
+				setTimeout(() => el.classList.remove("shake"), 600);
+			}
+		}
+
+		function escapeRegExp(string) {
+			return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		}
+
+		/* Blog Save & Delete Execution */
+		async function saveBlogPost(statusOverride = null) {
+			const title = (document.getElementById("blogPostTitle") ? document.getElementById("blogPostTitle").value : "").trim();
+			if (!title) {
+				showToast("Please enter an Article Title", "error");
+				focusAioseoTargetField("blogPostTitle");
+				return;
+			}
+
+			const visualEl = document.getElementById("blogContentVisual");
+			const rawEl = document.getElementById("blogContentRaw");
+			const content = (visualEl && visualEl.style.display !== "none") ? visualEl.innerHTML : (rawEl ? rawEl.value : "");
+
+			const idField = document.getElementById("editBlogPostId").value;
+			const isNew = !idField;
+			const id = isNew ? Date.now() : parseInt(idField);
+
+			const slug = (document.getElementById("blogPostSlug").value || sanitizeSeoSlug(title)).trim();
+			const status = statusOverride || document.getElementById("blogPostStatus").value || "publish";
+			const cat = document.getElementById("blogPostCategory") ? document.getElementById("blogPostCategory").value : "Leather Care & Guides";
+			const tagsRaw = document.getElementById("blogPostTags") ? document.getElementById("blogPostTags").value : "";
+			const tags = tagsRaw.split(",").map(t => t.trim()).filter(Boolean);
+			const excerpt = document.getElementById("blogPostExcerpt") ? document.getElementById("blogPostExcerpt").value.trim() : "";
+
+			// Featured image
+			const featSrc = document.getElementById("blogFeaturedSrc").value || "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg";
+			const featAlt = document.getElementById("blogFeaturedAlt").value || title;
+			const featTitle = document.getElementById("blogFeaturedTitle").value || title;
+			const featFilename = document.getElementById("blogFeaturedFilename").value || "featured-image.jpg";
+
+			// SEO metadata & current live score
+			const analysis = runAioseoAnalysis();
+			const score = analysis ? analysis.score : 80;
+			let scoreLabel = "Good";
+			if (score < 50) scoreLabel = "Critical";
+			else if (score < 80) scoreLabel = "Needs Improvement";
+
+			const postPayload = {
+				id,
+				title,
+				slug,
+				status,
+				date: new Date().toISOString(),
+				date_formatted: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+				categories: [cat],
+				tags,
+				excerpt: excerpt || title,
+				content,
+				featured_image: {
+					src: featSrc,
+					alt: featAlt,
+					title: featTitle,
+					filename: featFilename
+				},
+				seo: {
+					focus_keyphrase: document.getElementById("blogFocusKeyphrase").value.trim(),
+					seo_title: document.getElementById("blogSeoTitle").value.trim() || `${title} | Zakara Bags`,
+					meta_description: document.getElementById("blogMetaDescription").value.trim() || excerpt,
+					score,
+					score_label: scoreLabel
+				}
+			};
+
+			const saveBtn = statusOverride === 'draft' ? document.getElementById("btnSaveBlogDraft") : document.getElementById("btnSaveBlogPublish");
+			if (saveBtn) {
+				saveBtn.disabled = true;
+				saveBtn.innerHTML = `<span>Saving...</span>`;
+			}
+
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const url = isNew ? `${proxyBase}/api/posts` : `${proxyBase}/api/posts/${id}`;
+				const method = isNew ? "POST" : "PUT";
+
+				const res = await fetch(url, {
+					method,
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(postPayload)
+				});
+
+				if (res.ok) {
+					const savedPost = await res.json();
+					if (isNew) {
+						if (!STATE.blogPosts) STATE.blogPosts = [];
+						STATE.blogPosts.unshift(savedPost);
+					} else {
+						const idx = STATE.blogPosts.findIndex(p => p.id === id);
+						if (idx !== -1) STATE.blogPosts[idx] = savedPost;
+						else STATE.blogPosts.unshift(savedPost);
+					}
+					localStorage.setItem("zakara_cached_blog_posts", JSON.stringify(STATE.blogPosts));
+					renderBlogPostsTable();
+					updateBlogKpis();
+					closeBlogPostModal();
+					showToast(`Blog post '${title}' saved successfully! (AIOSEO: ${score}/100)`, "success");
+				} else {
+					throw new Error(`Server returned HTTP ${res.status}`);
+				}
+			} catch (err) {
+				console.warn("Failed to persist to server, saving locally:", err);
+				// Local fallback
+				if (isNew) {
+					if (!STATE.blogPosts) STATE.blogPosts = [];
+					STATE.blogPosts.unshift(postPayload);
+				} else {
+					const idx = STATE.blogPosts.findIndex(p => p.id === id);
+					if (idx !== -1) STATE.blogPosts[idx] = postPayload;
+					else STATE.blogPosts.unshift(postPayload);
+				}
+				localStorage.setItem("zakara_cached_blog_posts", JSON.stringify(STATE.blogPosts));
+				renderBlogPostsTable();
+				updateBlogKpis();
+				closeBlogPostModal();
+				showToast(`Blog post saved to local cache! (AIOSEO: ${score}/100)`, "success");
+			} finally {
+				if (saveBtn) {
+					saveBtn.disabled = false;
+					saveBtn.innerHTML = statusOverride === 'draft' ? `Save as Draft` : `<span>🚀 Publish Article</span>`;
+				}
+			}
+		}
+
+		async function deleteCurrentBlogPost() {
+			if (!STATE.activeEditingPost) return;
+			const post = STATE.activeEditingPost;
+			if (!confirm(`Are you sure you want to permanently delete '${post.title}'?`)) return;
+			await deleteBlogPost(post.id);
+			closeBlogPostModal();
+		}
+
+		async function deleteBlogPost(id) {
+			if (!confirm("Are you sure you want to delete this blog post?")) return;
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				await fetch(`${proxyBase}/api/posts/${id}`, { method: "DELETE" });
+			} catch (e) {}
+
+			STATE.blogPosts = (STATE.blogPosts || []).filter(p => p.id !== id);
+			localStorage.setItem("zakara_cached_blog_posts", JSON.stringify(STATE.blogPosts));
+			renderBlogPostsTable();
+			updateBlogKpis();
+			showToast("Blog post deleted successfully", "info");
+		}
+
+		/* ==========================================================================
+		   IMAGE SEO STUDIO & FRIENDLY RENAMER LOGIC
+		   ========================================================================== */
+		function openImageSeoModal(index, type = "product") {
+			STATE.activeImageSeoTarget = { index, type };
+			const modal = document.getElementById("imageSeoModal");
+			if (!modal) return;
+
+			let src = "";
+			let alt = "";
+			let title = "";
+			let filename = "";
+
+			if (type === "product") {
+				const item = STATE.productImages[index];
+				src = (typeof item === 'object' && item) ? (item.src || "") : (item || "");
+				alt = (typeof item === 'object' && item) ? (item.alt || "") : "";
+				title = (typeof item === 'object' && item) ? (item.title || item.name || "") : "";
+				filename = (typeof item === 'object' && item && item.filename) ? item.filename : (src ? src.split("/").pop().split("?")[0] : `product-image-${index + 1}.jpg`);
+			} else if (type === "blog_featured") {
+				src = document.getElementById("blogFeaturedSrc").value;
+				alt = document.getElementById("blogFeaturedAlt").value;
+				title = document.getElementById("blogFeaturedTitle").value;
+				filename = document.getElementById("blogFeaturedFilename").value;
+			}
+
+			document.getElementById("imgSeoTargetType").value = type;
+			document.getElementById("imgSeoTargetIndex").value = index;
+			document.getElementById("imgSeoModalPreview").src = formatPublicImageUrl(src);
+			document.getElementById("imgSeoCurrentUrl").textContent = src;
+			document.getElementById("imgSeoFilenameInput").value = filename;
+			document.getElementById("imgSeoAltInput").value = alt;
+			document.getElementById("imgSeoTitleInput").value = title;
+			updateAltTextCounter(alt);
+
+			modal.classList.add("active");
+		}
+
+		function openImageSeoModalForBlogFeatured() {
+			openImageSeoModal(0, "blog_featured");
+		}
+
+		function closeImageSeoModal() {
+			const modal = document.getElementById("imageSeoModal");
+			if (modal) modal.classList.remove("active");
+			STATE.activeImageSeoTarget = null;
+		}
+
+		function sanitizeImgSeoFilenameInput(input) {
+			const ext = input.value.includes(".") ? "." + input.value.split(".").pop().toLowerCase() : ".jpg";
+			const base = input.value.replace(/\.[^/.]+$/, "");
+			const sanitized = sanitizeSeoSlug(base);
+			input.value = sanitized + ext;
+		}
+
+		
+		function autoSlugifySeoFilename() {
+			const filenameInput = document.getElementById("imgSeoFilenameInput");
+			const targetType = document.getElementById("imgSeoTargetType").value;
+			let baseName = "";
+
+			if (targetType === "product") {
+				const prodName = document.getElementById("editName") ? document.getElementById("editName").value : "";
+				baseName = prodName || filenameInput.value;
+			} else {
+				const postTitle = document.getElementById("blogPostTitle") ? document.getElementById("blogPostTitle").value : "";
+				baseName = postTitle || filenameInput.value;
+			}
+
+
+			const slug = sanitizeSeoSlug(baseName) || "handcrafted-leather-goods";
+			filenameInput.value = `${slug}.jpg`;
+			showToast("Filename auto-slugified for search friendliness!", "info");
+		}
+
+		function autoGenerateAltText() {
+			const altInput = document.getElementById("imgSeoAltInput");
+			const targetType = document.getElementById("imgSeoTargetType").value;
+
+			if (targetType === "product") {
+				const prodName = document.getElementById("editName") ? document.getElementById("editName").value : "Genuine Leather Bag";
+				altInput.value = `Handcrafted ${prodName} artisan leather collection by Zakara`;
+			} else {
+				const postTitle = document.getElementById("blogPostTitle") ? document.getElementById("blogPostTitle").value : "Leather Care";
+				altInput.value = `${postTitle} handcrafted leather craftsmanship`;
+			}
+			updateAltTextCounter(altInput.value);
+			showToast("SEO Alt Text generated!", "info");
+		}
+
+		function updateAltTextCounter(val) {
+			const counter = document.getElementById("imgSeoAltCounter");
+			if (counter) counter.textContent = `${(val || "").length} chars`;
+		}
+
+		function handleImageSeoSubmit(e) {
+			e.preventDefault();
+			const targetType = document.getElementById("imgSeoTargetType").value;
+			const targetIndex = parseInt(document.getElementById("imgSeoTargetIndex").value) || 0;
+			const filename = document.getElementById("imgSeoFilenameInput").value.trim();
+			const alt = document.getElementById("imgSeoAltInput").value.trim();
+			const title = document.getElementById("imgSeoTitleInput").value.trim();
+
+			if (targetType === "product") {
+				const current = STATE.productImages[targetIndex];
+				const src = typeof current === 'object' && current ? current.src : current;
+				STATE.productImages[targetIndex] = {
+					src,
+					alt,
+					title,
+					filename
+				};
+				renderProductImageManager();
+				showToast("Product image SEO metadata updated!", "success");
+			} else if (targetType === "blog_featured") {
+				setBlogFeaturedImageData({
+					src: document.getElementById("blogFeaturedSrc").value,
+					alt,
+					title,
+					filename
+				});
+				runAioseoAnalysis();
+				showToast("Blog featured image SEO attributes updated!", "success");
+			}
+
+			closeImageSeoModal();
+		}
+
+		function triggerBlogFeaturedUpload() {
+			const input = document.getElementById("blogFeaturedFileInput");
+			if (input) input.click();
+		}
+
+		async function handleBlogFeaturedFileUpload(fileList) {
+			if (!fileList || !fileList.length) return;
+			const file = fileList[0];
+			showToast(`Uploading ${file.name} for blog featured image...`, "info");
+
+			try {
+				const postTitle = document.getElementById("blogPostTitle") ? document.getElementById("blogPostTitle").value : "";
+				const seoName = sanitizeSeoSlug(postTitle) ? `${sanitizeSeoSlug(postTitle)}.jpg` : file.name;
+				const uploadedUrl = await uploadFileToSystemOrWp(file);
+				if (uploadedUrl) {
+					setBlogFeaturedImageData({
+						src: uploadedUrl,
+						alt: postTitle || "Handcrafted leather article featured image",
+						title: postTitle || file.name,
+						filename: seoName
+					});
+					runAioseoAnalysis();
+					showToast("Featured image uploaded and SEO metadata updated!", "success");
+				}
+			} catch (err) {
+				showToast(`Upload failed: ${err.message}`, "error");
+			}
+			const input = document.getElementById("blogFeaturedFileInput");
+			if (input) input.value = "";
+		}
+
+		function openInsertImageModalForBlog() {
+			const url = prompt("Enter image URL to insert into article content:", "https://www.zakarabags.com/wp-content/uploads/2022/01/IMG_3663-1.jpg");
+			if (!url) return;
+			const alt = prompt("Enter descriptive Alt Text for this image (Crucial for Google Ranking):", "Handcrafted leather craftsmanship details");
+			const title = prompt("Enter Image Title:", "Artisan Leather Goods");
+
+			const imgTag = `<img src="${formatPublicImageUrl(url)}" alt="${escapeHtml(alt || '')}" title="${escapeHtml(title || '')}" class="blog-inline-img" style="max-width:100%; height:auto; border-radius:8px; margin:16px 0;" />`;
+			execBlogEditorCmd("insertHTML", imgTag);
+			showToast("SEO Image inserted into article copy!", "success");
+			runAioseoAnalysis();
+		}
+
+		/* ==========================================================================
+		   9. GOOGLE GEMINI FLASH AI SEO COPILOT & AIOSEO ENGINE INTEGRATION
+		   ========================================================================== */
+
+		/**
+		 * Tab switcher for Blog Editor right column: 'ai' (Gemini Studio) vs 'audit' (AIOSEO Live Audit)
+		 */
+		function switchBlogRightTab(tab) {
+			const btnAi = document.getElementById("tabBtnAiCopilot");
+			const btnAudit = document.getElementById("tabBtnAioseoAudit");
+			const paneAi = document.getElementById("paneBlogRightAi");
+			const paneAudit = document.getElementById("paneBlogRightAudit");
+
+			if (tab === 'ai') {
+				if (btnAi) btnAi.classList.add("active");
+				if (btnAudit) btnAudit.classList.remove("active");
+				if (paneAi) paneAi.style.display = "flex";
+				if (paneAudit) paneAudit.style.display = "none";
+			} else {
+				if (btnAudit) btnAudit.classList.add("active");
+				if (btnAi) btnAi.classList.remove("active");
+				if (paneAudit) paneAudit.style.display = "flex";
+				if (paneAi) paneAi.style.display = "none";
+			}
+		}
+
+		/**
+		 * Helper to sanitize model name and purge any deprecated 1.5/2.5 strings
+		 */
+		function sanitizeClientGeminiModel(m) {
+			if (!m || typeof m !== 'string') return 'gemini-flash-latest';
+			const clean = m.trim().toLowerCase();
+			if (clean.includes('1.5') || clean.includes('2.5') || clean === 'gemini-flash' || clean === 'flash') {
+				return 'gemini-flash-latest';
+			}
+			return clean;
+		}
+
+		/**
+		 * Fetch current AI configuration (API key presence & model), ensuring 1.5 is purged
+		 */
+		async function loadAiConfig() {
+			// Auto-correct any legacy 1.5/2.5 model cached in localStorage
+			const cachedModel = localStorage.getItem("zakara_gemini_model");
+			if (!cachedModel || cachedModel.includes("1.5") || cachedModel.includes("2.5")) {
+				localStorage.setItem("zakara_gemini_model", "gemini-flash-latest");
+			}
+			// Pre-seed API key if not yet set
+			const cachedKey = localStorage.getItem("zakara_gemini_api_key");
+			if (!cachedKey) {
+				localStorage.setItem("zakara_gemini_api_key", "AIzaSyDN9BK4ACtLvhUsgh7xZq6ugimIwKgwTJ0");
+			}
+
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const res = await fetch(`${proxyBase}/api/ai-config`);
+				if (res.ok) {
+					const data = await res.json();
+					data.model = sanitizeClientGeminiModel(data.model);
+					STATE.aiConfig = data;
+				}
+			} catch (e) {
+				const localKey = localStorage.getItem("zakara_gemini_api_key");
+				STATE.aiConfig = {
+					configured: !!localKey,
+					model: sanitizeClientGeminiModel(localStorage.getItem("zakara_gemini_model")),
+					maskedKey: localKey ? (localKey.substring(0, 4) + '••••••••' + localKey.substring(localKey.length - 4)) : ''
+				};
+			}
+
+			const isConfigured = STATE.aiConfig && STATE.aiConfig.configured;
+			const keyBanner = document.getElementById("aiKeyStatusText");
+			const badge = document.getElementById("aiCopilotModelBadge");
+			const tabBadge = document.getElementById("aiTabBadgeText");
+			const settingsStatus = document.getElementById("settingsAiStatusText");
+			const settingsBadge = document.getElementById("settingsAiBadge");
+			const modelName = (STATE.aiConfig && STATE.aiConfig.model) ? STATE.aiConfig.model.replace("gemini-", "").toUpperCase() : "FLASH LATEST";
+
+			if (keyBanner) {
+				if (isConfigured) {
+					keyBanner.innerHTML = `🟢 <strong style="color:#86efac;">Gemini Flash Active</strong> (${escapeHtml(STATE.aiConfig.maskedKey || "Key Verified")})`;
+				} else {
+					keyBanner.innerHTML = `⚠️ <span style="color:#fca5a5;">API Key Required. Click Configure.</span>`;
+				}
+			}
+
+			if (badge) badge.textContent = modelName;
+			if (tabBadge) tabBadge.textContent = modelName;
+			if (settingsBadge) settingsBadge.textContent = modelName;
+			if (settingsStatus) {
+				settingsStatus.textContent = isConfigured 
+					? `Gemini ${modelName} is active and ready to optimize articles.` 
+					: "Click Configure to connect Google Gemini Flash API key.";
+			}
+		}
+
+		function openAiSettingsModal() {
+			const modal = document.getElementById("aiSettingsModal");
+			const input = document.getElementById("settingGeminiApiKey");
+			const modelSel = document.getElementById("settingGeminiModel");
+			const result = document.getElementById("aiSettingsTestResult");
+			if (!modal) return;
+
+			if (result) { result.innerHTML = ""; }
+			if (input) {
+				const saved = localStorage.getItem("zakara_gemini_api_key") || "AIzaSyDN9BK4ACtLvhUsgh7xZq6ugimIwKgwTJ0";
+				input.value = saved;
+			}
+			if (modelSel) {
+				const currentModel = sanitizeClientGeminiModel(STATE.aiConfig ? STATE.aiConfig.model : localStorage.getItem("zakara_gemini_model"));
+				modelSel.value = currentModel;
+			}
+			modal.classList.add("active");
+		}
+
+		function closeAiSettingsModal() {
+			const modal = document.getElementById("aiSettingsModal");
+			if (modal) modal.classList.remove("active");
+		}
+
+		async function testGeminiApiKey() {
+			const input = document.getElementById("settingGeminiApiKey");
+			const modelSel = document.getElementById("settingGeminiModel");
+			const result = document.getElementById("aiSettingsTestResult");
+			const key = input ? input.value.trim() : "";
+			let rawModel = modelSel ? modelSel.value : "gemini-flash-latest";
+			const model = sanitizeClientGeminiModel(rawModel);
+
+			if (modelSel) modelSel.value = model;
+
+			if (!key) {
+				if (result) {
+					result.textContent = "Please enter an API key first.";
+					result.style.color = "#dc2626";
+				}
+				return;
+			}
+
+			if (result) {
+				result.textContent = "⏳ Testing Gemini Flash connection...";
+				result.style.color = "#ea580c";
+			}
+
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const res = await fetch(`${proxyBase}/api/ai-test-key`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ apiKey: key, model })
+				});
+				const data = await res.json();
+				if (data.success) {
+					result.textContent = `✅ Success! Connected to ${model}`;
+					result.style.color = "#16a34a";
+				} else {
+					result.textContent = `❌ Error: ${data.message || "Failed to connect"}`;
+					result.style.color = "#dc2626";
+				}
+			} catch (err) {
+				// Fallback to direct client-side test
+				try {
+					const directRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							contents: [{ parts: [{ text: "Ping" }] }],
+							generationConfig: { maxOutputTokens: 5 }
+						})
+					});
+					if (directRes.ok) {
+						result.textContent = `✅ Success! Connected to ${model}`;
+						result.style.color = "#16a34a";
+					} else {
+						const errData = await directRes.json().catch(() => ({}));
+						result.textContent = `❌ ${errData.error?.message || "Direct API connection error"}`;
+						result.style.color = "#dc2626";
+					}
+				} catch (e2) {
+					result.textContent = `❌ Network error: ${e2.message}`;
+					result.style.color = "#dc2626";
+				}
+			}
+		}
+
+		async function handleAiSettingsSubmit(event) {
+			if (event) event.preventDefault();
+			const input = document.getElementById("settingGeminiApiKey");
+			const modelSel = document.getElementById("settingGeminiModel");
+			const key = input ? input.value.trim() : "";
+			const model = sanitizeClientGeminiModel(modelSel ? modelSel.value : "gemini-flash-latest");
+
+			localStorage.setItem("zakara_gemini_api_key", key);
+			localStorage.setItem("zakara_gemini_model", model);
+
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				await fetch(`${proxyBase}/api/ai-config`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ apiKey: key, model })
+				});
+			} catch (e) {}
+
+			await loadAiConfig();
+			showToast(`Gemini settings saved! Model set to ${model}`, "success");
+			closeAiSettingsModal();
+		}
+
+		/**
+		 * Main AI Optimization runner: calls Gemini Flash and displays interactive auto-fixes + manual action items
+		 */
+		async function runAiAioseoOptimization() {
+			switchBlogRightTab('ai');
+
+			const localKey = localStorage.getItem("zakara_gemini_api_key") || "AIzaSyDN9BK4ACtLvhUsgh7xZq6ugimIwKgwTJ0";
+			const isConfigured = (STATE.aiConfig && STATE.aiConfig.configured) || !!localKey;
+			if (!isConfigured) {
+				openAiSettingsModal();
+				showToast("Please configure your Google Gemini API Key first.", "warning");
+				return;
+			}
+
+			const btn = document.getElementById("btnAiOptimizeRanking");
+			const spinner = document.getElementById("aiBtnSpinner");
+			const icon = document.getElementById("aiBtnIcon");
+			const label = document.getElementById("aiBtnLabel");
+			const resultsContainer = document.getElementById("aiOptimizationResultsContainer");
+
+			if (btn) btn.disabled = true;
+			if (spinner) spinner.style.display = "inline-block";
+			if (icon) icon.style.display = "none";
+			if (label) label.textContent = "Gemini Flash Analyzing AIOSEO Ranking...";
+
+			if (resultsContainer) {
+				resultsContainer.style.display = "block";
+				resultsContainer.innerHTML = `
+					<div class="ai-idle-intro-card" style="border-style: solid; border-color: var(--pantone-gold); background: #fdfaf6;">
+						<div style="font-size: 2.2rem; margin-bottom: 8px;">⚡</div>
+						<strong style="font-weight: 700; color: var(--pantone-cocoa); font-size: 0.96rem;">Gemini Flash Audit in Progress...</strong>
+						<p style="font-size: 0.78rem; color: var(--text-body); margin: 6px 0 0; line-height: 1.45;">
+							Analyzing focus keyphrase density, drafting optimal 55-char title tag, generating CTR meta description, and categorizing manual vs automated ranking requirements...
+						</p>
+					</div>
+				`;
+			}
+
+			const audit = runAioseoAnalysis();
+			const currentScore = audit ? audit.score : 50;
+
+			// Update projection strip
+			const curEl = document.getElementById("aiProjCurrentScore");
+			if (curEl) curEl.textContent = `${currentScore}/100`;
+
+			const title = (document.getElementById("blogPostTitle") ? document.getElementById("blogPostTitle").value : "").trim();
+			const slug = (document.getElementById("blogPostSlug") ? document.getElementById("blogPostSlug").value : "").trim();
+			const focusKeyphrase = (document.getElementById("blogFocusKeyphrase") ? document.getElementById("blogFocusKeyphrase").value : "").trim();
+			const seoTitle = (document.getElementById("blogSeoTitle") ? document.getElementById("blogSeoTitle").value : "").trim();
+			const metaDescription = (document.getElementById("blogMetaDescription") ? document.getElementById("blogMetaDescription").value : "").trim();
+			const excerpt = (document.getElementById("blogPostExcerpt") ? document.getElementById("blogPostExcerpt").value : "").trim();
+			const visualEl = document.getElementById("blogContentVisual");
+			const content = visualEl ? visualEl.innerHTML : "";
+
+			const modelToUse = sanitizeClientGeminiModel((STATE.aiConfig && STATE.aiConfig.model) || localStorage.getItem("zakara_gemini_model") || "gemini-flash-latest");
+
+			const payload = {
+				apiKey: localKey,
+				model: modelToUse,
+				title: title || "Handcrafted Leather Bag Guide",
+				slug,
+				focusKeyphrase,
+				seoTitle,
+				metaDescription,
+				excerpt,
+				content,
+				currentScore,
+				currentIssues: audit ? audit.issues : []
+			};
+
+			try {
+				const proxyBase = await getProxyBaseUrl();
+				const res = await fetch(`${proxyBase}/api/ai-optimize-seo`, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload)
+				});
+
+				const result = await res.json();
+
+				if (result.success && result.data) {
+					STATE.lastAiSuggestions = result.data;
+					renderAiOptimizationResults(result.data, currentScore);
+					showToast(`✨ Gemini Flash generated ranking optimizations!`, "success");
+				} else {
+					renderAiErrorAndManualFallback(result, audit ? audit.issues : []);
+				}
+			} catch (err) {
+				console.error("AI optimization fetch failed:", err);
+				renderAiErrorAndManualFallback({ message: err.message }, audit ? audit.issues : []);
+			} finally {
+				if (btn) btn.disabled = false;
+				if (spinner) spinner.style.display = "none";
+				if (icon) icon.style.display = "inline-block";
+				if (label) label.textContent = "⚡ Re-Run AI AIOSEO Optimization";
+			}
+		}
+
+		/**
+		 * Render successful AI suggestions + Manual Action Requirements in crystal-clear high-contrast cards
+		 */
+		function renderAiOptimizationResults(data, currentScore) {
+			const container = document.getElementById("aiOptimizationResultsContainer");
+			if (!container) return;
+
+			const newScore = data.estimatedNewScore || 95;
+			const ptsBoost = Math.max(5, newScore - currentScore);
+			const manualItems = Array.isArray(data.manualActionRequired) ? data.manualActionRequired : [];
+			const headings = Array.isArray(data.suggestedHeadings) ? data.suggestedHeadings : [];
+
+			// Update projection strip
+			const newEl = document.getElementById("aiProjNewScore");
+			if (newEl) newEl.textContent = `${newScore}/100`;
+
+			container.style.display = "block";
+			container.innerHTML = `
+				<div class="ai-results-drawer">
+					<!-- Score Boost Banner -->
+					<div style="background: #ecfdf5; border: 1.5px solid #10b981; border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(16,185,129,0.1);">
+						<div>
+							<div style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: #047857; letter-spacing: 0.5px;">AIOSEO Score Projection</div>
+							<div style="font-size: 1.05rem; font-weight: 800; color: #065f46;">${currentScore}/100 &rarr; <span style="color: #047857; font-size: 1.2rem;">${newScore}/100</span> <span style="font-size: 0.82rem; background: #d1fae5; color: #065f46; padding: 2px 7px; border-radius: 4px; margin-left: 4px;">+${ptsBoost} pts</span></div>
+						</div>
+						<span style="font-size: 0.74rem; background: #15803d; color: #ffffff; padding: 4px 10px; border-radius: var(--radius-full); font-weight: 700;">TOP RANKING</span>
+					</div>
+
+					<!-- Master 1-Click Apply Button -->
+					<button type="button" class="btn-gold" onclick="applyAllAiOptimizations()" style="width: 100%; justify-content: center; padding: 11px 16px; font-weight: 800; font-size: 0.92rem; box-shadow: 0 4px 12px rgba(184, 134, 11, 0.25);">
+						<span>✅ 1-Click Apply All AI Fixes</span>
+					</button>
+
+					<!-- Section 1 Header: Automated Optimizations -->
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+						<span style="font-size: 0.76rem; font-weight: 800; color: var(--pantone-cocoa); text-transform: uppercase; letter-spacing: 0.5px;">
+							⚡ Automated Optimizations (1-Click Ready):
+						</span>
+						<span style="font-size: 0.72rem; color: var(--text-muted);">Ready to apply</span>
+					</div>
+
+					<!-- Field: Focus Keyphrase -->
+					<div class="ai-auto-card">
+						<div class="ai-auto-header">
+							<span class="ai-auto-title">🎯 Focus Keyphrase</span>
+							<button type="button" class="btn-subtle" onclick="applySingleAiFix('keyphrase', '${escapeHtml(data.optimizedFocusKeyphrase || '')}')" style="padding: 3px 8px; font-size: 0.72rem; color: var(--pantone-gold); font-weight: 700;">Apply Field</button>
+						</div>
+						<div class="ai-auto-val">${escapeHtml(data.optimizedFocusKeyphrase || "Not specified")}</div>
+					</div>
+
+					<!-- Field: SEO Title -->
+					<div class="ai-auto-card">
+						<div class="ai-auto-header">
+							<span class="ai-auto-title">🏷️ SEO Title (${(data.optimizedSeoTitle || '').length} / 60 chars)</span>
+							<button type="button" class="btn-subtle" onclick="applySingleAiFix('seoTitle', '${escapeHtml(data.optimizedSeoTitle || '')}')" style="padding: 3px 8px; font-size: 0.72rem; color: var(--pantone-gold); font-weight: 700;">Apply Field</button>
+						</div>
+						<div class="ai-auto-val">${escapeHtml(data.optimizedSeoTitle || "Not specified")}</div>
+					</div>
+
+					<!-- Field: Meta Description -->
+					<div class="ai-auto-card">
+						<div class="ai-auto-header">
+							<span class="ai-auto-title">📝 Meta Description (${(data.optimizedMetaDescription || '').length} / 160 chars)</span>
+							<button type="button" class="btn-subtle" onclick="applySingleAiFix('metaDesc', '${escapeHtml(data.optimizedMetaDescription || '')}')" style="padding: 3px 8px; font-size: 0.72rem; color: var(--pantone-gold); font-weight: 700;">Apply Field</button>
+						</div>
+						<div class="ai-auto-val">${escapeHtml(data.optimizedMetaDescription || "Not specified")}</div>
+					</div>
+
+					<!-- Field: Intro Hook -->
+					${data.introHookRecommendation ? `
+					<div class="ai-auto-card">
+						<div class="ai-auto-header">
+							<span class="ai-auto-title">✨ High-CTR Opening Hook</span>
+							<button type="button" class="btn-subtle" onclick="insertAiContentHook()" style="padding: 3px 8px; font-size: 0.72rem; color: var(--pantone-gold); font-weight: 700;">Insert at Top</button>
+						</div>
+						<div class="ai-auto-val" style="font-style: italic; color: var(--text-body);">"${escapeHtml(data.introHookRecommendation)}"</div>
+					</div>
+					` : ''}
+
+					<!-- Suggested Subheadings -->
+					${headings.length > 0 ? `
+					<div class="ai-auto-card">
+						<div class="ai-auto-header">
+							<span class="ai-auto-title">📌 Recommended Subheadings (${headings.length})</span>
+							<button type="button" class="btn-subtle" onclick="insertAiHeadings()" style="padding: 3px 8px; font-size: 0.72rem; color: var(--pantone-gold); font-weight: 700;">Insert into Article</button>
+						</div>
+						<div style="display: flex; flex-direction: column; gap: 4px;">
+							${headings.map(h => `<div style="font-size: 0.8rem; color: var(--ink-dark); background: #faf8f5; padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border-line);"><strong>${escapeHtml(h.level)}:</strong> ${escapeHtml(h.text)}</div>`).join("")}
+						</div>
+					</div>
+					` : ''}
+
+					<!-- ⚠️ SECTION 2: MANUAL ACTION REQUIRED (Cleanly separated) -->
+					${manualItems.length > 0 ? `
+					<div class="ai-manual-action-box">
+						<div class="ai-manual-action-header">
+							<span style="font-size: 1.1rem;">⚠️</span>
+							<span>Manual Action Required (${manualItems.length} Items)</span>
+						</div>
+						<p style="font-size: 0.76rem; color: #7f1d1d; margin: 0 0 10px; line-height: 1.45;">
+							Google AIOSEO guidelines require manual editorial intervention for these factors. Update each issue directly in the editor on the left:
+						</p>
+
+						<div style="display: flex; flex-direction: column; gap: 8px;">
+							${manualItems.map(item => {
+								const isLink = (item.issue || '').toLowerCase().includes('link');
+								const isShop = (item.issue || '').toLowerCase().includes('internal') || (item.issue || '').toLowerCase().includes('shop') || (item.issue || '').toLowerCase().includes('store');
+								const isImg = (item.issue || '').toLowerCase().includes('photo') || (item.issue || '').toLowerCase().includes('image');
+
+								let helperBtn = '';
+								if (isShop) {
+									helperBtn = `<button type="button" class="btn-subtle" onclick="quickAddShopLink()" style="font-size: 0.7rem; padding: 2px 7px; color: #991b1b; border-color: #fca5a5; margin-top: 5px;">🛒 Add Shop Link (/shop-3/)</button>`;
+								} else if (isLink) {
+									helperBtn = `<button type="button" class="btn-subtle" onclick="quickAddAuthorityLink()" style="font-size: 0.7rem; padding: 2px 7px; color: #991b1b; border-color: #fca5a5; margin-top: 5px;">🔗 Add External Citation</button>`;
+								} else if (isImg) {
+									helperBtn = `<button type="button" class="btn-subtle" onclick="openInsertImageModalForBlog()" style="font-size: 0.7rem; padding: 2px 7px; color: #991b1b; border-color: #fca5a5; margin-top: 5px;">🖼️ Insert SEO Image</button>`;
+								}
+
+								return `
+									<div class="ai-manual-item-card">
+										<div class="ai-manual-item-head">
+											<span class="ai-manual-item-title">🔴 ${escapeHtml(item.issue)}</span>
+											<span style="font-size: 0.64rem; background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-weight: 700; text-transform: uppercase;">MANUAL FIX</span>
+										</div>
+										<div class="ai-manual-item-desc">
+											${escapeHtml(item.stepByStepInstruction || item.reason || '')}
+										</div>
+										${helperBtn}
+									</div>
+								`;
+							}).join("")}
+						</div>
+					</div>
+					` : ''}
+				</div>
+			`;
+		}
+
+		/**
+		 * Render error notice and show manual checklist when AI service fails or is unauthorized
+		 */
+		function renderAiErrorAndManualFallback(result, issues) {
+			const container = document.getElementById("aiOptimizationResultsContainer");
+			if (!container) return;
+
+			const errMsg = result.message || "Unable to reach Gemini Flash model.";
+			const manualList = Array.isArray(result.manualActionRequired) && result.manualActionRequired.length 
+				? result.manualActionRequired 
+				: issues.map(iss => ({
+					issue: iss.title || "AIOSEO Issue",
+					stepByStepInstruction: iss.desc || "Review and update this ranking factor manually in the editor."
+				}));
+
+			container.style.display = "block";
+			container.innerHTML = `
+				<div class="ai-results-drawer">
+					<div class="ai-error-banner">
+						<strong style="display: block; font-size: 0.86rem; margin-bottom: 4px;">
+							❌ Notice: ${escapeHtml(errMsg)}
+						</strong>
+						<span>You can resolve each ranking factor manually using the checklist below:</span>
+					</div>
+
+					<div class="ai-manual-action-box" style="margin-top: 10px;">
+						<div class="ai-manual-action-header">
+							<span>📋</span>
+							<span>Issues to Resolve Manually (${manualList.length})</span>
+						</div>
+						<div style="display: flex; flex-direction: column; gap: 8px;">
+							${manualList.map((item, idx) => `
+								<div class="ai-manual-item-card">
+									<div class="ai-manual-item-head">
+										<span class="ai-manual-item-title">${idx + 1}. ${escapeHtml(item.issue)}</span>
+										<span style="font-size: 0.64rem; background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-weight: 700;">MANUAL</span>
+									</div>
+									<div class="ai-manual-item-desc">
+										${escapeHtml(item.stepByStepInstruction || item.reason || '')}
+									</div>
+								</div>
+							`).join("")}
+						</div>
+					</div>
+
+					<button type="button" class="btn-subtle" onclick="openAiSettingsModal()" style="width: 100%; margin-top: 10px; justify-content: center; font-size: 0.8rem;">
+						⚙️ Re-Check / Update Gemini API Key
+					</button>
+				</div>
+			`;
+		}
+
+		/**
+		 * 1-Click apply all AI suggestions into the active blog post form
+		 */
+		function applyAllAiOptimizations() {
+			const data = STATE.lastAiSuggestions;
+			if (!data) return;
+
+			// 1. Focus Keyphrase
+			if (data.optimizedFocusKeyphrase) {
+				const kpEl = document.getElementById("blogFocusKeyphrase");
+				if (kpEl) kpEl.value = data.optimizedFocusKeyphrase;
+			}
+
+			// 2. SEO Title
+			if (data.optimizedSeoTitle) {
+				const titleEl = document.getElementById("blogSeoTitle");
+				if (titleEl) {
+					titleEl.value = data.optimizedSeoTitle;
+					handleSeoTitleInput(data.optimizedSeoTitle);
+				}
+			}
+
+			// 3. Meta Description
+			if (data.optimizedMetaDescription) {
+				const descEl = document.getElementById("blogMetaDescription");
+				if (descEl) {
+					descEl.value = data.optimizedMetaDescription;
+					handleMetaDescInput(data.optimizedMetaDescription);
+				}
+			}
+
+			// 4. Slug (if recommended)
+			if (data.optimizedSlug) {
+				const slugEl = document.getElementById("blogPostSlug");
+				if (slugEl && !slugEl.value) slugEl.value = data.optimizedSlug;
+			}
+
+			// 5. Excerpt
+			if (data.optimizedExcerpt) {
+				const excEl = document.getElementById("blogPostExcerpt");
+				if (excEl && !excEl.value) excEl.value = data.optimizedExcerpt;
+			}
+
+			// Re-run real-time analysis
+			runAioseoAnalysis();
+
+			showToast("🎉 Applied all Gemini AI optimizations! Ranking score updated.", "success");
+		}
+
+		function applySingleAiFix(type, val) {
+			if (!val) return;
+			if (type === "keyphrase") {
+				const el = document.getElementById("blogFocusKeyphrase");
+				if (el) el.value = val;
+			} else if (type === "seoTitle") {
+				const el = document.getElementById("blogSeoTitle");
+				if (el) {
+					el.value = val;
+					handleSeoTitleInput(val);
+				}
+			} else if (type === "metaDesc") {
+				const el = document.getElementById("blogMetaDescription");
+				if (el) {
+					el.value = val;
+					handleMetaDescInput(val);
+				}
+			}
+			runAioseoAnalysis();
+			showToast(`Updated ${type}!`, "success");
+		}
+
+		function insertAiContentHook() {
+			const data = STATE.lastAiSuggestions;
+			if (!data || !data.introHookRecommendation) return;
+			const hookHtml = `<p class="ai-intro-hook"><strong>${escapeHtml(data.introHookRecommendation)}</strong></p>`;
+			const visual = document.getElementById("blogContentVisual");
+			if (visual) {
+				visual.innerHTML = hookHtml + visual.innerHTML;
+				handleBlogContentInput();
+				runAioseoAnalysis();
+				showToast("Inserted AI intro hook at the top of the article!", "success");
+			}
+		}
+
+		function insertAiHeadings() {
+			const data = STATE.lastAiSuggestions;
+			if (!data || !Array.isArray(data.suggestedHeadings)) return;
+			const headingsHtml = data.suggestedHeadings.map(h => `<${h.level.toLowerCase()}>${escapeHtml(h.text)}</${h.level.toLowerCase()}><p>Write details here...</p>`).join("");
+			const visual = document.getElementById("blogContentVisual");
+			if (visual) {
+				visual.innerHTML = visual.innerHTML + "<br>" + headingsHtml;
+				handleBlogContentInput();
+				runAioseoAnalysis();
+				showToast(`Inserted ${data.suggestedHeadings.length} subheadings into article!`, "success");
+			}
+		}
+
+		function quickAddShopLink() {
+			const url = prompt("Enter Zakara collection or product link to insert:", "https://www.zakarabags.com/shop-3/");
+			if (!url) return;
+			execBlogEditorCmd("createLink", url);
+			runAioseoAnalysis();
+			showToast("Internal shop link inserted!", "success");
+		}
+
+		function quickAddAuthorityLink() {
+			const url = prompt("Enter authoritative industry reference link (e.g. Leather Working Group):", "https://www.leatherworkinggroup.com");
+			if (!url) return;
+			execBlogEditorCmd("createLink", url);
+			runAioseoAnalysis();
+			showToast("External authority link inserted!", "success");
 		}
 
 		// Launch on DOM ready
@@ -5529,6 +9444,7 @@
 			initSidebarState();
 			fetchPrivateServerConfig();
 			checkExistingSession();
+			loadAiConfig();
 		});
 	</script>
 

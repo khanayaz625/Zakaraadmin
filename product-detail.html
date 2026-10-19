@@ -713,15 +713,30 @@
 			background: var(--bg-card-subtle);
 			border-radius: var(--radius-sm);
 			border: 1px solid var(--border-line);
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.spec-card-box:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 14px rgba(107, 69, 55, 0.08);
+			border-color: var(--pantone-gold);
 		}
 
 		.spec-card-box h4 {
 			font-family: var(--font-heading);
-			font-size: 14px;
+			font-size: 13px;
 			color: var(--pantone-cocoa);
 			margin-bottom: 6px;
 			text-transform: uppercase;
 			letter-spacing: 0.5px;
+			font-weight: 600;
+		}
+
+		.spec-card-box p {
+			font-size: 14px;
+			color: var(--ink-dark);
+			font-weight: 500;
+			line-height: 1.45;
 		}
 
 		/* ==========================================================================
@@ -1049,6 +1064,8 @@
 			.main-display { order: 1; }
 			.products-grid { grid-template-columns: 1fr; }
 			.button-group { grid-template-columns: 1fr; }
+			.spec-grid-detail { grid-template-columns: 1fr; }
+			.specs-table { grid-template-columns: 1fr; }
 		}
 	</style>
 </head>
@@ -1095,7 +1112,7 @@
 					</div>
 
 					<!-- SPECIFICATIONS TABLE UNDER IMAGE -->
-					<div class="specs-table">
+					<div class="specs-table" id="specsTable">
 						<div class="spec-item">
 							<span class="spec-label">Leather Material</span>
 							<span class="spec-value" id="specLeather">Soft Grain Leather</span>
@@ -1238,7 +1255,7 @@
 				<!-- TAB 2: SPECS -->
 				<div class="tab-content" id="tabSpecs">
 					<h3>Technical Specification Sheet</h3>
-					<div class="spec-grid-detail">
+					<div class="spec-grid-detail" id="specGridDetail">
 						<div class="spec-card-box">
 							<h4>Leather Grade</h4>
 							<p id="tabSpecLeather">Full Grain / Soft Grain Cow Hide Leather</p>
@@ -1254,6 +1271,14 @@
 						<div class="spec-card-box">
 							<h4>Strap & Drop</h4>
 							<p id="tabSpecStrap">Detachable strap (Drop: 70cm, Length: 130cm max)</p>
+						</div>
+						<div class="spec-card-box">
+							<h4>Hardware &amp; Fittings</h4>
+							<p id="tabSpecFittings">Anti-Rust Solid Brass Fittings</p>
+						</div>
+						<div class="spec-card-box">
+							<h4>Approx Weight</h4>
+							<p id="tabSpecWeight">850 Gms</p>
 						</div>
 					</div>
 				</div>
@@ -1685,6 +1710,11 @@
 				lining: "100% Cotton Canvas / Heavy Twill Fabric"
 			}, fallback || {});
 
+			// Handle attrs if provided as direct dictionary object
+			if (attrs && typeof attrs === "object" && !Array.isArray(attrs)) {
+				Object.assign(res, attrs);
+			}
+
 			// 1. Check native WooCommerce dimensions object
 			if (wpItem && wpItem.dimensions) {
 				const d = wpItem.dimensions;
@@ -1697,8 +1727,14 @@
 			// 2. Check WooCommerce meta_data
 			if (wpItem && wpItem.meta_data && Array.isArray(wpItem.meta_data)) {
 				const specsMeta = wpItem.meta_data.find(m => m.key === '_zakara_specs');
-				if (specsMeta && specsMeta.value && typeof specsMeta.value === 'object') {
-					Object.assign(res, specsMeta.value);
+				if (specsMeta && specsMeta.value) {
+					let sVal = specsMeta.value;
+					if (typeof sVal === 'string') {
+						try { sVal = JSON.parse(sVal); } catch(e) {}
+					}
+					if (sVal && typeof sVal === 'object') {
+						Object.assign(res, sVal);
+					}
 				}
 				const dMeta = wpItem.meta_data.find(m => m.key === 'specs_dimension' || m.key === 'dimension' || m.key === '_dimension');
 				if (dMeta && dMeta.value) res.dimension = dMeta.value;
@@ -1712,12 +1748,24 @@
 				if (wMeta && wMeta.value) res.weight = wMeta.value;
 				const sMeta = wpItem.meta_data.find(m => m.key === 'specs_strap' || m.key === 'strap');
 				if (sMeta && sMeta.value) res.strap = sMeta.value;
+
+				// Check any other specs_* custom keys in meta_data
+				wpItem.meta_data.forEach(m => {
+					if (m.key && m.key.startsWith('specs_') && m.value) {
+						const k = m.key.replace(/^specs_/, '');
+						const stdKeys = new Set(["leather", "dimension", "dimensions", "lining", "fittings", "weight", "strap"]);
+						if (!stdKeys.has(k.toLowerCase()) && !res[k]) {
+							res[k] = m.value;
+						}
+					}
+				});
 			}
 
 			// 3. Check WooCommerce attributes array
 			if (Array.isArray(attrs)) {
 				attrs.forEach(a => {
-					const name = (a.name || '').toLowerCase();
+					const rawName = (a.name || '').trim();
+					const name = rawName.toLowerCase();
 					const val = (a.options && a.options[0]) ? a.options[0] : (typeof a.options === 'string' ? a.options : '');
 					if (!val) return;
 					if (name.includes('leather')) res.leather = val;
@@ -1728,7 +1776,7 @@
 					else if (name.includes('lining')) res.lining = val;
 					else {
 						// Store custom specification
-						res[a.name] = val;
+						res[rawName] = val;
 					}
 				});
 			}
@@ -1807,11 +1855,18 @@
 				const tabSpecDimensions = document.getElementById("tabSpecDimensions");
 				const tabSpecLining = document.getElementById("tabSpecLining");
 				const tabSpecStrap = document.getElementById("tabSpecStrap");
+				const tabSpecFittings = document.getElementById("tabSpecFittings");
+				const tabSpecWeight = document.getElementById("tabSpecWeight");
 
 				if (tabSpecLeather) tabSpecLeather.textContent = attr.leather || "Full Grain / Soft Grain Cow Hide Leather";
 				if (tabSpecDimensions) tabSpecDimensions.textContent = attr.dimension || "Standard Dimensions";
 				if (tabSpecLining) tabSpecLining.textContent = attr.lining || "100% Cotton Canvas / Heavy Twill Fabric";
 				if (tabSpecStrap) tabSpecStrap.textContent = attr.strap || "Detachable strap (Drop: 70cm, Length: 130cm max)";
+				if (tabSpecFittings) tabSpecFittings.textContent = attr.fittings || "Anti-Rust Solid Brass Fittings";
+				if (tabSpecWeight) tabSpecWeight.textContent = attr.weight || "850 Gms";
+
+				// Dynamically render custom specification cards and items
+				renderCustomSpecifications(attr);
 			}
 
 			// Gallery Images
@@ -1831,6 +1886,77 @@
 			if (waBtn) {
 				waBtn.href = `https://api.whatsapp.com/send?phone=919838031301&text=${encodeURIComponent('Hello Zakara, I am interested in a B2B bulk enquiry for ' + prod.name + ' (SKU: ' + (prod.sku || 'ZB-SERIES') + ')')}`;
 			}
+		}
+
+		function escapeHtml(str) {
+			if (str === null || str === undefined) return "";
+			return String(str)
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;")
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#039;");
+		}
+
+		function renderCustomSpecifications(attr) {
+			const specGrid = document.getElementById("specGridDetail");
+			const specsTable = document.getElementById("specsTable");
+
+			// Clear previous custom items to prevent duplicates on switch/re-render
+			if (specGrid) {
+				specGrid.querySelectorAll(".custom-spec-card").forEach(el => el.remove());
+			}
+			if (specsTable) {
+				specsTable.querySelectorAll(".custom-spec-item").forEach(el => el.remove());
+			}
+
+			if (!attr || typeof attr !== "object") return;
+
+			const standardKeys = new Set([
+				"leather", "dimension", "dimensions", "lining", 
+				"fittings", "weight", "strap", "hardware", "handles"
+			]);
+
+			Object.keys(attr).forEach(k => {
+				const trimmedKey = k.trim();
+				const lowerKey = trimmedKey.toLowerCase();
+				if (standardKeys.has(lowerKey)) return;
+
+				const val = attr[k];
+				if (val === null || val === undefined) return;
+				const displayVal = String(val).trim();
+				if (!displayVal) return;
+
+				// Format label nicely (e.g. "LAPTOP_FIT" or "laptop_fit" -> "Laptop Fit")
+				let label = trimmedKey;
+				if (label.includes("_")) {
+					label = label.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+				} else if (label === label.toUpperCase() && label.length > 3) {
+					label = label.charAt(0) + label.slice(1).toLowerCase();
+				}
+
+				// 1. Add as a Luxury Card Box in the Technical Specification Tab
+				if (specGrid) {
+					const card = document.createElement("div");
+					card.className = "spec-card-box custom-spec-card";
+					card.innerHTML = `
+						<h4>${escapeHtml(label)}</h4>
+						<p>${escapeHtml(displayVal)}</p>
+					`;
+					specGrid.appendChild(card);
+				}
+
+				// 2. Add as a Row in the Quick Specifications Table under Product Image
+				if (specsTable) {
+					const item = document.createElement("div");
+					item.className = displayVal.length > 35 ? "spec-item full-width custom-spec-item" : "spec-item custom-spec-item";
+					item.innerHTML = `
+						<span class="spec-label">${escapeHtml(label)}</span>
+						<span class="spec-value">${escapeHtml(displayVal)}</span>
+					`;
+					specsTable.appendChild(item);
+				}
+			});
 		}
 
 		function attachThumbListeners() {
